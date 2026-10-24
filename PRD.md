@@ -1,18 +1,24 @@
 # PRODUCT REQUIREMENTS DOCUMENT (PRD)
-## Proyek: UNPAM Academic Chatbot (Chatbot Asisten Akademik UNPAM)
+## Proyek: VIKA — Virtual Interactive Knowledge Assistant (UNPAM Academic Chatbot)
 
 ---
 
 | Dokumen | Versi | Status | Tanggal Pembuatan | Author / Role |
 | :--- | :---: | :---: | :---: | :--- |
-| **PRD - Final Project Hacktiv8** | `1.0.0` | **Approved** | 24 Oktober 2026 | Mentee & AI Mentor |
+| **PRD - Final Project Hacktiv8** | `1.1.0` | **Approved** | 24 Oktober 2026 | Mentee & AI Mentor |
 
 ---
 
 ## 1. Executive Summary & Visi Produk
 
-### 1.1 Latar Belakang
-Universitas Pamulang (UNPAM) merupakan salah satu perguruan tinggi swasta terbesar di Indonesia dengan puluhan ribu mahasiswa aktif yang tersebar di berbagai program kelas (Reguler A, Reguler B, Reguler C/Sabtu). Setiap awal dan akhir semester, bagian Layanan Administrasi Akademik (LAK) dan fakultas menerima ribuan pertanyaan berulang mengenai linimasa pengisian KRS, ambang batas kehadiran 75% untuk UAS, prosedur pengajuan cuti, remedial, serta konversi magang MBKM. Mahasiswa sering kali mengalami kendala dalam mencari rujukan pasal di dalam dokumen PDF kampus yang tebal dan tersebar di berbagai portal.
+### 1.1 Latar Belakang & Identitas Produk
+Universitas Pamulang (UNPAM) merupakan salah satu perguruan tinggi swasta terbesar di Indonesia dengan puluhan ribu mahasiswa aktif yang tersebar di berbagai program kelas (Reguler A, Reguler B, Reguler C/Sabtu). Setiap awal dan akhir semester, bagian Layanan Administrasi Akademik (LAK) dan fakultas menerima ribuan pertanyaan berulang mengenai linimasa pengisian KRS, ambang batas kehadiran 75% untuk UAS, prosedur pengajuan cuti, remedial, serta konversi magang MBKM.
+
+Untuk menyelesaikan permasalahan tersebut secara nyata, dikembangkanlah **VIKA** (*Virtual Interactive Knowledge Assistant*).
+- **Nama Produk:** VIKA (Virtual Interactive Knowledge Assistant)
+- **Tagline:** *"Selalu Ada untuk Jawaban Akademikmu"*
+- **Repositori:** `unpam-academic-chatbot`
+- **Platform:** Standalone Web Portal (Streamlit Modern dengan Custom CSS)
 
 ### 1.2 Visi Produk
 Membangun web portal mandiri berbasis AI (*Standalone Web Assistant*) yang bertindak sebagai pusat konsultasi informasi akademik UNPAM yang cepat, ramah, akurat, dan memiliki sitasi dokumen resmi (*evidence-based*). Aplikasi dibangun secara efisien dengan **biaya Rp 0,- (Zero Cost)** menggunakan **Google Gemini 3.8 Flash** dan **Streamlit Modern**.
