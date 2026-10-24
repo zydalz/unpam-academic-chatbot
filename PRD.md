@@ -12,7 +12,7 @@
 ## 1. Executive Summary & Visi Produk
 
 ### 1.1 Latar Belakang & Identitas Produk
-Universitas Pamulang (UNPAM) memiliki basis mahasiswa yang besar dengan berbagai program perkuliahan (Reguler A, Reguler B, Reguler C/Sabtu). Dalam dinamika perkuliahan, mahasiswa kerap memerlukan rujukan cepat terkait jadwal akademik, ketentuan presensi ujian, prosedur administrasi cuti, serta pedoman kurikulum yang tercantum dalam dokumen resmi kampus.
+Universitas Pamulang (UNPAM) memiliki basis mahasiswa yang besar dengan berbagai program perkuliahan (Reguler A, Reguler B, Reguler C/Kamis dan Sabtu). Dalam dinamika perkuliahan, mahasiswa kerap memerlukan rujukan cepat terkait jadwal akademik, ketentuan presensi ujian, prosedur administrasi cuti, serta pedoman kurikulum yang tercantum dalam dokumen resmi kampus.
 
 Untuk memfasilitasi kebutuhan eksplorasi informasi tersebut, dirancanglah proyek **VIKA** (*Virtual Interactive Knowledge Assistant*).
 - **Nama Produk:** VIKA (Virtual Interactive Knowledge Assistant)
@@ -39,7 +39,7 @@ Membangun portal web mandiri berbasis asisten percakapan AI yang membantu memeta
    - Rujukan alur permohonan cuti akademik dan batas maksimal semester yang diizinkan.
    - Prosedur pengaktifan kembali status mahasiswa setelah masa cuti.
    - Syarat umum permohonan Surat Keterangan Mahasiswa Aktif dan legalisir.
-   - Prosedur perpindahan kelas (Reguler A/B/C) dan mutasi prodi.
+   - Prosedur pindah kelas (Reguler A/B/C) atau pindah program studi.
 4. **Regulasi Akademik & Kurikulum (Pedoman Akademik & FILKOM):**
    - Ketentuan umum batas masa studi jenjang sarjana (S1).
    - Penjelasan bobot 1 SKS sesuai pedoman akademik yang berlaku.
@@ -81,7 +81,7 @@ Sistem chatbot dirancang untuk merujuk 4 dokumen panduan resmi kampus berikut:
 | :-: | :--- | :--- | :--- |
 | **1** | **SK Kalender Akademik TA 2026/2027** | LP3 / Rektorat UNPAM | Linimasa KRS, tanggal perkuliahan, rentang UTS/UAS, libur semester, dan wisuda. |
 | **2** | **Buku Pedoman Akademik Universitas Pamulang** | Rektorat / Unpam Press | Batas masa studi S1, hak & kewajiban mahasiswa, definisi SKS, dan etika akademik. |
-| **3** | **SOP Layanan Administrasi Akademik (LAK)** | Biro LAK UNPAM | Ketentuan batas presensi UAS, remedial, pengajuan cuti kuliah, dan mutasi kelas. |
+| **3** | **SOP Layanan Administrasi Akademik (LAK)** | Biro LAK UNPAM | Ketentuan batas presensi UAS, remedial, pengajuan cuti kuliah, dan pindah kelas. |
 | **4** | **Buku Pedoman Fakultas Ilmu Komputer (FILKOM)** | Dekanat FILKOM / Informatika | Prinsip kurikulum OBE, penjurusan Informatika, syarat KP/Skripsi, dan magang MBKM. |
 
 > **Catatan Validitas Data:**  
