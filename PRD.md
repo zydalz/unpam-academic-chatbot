@@ -77,15 +77,16 @@ Untuk menjaga keamanan data privat dan mencegah salah kaprah fungsi, fitur berik
 
 Sistem chatbot dirancang untuk merujuk 4 dokumen panduan resmi kampus berikut:
 
-| No | Dokumen Target | Unit Penerbit | Fokus Rujukan |
-| :-: | :--- | :--- | :--- |
-| **1** | **SK Kalender Akademik TA 2026/2027** | LP3 / Rektorat UNPAM | Linimasa KRS, tanggal perkuliahan, rentang UTS/UAS, libur semester, dan wisuda. |
-| **2** | **Buku Pedoman Akademik Universitas Pamulang** | Rektorat / Unpam Press | Batas masa studi S1, hak & kewajiban mahasiswa, definisi SKS, dan etika akademik. |
-| **3** | **SOP Layanan Administrasi Akademik (LAK)** | Biro LAK UNPAM | Ketentuan batas presensi UAS, remedial, pengajuan cuti kuliah, dan pindah kelas. |
-| **4** | **Buku Pedoman Fakultas Ilmu Komputer (FILKOM)** | Dekanat FILKOM / Informatika | Prinsip kurikulum OBE, penjurusan Informatika, syarat KP/Skripsi, dan magang MBKM. |
+| No | Dokumen Target | Unit Penerbit | Fokus Rujukan | Status Ketersediaan & Integrasi |
+| :-: | :--- | :--- | :--- | :--- |
+| **1** | **SK Kalender Akademik TA 2026/2027** | LP3 / Rektorat UNPAM | Linimasa KRS, tanggal perkuliahan, rentang UTS/UAS, libur semester, dan wisuda. | **Tersedia Lengkap**<br>*(SK Rektor No. 1694/A/UNPAM/KP/VII/2026, diekstrak ke teks terstruktur)* |
+| **2** | **Buku Pedoman Akademik Universitas Pamulang** | Rektorat / Unpam Press | Batas masa studi S1, hak & kewajiban mahasiswa, definisi SKS, dan etika akademik. | **Tersedia Lengkap**<br>*(SK Rektor No. 240/A/O/UNPAM/I/2020, 116 halaman)* |
+| **3** | **SOP Layanan Administrasi Akademik (LAK)** | Biro LAK / Rektorat UNPAM | Ketentuan batas presensi UAS, remedial, pengajuan cuti kuliah, dan pindah kelas. | **Tersedia Lengkap**<br>*(Terintegrasi resmi pada Bab Ketentuan Perkuliahan & Evaluasi)* |
+| **4** | **Buku Pedoman Fakultas Ilmu Komputer (FILKOM)** | Dekanat FILKOM / Informatika | Prinsip kurikulum OBE, penjurusan Informatika, syarat KP/Skripsi, dan magang MBKM. | **Akses Publik Terbatas**<br>*(Link portal resmi 401/izin akses; sistem menerapkan fallback aman)* |
 
-> **Catatan Validitas Data:**  
-> Dokumen di atas merupakan target data rujukan. Jawaban chatbot sepenuhnya bergantung pada kelengkapan dan keterbacaan teks dari dokumen yang berhasil dihimpun ke dalam sistem. Jika informasi spesifik belum tersedia pada dokumen yang diunggah, chatbot wajib menyatakan ketidaktahuannya secara terbuka dan menyarankan verifikasi ke pihak kampus terkait.
+> **Catatan Validitas & Pemrosesan Data:**  
+> - Dokumen pindaian (*scanned image*) seperti Kalender Akademik diekstraksi ke format Markdown terstruktur pada `data/processed/` agar penelusuran kata kunci dan tanggal berlangsung instan dan tanpa kesalahan OCR saat runtime.
+> - Jika informasi spesifik pada dokumen nomor 4 belum dapat diakses secara publik, chatbot wajib menyatakan batas pengetahuannya secara terbuka dan menyarankan mahasiswa mengonfirmasi langsung ke loket atau sekretariat terkait.
 
 ---
 
