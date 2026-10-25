@@ -198,13 +198,11 @@ async function submitUserPrompt(promptText) {
   const assistantRow = document.createElement('div');
   assistantRow.className = 'message-row-assistant';
   
-  const logoSrc = AppState.theme === 'dark' 
-    ? '/static/images/VIKA Logo Dark Mode.png' 
-    : '/static/images/Logo VIKA Light mode.png';
+  const avatarSrc = '/static/images/maskot ikon chat.png';
 
   assistantRow.innerHTML = `
     <div class="bot-avatar-circle">
-      <img src="${logoSrc}" alt="VIKA" class="bot-avatar-img">
+      <img src="${avatarSrc}" alt="VIKA" class="bot-avatar-img">
     </div>
     <div class="assistant-response-card">
       <div class="assistant-text-content">
@@ -453,14 +451,12 @@ function resetToDefaultWelcome() {
   // Deselect active items in sidebar
   document.querySelectorAll('.history-item').forEach(item => item.classList.remove('active'));
 
-  const logoSrc = AppState.theme === 'dark' 
-    ? '/static/images/VIKA Logo Dark Mode.png' 
-    : '/static/images/Logo VIKA Light mode.png';
+  const avatarSrc = '/static/images/maskot ikon chat.png';
 
   chatMessages.innerHTML = `
     <div class="message-row-assistant">
       <div class="bot-avatar-circle">
-        <img src="${logoSrc}" alt="VIKA" class="bot-avatar-img">
+        <img src="${avatarSrc}" alt="VIKA" class="bot-avatar-img">
       </div>
       <div class="assistant-response-card">
         <div class="assistant-text-content">
@@ -502,9 +498,7 @@ function loadSession(sessionId) {
 
   chatMessages.innerHTML = '';
 
-  const logoSrc = AppState.theme === 'dark' 
-    ? '/static/images/VIKA Logo Dark Mode.png' 
-    : '/static/images/Logo VIKA Light mode.png';
+  const avatarSrc = '/static/images/maskot ikon chat.png';
 
   // Render all messages in this room
   session.messages.forEach(msg => {
@@ -523,7 +517,7 @@ function loadSession(sessionId) {
       assistantRow.className = 'message-row-assistant';
       assistantRow.innerHTML = `
         <div class="bot-avatar-circle">
-          <img src="${logoSrc}" alt="VIKA" class="bot-avatar-img">
+          <img src="${avatarSrc}" alt="VIKA" class="bot-avatar-img">
         </div>
         <div class="assistant-response-card">
           <div class="assistant-text-content">

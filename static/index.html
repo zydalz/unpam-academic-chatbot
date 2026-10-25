@@ -12,10 +12,11 @@
 </head>
 <body>
 
-  <!-- Floating Button to Open Sidebar when Collapsed -->
+  <!-- Floating Button to Open Sidebar when Collapsed (SVG Icon) -->
   <button class="sidebar-open-btn" id="sidebar-open-btn" title="Buka Sidebar">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <polyline points="9 18 15 12 9 6"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <line x1="9" y1="3" x2="9" y2="21"/>
     </svg>
   </button>
 
@@ -35,13 +36,13 @@
         </div>
       </a>
 
-      <!-- + Chat Baru Button -->
+      <!-- Chat Baru Button (Single clean plus icon) -->
       <button class="btn-new-chat-pill" id="btn-new-chat">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="5" x2="12" y2="19"/>
           <line x1="5" y1="12" x2="19" y2="12"/>
         </svg>
-        <span>+ Chat Baru</span>
+        <span>Chat Baru</span>
       </button>
 
       <!-- Primary Sidebar Navigation -->
@@ -80,9 +81,10 @@
 
       <!-- Sidebar Collapse Trigger -->
       <div class="sidebar-footer">
-        <button class="btn-sidebar-toggle" id="btn-sidebar-collapse">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"/>
+        <button class="btn-sidebar-toggle" id="btn-sidebar-collapse" title="Sembunyikan Sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="3" x2="9" y2="21"/>
           </svg>
           <span>Sembunyikan sidebar</span>
         </button>
@@ -98,6 +100,12 @@
       <!-- Top Action Header (Unified, Clean) -->
       <header class="workspace-top-header">
         <div class="header-left">
+          <button class="btn-header-panel-toggle" id="btn-header-sidebar-toggle" title="Sembunyikan / Tampilkan Sidebar">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <line x1="9" y1="3" x2="9" y2="21"/>
+            </svg>
+          </button>
           <div class="header-title-text" id="header-active-title">
             <span>Asisten Akademik UNPAM</span>
           </div>
@@ -112,9 +120,18 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="custom-dropdown-menu">
-              <div class="dropdown-item active" data-value="universitas"><span>Universitas</span> ✓</div>
-              <div class="dropdown-item" data-value="filkom"><span>FILKOM (Informatika)</span></div>
-              <div class="dropdown-item" data-value="all"><span>Semua</span></div>
+              <div class="dropdown-item active" data-value="universitas">
+                <span>Universitas</span>
+                <svg class="dropdown-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="dropdown-item" data-value="filkom">
+                <span>FILKOM (Informatika)</span>
+                <svg class="dropdown-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="dropdown-item" data-value="all">
+                <span>Semua</span>
+                <svg class="dropdown-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
             </div>
           </div>
 
@@ -126,19 +143,44 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="custom-dropdown-menu">
-              <div class="dropdown-item active" data-value="Kasual"><span>Kasual</span> ✓</div>
-              <div class="dropdown-item" data-value="Formal"><span>Formal</span></div>
-              <div class="dropdown-item" data-value="Ringkas"><span>Ringkas</span></div>
+              <div class="dropdown-item active" data-value="Kasual">
+                <span>Kasual</span>
+                <svg class="dropdown-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="dropdown-item" data-value="Formal">
+                <span>Formal</span>
+                <svg class="dropdown-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="dropdown-item" data-value="Ringkas">
+                <span>Ringkas</span>
+                <svg class="dropdown-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
             </div>
           </div>
 
-          <!-- Sliding Theme Toggle Switch -->
+          <!-- Sliding Theme Toggle Switch (Pure SVG Icons, No Keyboard Emojis) -->
           <div class="theme-switch-wrap" title="Ganti Mode Terang / Gelap">
             <label class="theme-switch">
               <input type="checkbox" id="theme-switch-checkbox">
               <span class="theme-slider">
-                <span class="theme-slider-icon">☀️</span>
-                <span class="theme-slider-icon">🌙</span>
+                <span class="theme-slider-icon icon-sun">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                  </svg>
+                </span>
+                <span class="theme-slider-icon icon-moon">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                  </svg>
+                </span>
                 <span class="slider-thumb"></span>
               </span>
             </label>
@@ -156,96 +198,107 @@
         <!-- Background with Gedung Viktor & Gradient Fade -->
         <div class="landing-hero-bg"></div>
 
+        <!-- Hero Content with Mascot & Clean Whitespace -->
         <div class="landing-hero-content">
+          <div class="landing-mascot-wrapper">
+            <img src="/static/images/maskot landing page.png" alt="Maskot VIKA" class="landing-mascot-float">
+          </div>
           <div class="badge-ai">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
             </svg>
-            <span>AI ✦ Berbasis Google Gemini 3.8 Flash / Llama 3.3</span>
+            <span>Asisten AI Akademik Resmi UNPAM</span>
           </div>
           <h1 class="hero-main-title">Asisten Akademik UNPAM</h1>
           <p class="hero-main-desc">
-            Tanya apa saja tentang perkuliahan, dapatkan jawaban akurat dari sumber resmi kampus — cepat, mudah, dan terpercaya.
+            Tanya apa saja seputar perkuliahan dan dapatkan jawaban akurat langsung dari rujukan resmi kampus.
           </p>
         </div>
 
-        <!-- 4 Shortcut Topic Cards (Direct on Page) -->
-        <div class="landing-shortcuts-row">
-          <div class="shortcut-box" data-prompt="Kapan saja linimasa SK Kalender Akademik 2026/2027 UNPAM?">
-            <div class="shortcut-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
+        <!-- Centered Glassmorphic Interactive Group (Shortcuts + Input Capsule) -->
+        <div class="landing-interactive-container">
+          <!-- 4 Shortcut Topic Cards (Glassmorphism & Whitespace) -->
+          <div class="landing-shortcuts-row">
+            <div class="shortcut-box" data-prompt="Kapan saja linimasa SK Kalender Akademik 2026/2027 UNPAM?">
+              <div class="shortcut-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <div class="shortcut-text">
+                <h4>Kalender Akademik</h4>
+                <p>2026/2027</p>
+              </div>
             </div>
-            <div class="shortcut-text">
-              <h4>Kalender Akademik</h4>
-              <p>2026/2027</p>
+
+            <div class="shortcut-box" data-prompt="Berapa batas minimal presensi kehadiran agar mahasiswa boleh mengikuti UAS UNPAM?">
+              <div class="shortcut-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </div>
+              <div class="shortcut-text">
+                <h4>Kehadiran &amp; UAS</h4>
+                <p>Minimal 75%</p>
+              </div>
+            </div>
+
+            <div class="shortcut-box" data-prompt="Bagaimana prosedur pengajuan cuti kuliah dan ketentuan pelaksanaan remedial di UNPAM?">
+              <div class="shortcut-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+              </div>
+              <div class="shortcut-text">
+                <h4>Cuti &amp; Remedial</h4>
+                <p>SOP LAK</p>
+              </div>
+            </div>
+
+            <div class="shortcut-box" data-prompt="Apa saja syarat skripsi Teknik Informatika dan bagaimana prinsip kurikulum OBE?">
+              <div class="shortcut-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                </svg>
+              </div>
+              <div class="shortcut-text">
+                <h4>Kurikulum OBE</h4>
+                <p>Magang &amp; Skripsi</p>
+              </div>
             </div>
           </div>
 
-          <div class="shortcut-box" data-prompt="Berapa batas minimal presensi kehadiran agar mahasiswa boleh mengikuti UAS UNPAM?">
-            <div class="shortcut-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
+          <!-- Glassmorphic Large Main Chat Capsule -->
+          <div class="floating-bottom-input-wrap">
+            <div class="pill-input-box">
+              <button class="input-clip-btn" title="Lampirkan Dokumen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                </svg>
+              </button>
+              <input type="text" id="landing-input-field" placeholder="Mulai konsultasi akademik UNPAM..." autocomplete="off">
+              <button class="btn-send-round" id="btn-landing-send" title="Kirim">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
             </div>
-            <div class="shortcut-text">
-              <h4>Kehadiran & UAS</h4>
-              <p>(≥ 75%)</p>
+            
+            <!-- Clean UX Friendly Meta Note (No "gratis", No "•", No em-dash) -->
+            <div class="landing-bottom-note">
+              <span>Didukung Multi-LLM Gemini &amp; Groq AI</span>
+              <span class="meta-dot-divider"></span>
+              <span>Terintegrasi SK Rektor &amp; Dokumen Resmi UNPAM</span>
             </div>
-          </div>
-
-          <div class="shortcut-box" data-prompt="Bagaimana prosedur pengajuan cuti kuliah dan ketentuan pelaksanaan remedial di UNPAM?">
-            <div class="shortcut-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-              </svg>
-            </div>
-            <div class="shortcut-text">
-              <h4>Cuti & Remedial</h4>
-              <p>(SOP LAK)</p>
-            </div>
-          </div>
-
-          <div class="shortcut-box" data-prompt="Apa saja syarat skripsi Teknik Informatika dan bagaimana prinsip kurikulum OBE?">
-            <div class="shortcut-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-              </svg>
-            </div>
-            <div class="shortcut-text">
-              <h4>Kurikulum OBE &</h4>
-              <p>Magang MBKM</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Floating Input Bar (Landing) -->
-        <div class="floating-bottom-input-wrap">
-          <div class="pill-input-box">
-            <button class="input-clip-btn" title="Lampirkan Dokumen">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-              </svg>
-            </button>
-            <input type="text" id="landing-input-field" placeholder="Mulai tanya tentang akademik UNPAM..." autocomplete="off">
-            <button class="btn-send-round" id="btn-landing-send" title="Kirim">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </button>
-          </div>
-          <div class="landing-bottom-note">
-            Gratis • Menggunakan Google Gemini 3.8 Flash • Dengan sitasi sumber resmi
           </div>
         </div>
       </section>
@@ -256,58 +309,17 @@
       <section class="workspace-main" id="chat-view" style="display: none; height: 100%;">
         <div class="chat-messages-scroll" id="chat-messages">
           
-          <!-- Default Assistant Greeting Card -->
+          <!-- Default Assistant Greeting Card (Friendly Mascot Avatar) -->
           <div class="message-row-assistant">
             <div class="bot-avatar-circle">
-              <img src="/static/images/VIKA Logo Dark Mode.png" alt="VIKA" class="bot-avatar-img">
+              <img src="/static/images/maskot ikon chat.png" alt="VIKA" class="bot-avatar-img">
             </div>
             <div class="assistant-response-card">
               <div class="assistant-text-content">
-                <strong>Berikut adalah ringkasan linimasa SK Kalender Akademik 2026/2027 Universitas Pamulang (UNPAM) berdasarkan informasi resmi dari kampus:</strong>
-                
-                <div class="inner-subcard">
-                  <div class="subcard-header">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <span>Linimasa Penting</span>
-                  </div>
-                  <table class="subcard-table">
-                    <tr>
-                      <td class="col-event">• Registrasi Administrasi & Akademik</td>
-                      <td class="col-date">1 – 15 Agustus 2026</td>
-                    </tr>
-                    <tr>
-                      <td class="col-event">• Perkuliahan Semester Ganjil</td>
-                      <td class="col-date">24 Agustus – 18 Desember 2026</td>
-                    </tr>
-                    <tr>
-                      <td class="col-event">• Ujian Tengah Semester (UTS)</td>
-                      <td class="col-date">12 – 23 Oktober 2026</td>
-                    </tr>
-                    <tr>
-                      <td class="col-event">• Ujian Akhir Semester (UAS)</td>
-                      <td class="col-date">4 – 16 Januari 2027</td>
-                    </tr>
-                    <tr>
-                      <td class="col-event">• Perkuliahan Semester Genap</td>
-                      <td class="col-date">1 Februari – 28 Mei 2027</td>
-                    </tr>
-                  </table>
-                </div>
-
-                <p style="margin-top: 8px;">
-                  Untuk detail lengkap, kamu bisa melihat dokumen resmi SK Kalender Akademik 2026/2027 di situs UNPAM atau melalui bagian akademik fakultas.
-                </p>
+                <strong>Halo! Saya VIKA, Asisten Akademik Resmi Universitas Pamulang.</strong><br><br>
+                Silakan tanyakan apa saja seputar jadwal perkuliahan, SK kalender akademik 2026/2027, aturan presensi UAS ≥ 75%, prosedur remedial, atau panduan Tugas Akhir/Skripsi Teknik Informatika.
               </div>
-
               <div class="card-footer-meta" style="display: block;">
-                <div class="sources-block">
-                  <span class="sources-label">Sumber:</span>
-                  <a href="https://unpam.ac.id" target="_blank" class="source-citation-badge">
-                    📌 SK Kalender Akademik 2026/2027 (UNPAM) ↗
-                  </a>
-                </div>
                 <span class="message-time">10:24</span>
               </div>
             </div>
@@ -315,9 +327,9 @@
 
           <!-- Recommendation Action Chips -->
           <div class="recommendation-chips-wrap">
-            <button class="rec-chip-btn" onclick="submitUserPrompt('Berapa syarat kehadiran UAS?')">Syarat kehadiran UAS</button>
-            <button class="rec-chip-btn" onclick="submitUserPrompt('Bagaimana prosedur cuti kuliah?')">Prosedur cuti kuliah</button>
-            <button class="rec-chip-btn" onclick="submitUserPrompt('Apa saja syarat skripsi dan magang MBKM FILKOM?')">Panduan MBKM FILKOM</button>
+            <button class="rec-chip-btn" onclick="submitUserPrompt('Kapan saja linimasa SK Kalender Akademik 2026/2027 UNPAM?')">Linimasa Kalender 2026/2027</button>
+            <button class="rec-chip-btn" onclick="submitUserPrompt('Berapa batas minimal presensi kehadiran UAS?')">Syarat Kehadiran UAS (≥ 75%)</button>
+            <button class="rec-chip-btn" onclick="submitUserPrompt('Bagaimana prosedur remedial perkuliahan di UNPAM?')">Prosedur Remedial</button>
           </div>
 
         </div>
@@ -367,7 +379,7 @@
             <div class="settings-row">
               <label class="settings-label">Cakupan Informasi</label>
               <div class="segmented-pill-group">
-                <button class="segmented-pill-btn active" data-scope-choice="universitas">🌐 Universitas</button>
+                <button class="segmented-pill-btn active" data-scope-choice="universitas">Universitas</button>
                 <button class="segmented-pill-btn" data-scope-choice="filkom">Fakultas (FILKOM)</button>
               </div>
             </div>
@@ -393,7 +405,7 @@
 
             <div class="settings-row" style="margin-top: 8px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <label class="settings-label">Groq API Key (Llama 3.3 Engine)</label>
+                <label class="settings-label">Groq API Key (Fast Inference Engine)</label>
                 <span class="api-status-badge inactive" id="groq-status-badge">Belum Aktif</span>
               </div>
               <div class="api-key-input-row">
@@ -401,7 +413,7 @@
                 <button class="btn-save-key" id="btn-save-groq-key">Simpan</button>
               </div>
               <small style="font-size: 0.78rem; color: var(--text-muted);">
-                Dapatkan gratis untuk menjalankan Llama 3.3 super cepat di <a href="https://console.groq.com/" target="_blank" style="color: var(--accent-blue);">console.groq.com ↗</a>.
+                Dapatkan gratis untuk menjalankan AI super cepat di <a href="https://console.groq.com/" target="_blank" style="color: var(--accent-blue);">console.groq.com ↗</a>.
               </small>
             </div>
           </div>
@@ -412,10 +424,14 @@
             
             <div class="model-row-card" id="model-toggle-card" title="Klik untuk beralih antara Gemini & Llama">
               <div class="model-info-wrap">
-                <div class="model-icon">⚡</div>
+                <div class="model-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                  </svg>
+                </div>
                 <div>
                   <div class="model-title-line">
-                    <h4 id="active-model-name">Google Gemini 3.8 Flash</h4>
+                    <h4 id="active-model-name">Google Gemini 3.5 Flash</h4>
                     <span class="badge-recommended" id="active-model-badge">Rekomendasi</span>
                   </div>
                   <p class="model-desc" id="active-model-desc">Cepat, akurat, dan penalaran regulasi teruji.</p>
@@ -434,16 +450,40 @@
             <div class="settings-row">
               <label class="settings-label">Mode Tema</label>
               <div class="segmented-pill-group">
-                <button class="segmented-pill-btn active" data-theme-choice="light">☀️ Terang</button>
-                <button class="segmented-pill-btn" data-theme-choice="dark">🌙 Gelap</button>
-                <button class="segmented-pill-btn" data-theme-choice="system">💻 Ikuti Sistem</button>
+                <button class="segmented-pill-btn active" data-theme-choice="light">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                  </svg>
+                  Terang
+                </button>
+                <button class="segmented-pill-btn" data-theme-choice="dark">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                  </svg>
+                  Gelap
+                </button>
+                <button class="segmented-pill-btn" data-theme-choice="system">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                  Ikuti Sistem
+                </button>
               </div>
             </div>
 
             <div class="settings-row">
               <label class="settings-label">Bahasa Antarmuka</label>
               <div class="custom-dropdown-btn" style="width: fit-content;">
-                <span>🌐 Bahasa Indonesia</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span>Bahasa Indonesia</span>
               </div>
             </div>
           </div>

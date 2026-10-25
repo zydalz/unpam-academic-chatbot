@@ -49,11 +49,11 @@ function applyTheme(theme) {
   }
 
   // Update brand logos
-  const brandLogos = document.querySelectorAll('.nav-logo, .sidebar-brand-img, .bot-avatar-img');
+  const brandLogos = document.querySelectorAll('.sidebar-brand-img');
   brandLogos.forEach(logo => {
     logo.src = theme === 'dark' 
       ? '/static/images/VIKA Logo Dark Mode.png' 
-      : '/static/images/Logo VIKA Light mode.png';
+      : '/static/images/VIKA Logo Light mode.png';
   });
 
   // Sync checkbox if called externally
@@ -202,21 +202,20 @@ function setupDropdown(dropdownId, initialValue, onSelectCallback) {
 function initSidebarControls() {
   const sidebar = document.getElementById('app-sidebar');
   const collapseBtn = document.getElementById('btn-sidebar-collapse');
+  const headerToggleBtn = document.getElementById('btn-header-sidebar-toggle');
   const openBtn = document.getElementById('sidebar-open-btn');
 
-  if (collapseBtn && sidebar) {
-    collapseBtn.addEventListener('click', () => {
-      sidebar.classList.add('collapsed');
-      if (openBtn) openBtn.style.display = 'flex';
-    });
+  function toggleSidebar() {
+    if (!sidebar) return;
+    const isCollapsed = sidebar.classList.toggle('collapsed');
+    if (openBtn) {
+      openBtn.style.display = isCollapsed ? 'flex' : 'none';
+    }
   }
 
-  if (openBtn && sidebar) {
-    openBtn.addEventListener('click', () => {
-      sidebar.classList.remove('collapsed');
-      openBtn.style.display = 'none';
-    });
-  }
+  if (collapseBtn) collapseBtn.addEventListener('click', toggleSidebar);
+  if (headerToggleBtn) headerToggleBtn.addEventListener('click', toggleSidebar);
+  if (openBtn) openBtn.addEventListener('click', toggleSidebar);
 }
 
 // -------------------------------------------------------------
