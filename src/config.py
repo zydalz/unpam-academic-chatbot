@@ -26,24 +26,24 @@ SERVER_PORT = int(os.getenv("SERVER_PORT", "8000"))
 
 # Google Gemini API Configuration (Default / Recommended)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
 # Fallback Gemini models in order of preference
 MODEL_CANDIDATES = [
     GEMINI_MODEL,
-    "gemini-3.8-flash",
-    "gemini-2.5-flash",
-    "gemini-2.0-flash",
-    "gemini-1.5-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-3-flash-preview",
+    "gemini-flash-latest",
 ]
 
-# Groq API Configuration (Llama 3.3 Engine)
+# Groq API Configuration (Fast Inference Engine)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
 GROQ_MODEL_CANDIDATES = [
     GROQ_MODEL,
-    "llama-3.3-70b-versatile",
-    "llama-3.1-8b-instant",
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.8-27b",
+    "openai/gpt-oss-20b",
 ]
 
 # Application Branding Constants

@@ -207,37 +207,74 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 9px 12px;
+  padding: 8px 10px;
   border-radius: var(--radius-md);
   cursor: pointer;
+  border-left: 3px solid transparent;
   transition: all var(--transition-fast);
+  margin-bottom: 3px;
 }
 
-.history-item:hover, .history-item.active {
+.history-item:hover {
   background: var(--bg-surface-hover);
+}
+
+.history-item.active {
+  background: var(--bg-surface-hover);
+  border-left-color: var(--accent-blue);
 }
 
 .history-item-content {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   overflow: hidden;
+  flex: 1;
 }
 
-.history-item-content span {
-  font-size: 0.86rem;
+.history-item-content span.history-title {
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 150px;
+  max-width: 140px;
+}
+
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .history-time {
-  font-size: 0.72rem;
+  font-size: 0.70rem;
   color: var(--text-muted);
-  flex-shrink: 0;
+}
+
+.btn-delete-session {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all var(--transition-fast);
+}
+
+.history-item:hover .btn-delete-session {
+  display: flex;
+}
+
+.btn-delete-session:hover {
+  color: #EF4444;
+  background: rgba(239, 68, 68, 0.15);
 }
 
 .sidebar-footer {

@@ -183,7 +183,7 @@ class AIService:
             try:
                 if self._gemini_sdk_type == "new":
                     from google.genai import types
-                    response = self._client.models.generate_content_stream(
+                    response = self._gemini_client.models.generate_content_stream(
                         model=m_name,
                         contents=full_prompt,
                         config=types.GenerateContentConfig(
@@ -202,7 +202,7 @@ class AIService:
                     return
 
                 elif self._gemini_sdk_type == "legacy":
-                    model = self._client.GenerativeModel(
+                    model = self._gemini_client.GenerativeModel(
                         model_name=m_name,
                         system_instruction=system_instruction,
                     )
@@ -236,11 +236,11 @@ class AIService:
         metadata_container: Dict[str, Any],
         search_results: List[SearchResult],
     ) -> Generator[str, None, None]:
-        """Stream output from Groq API (Llama 3.3 70B)."""
+        """Stream output from Groq API."""
         if not self.is_groq_configured():
             yield from self._render_structured_fallback(
                 search_results,
-                error_note="Kunci API Groq (Llama 3.3) belum diisi. Masukkan di halaman Pengaturan untuk mengaktifkan penalaran penuh Llama 3.3."
+                error_note="Kunci API Groq belum diisi. Masukkan di menu Pengaturan untuk mengaktifkan penalaran penuh Groq AI."
             )
             return
 
@@ -249,48 +249,60 @@ class AIService:
             "Authorization": f"Bearer {self.groq_api_key.strip()}",
             "Content-Type": "application/json",
         }
-        payload = {
-            "model": self.groq_model,
-            "messages": [
-                {"role": "system", "content": system_instruction},
-                {"role": "user", "content": full_prompt},
-            ],
-            "temperature": 0.3,
-            "stream": True,
-        }
+        
+        groq_attempts = [self.groq_model] + [m for m in GROQ_MODEL_CANDIDATES if m != self.groq_model]
+        last_groq_error = None
 
-        full_accumulated = ""
-        try:
-            with httpx.Client(timeout=30.0) as client:
-                with client.stream("POST", url, headers=headers, json=payload) as response:
-                    if response.status_code != 200:
-                        yield f"❌ Error Groq ({response.status_code}): {response.read().decode('utf-8')}"
-                        return
+        for gm in groq_attempts:
+            payload = {
+                "model": gm,
+                "messages": [
+                    {"role": "system", "content": system_instruction},
+                    {"role": "user", "content": full_prompt},
+                ],
+                "temperature": 0.3,
+                "stream": True,
+            }
 
-                    for line in response.iter_lines():
-                        if not line:
+            full_accumulated = ""
+            try:
+                with httpx.Client(timeout=30.0) as client:
+                    with client.stream("POST", url, headers=headers, json=payload) as response:
+                        if response.status_code != 200:
+                            err_msg = response.read().decode('utf-8')
+                            logger.warning("Groq model %s failed (%s): %s. Trying next candidate...", gm, response.status_code, err_msg)
+                            last_groq_error = f"{response.status_code}: {err_msg}"
                             continue
-                        if line.startswith("data: "):
-                            data_str = line[6:].strip()
-                            if data_str == "[DONE]":
-                                break
-                            try:
-                                data_json = json.loads(data_str)
-                                delta = data_json["choices"][0]["delta"]
-                                content = delta.get("content", "")
-                                if content:
-                                    full_accumulated += content
-                                    clean_chunk = re.sub(r"<!--\s*RECS:.*?-->", "", content)
-                                    if clean_chunk:
-                                        yield clean_chunk
-                            except Exception:
+
+                        for line in response.iter_lines():
+                            if not line:
                                 continue
+                            if line.startswith("data: "):
+                                data_str = line[6:].strip()
+                                if data_str == "[DONE]":
+                                    break
+                                try:
+                                    data_json = json.loads(data_str)
+                                    delta = data_json["choices"][0]["delta"]
+                                    content = delta.get("content", "")
+                                    if content:
+                                        full_accumulated += content
+                                        clean_chunk = re.sub(r"<!--\s*RECS:.*?-->", "", content)
+                                        if clean_chunk:
+                                            yield clean_chunk
+                                except Exception:
+                                    continue
 
-            self._extract_recs(full_accumulated, metadata_container)
+                self._extract_recs(full_accumulated, metadata_container)
+                return
 
-        except Exception as exc:
-            logger.error("Groq streaming error: %s", exc)
-            yield f"❌ Terjadi kesalahan saat menghubungi API Groq (Llama 3.3): `{str(exc)}`"
+            except Exception as exc:
+                logger.warning("Groq model %s connection error: %s. Trying next...", gm, exc)
+                last_groq_error = str(exc)
+                continue
+
+        # If all candidates failed, fallback gracefully
+        yield from self._render_structured_fallback(search_results, error_note=f"Groq: {last_groq_error}")
 
     def _render_structured_fallback(
         self,

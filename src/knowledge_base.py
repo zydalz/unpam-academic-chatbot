@@ -189,12 +189,13 @@ class KnowledgeBase:
 
         # Specialized domain booster mappings
         domain_boosters = {
-            "uts": ["uts", "ujian tengah semester", "19", "24", "oktober"],
-            "uas": ["uas", "ujian akhir semester", "14", "19", "desember"],
+            "uts": ["uts", "ujian tengah semester", "19", "24", "oktober", "susulan"],
+            "uas": ["uas", "ujian akhir semester", "14", "19", "desember", "susulan"],
             "krs": ["krs", "heregistrasi", "revisi krs", "registrasi", "februari"],
             "presensi": ["presensi", "kehadiran", "75%", "10%", "evaluasi"],
             "absen": ["presensi", "kehadiran", "75%", "10%"],
-            "remedial": ["remedial", "remedial teaching", "nilai d", "15 orang"],
+            "remedial": ["remedial", "remedial teaching", "nilai d", "15 orang", "perbaikan nilai", "susulan"],
+            "susulan": ["ujian susulan", "remedial", "uts susulan", "uas susulan"],
             "cuti": ["cuti", "cuti akademik", "2 kali", "dua semester"],
             "drop out": ["drop out", "d.o.", "ips", "14 semester"],
             "do": ["drop out", "d.o.", "ips", "14 semester"],
@@ -216,35 +217,36 @@ class KnowledgeBase:
         scored_results: List[SearchResult] = []
 
         for chunk in self.chunks:
-            # Respect scope filter
-            if scope != "all" and chunk.scope != scope and scope != "":
-                continue
-
             content_lower = chunk.content.lower()
             title_lower = chunk.section_title.lower()
 
             score = 0.0
 
+            # 0. Scope priority boost (boost matching scope by +12.0, but never exclude shared university regulations)
+            if scope and scope.lower() != "all":
+                if chunk.scope.lower() == scope.lower():
+                    score += 12.0
+
             # 1. Exact phrase match in title
             for qw in query_words:
                 if qw in title_lower:
-                    score += 15.0
+                    score += 18.0
                 if qw in chunk.keywords:
-                    score += 3.0
+                    score += 3.5
 
             # 2. Check domain boosters
             for key, boost_terms in domain_boosters.items():
                 if key in clean_query:
                     for bt in boost_terms:
                         if bt in content_lower:
-                            score += 4.5
+                            score += 6.0
                         if bt in title_lower:
-                            score += 10.0
+                            score += 15.0
 
             # 3. Query string substring density
             for qw in query_words:
                 count = content_lower.count(qw)
-                score += min(count * 1.5, 9.0)
+                score += min(count * 2.0, 10.0)
 
             if score > 0.0:
                 citation_dict = {

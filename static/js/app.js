@@ -125,7 +125,7 @@ function initNavigation() {
 // -------------------------------------------------------------
 function initCustomDropdowns() {
   // Setup Dropdown Scope
-  setupDropdown('dropdown-scope', (value) => {
+  setupDropdown('dropdown-scope', AppState.scope, (value) => {
     AppState.scope = value;
     localStorage.setItem('vika_scope', value);
     // Sync Settings Scope
@@ -135,7 +135,7 @@ function initCustomDropdowns() {
   });
 
   // Setup Dropdown Style
-  setupDropdown('dropdown-style', (value) => {
+  setupDropdown('dropdown-style', AppState.style, (value) => {
     AppState.style = value;
     localStorage.setItem('vika_style', value);
     // Sync Settings Style
@@ -152,13 +152,25 @@ function initCustomDropdowns() {
   });
 }
 
-function setupDropdown(dropdownId, onSelectCallback) {
+function setupDropdown(dropdownId, initialValue, onSelectCallback) {
   const container = document.getElementById(dropdownId);
   if (!container) return;
 
   const btn = container.querySelector('.custom-dropdown-btn');
   const labelSpan = container.querySelector('.dropdown-label-text');
   const items = container.querySelectorAll('.dropdown-item');
+
+  // Sync initial state if provided
+  if (initialValue) {
+    items.forEach(item => {
+      const isMatch = item.dataset.value.toLowerCase() === initialValue.toLowerCase();
+      item.classList.toggle('active', isMatch);
+      if (isMatch) {
+        const text = item.querySelector('span')?.textContent || item.textContent;
+        if (labelSpan) labelSpan.textContent = text.trim();
+      }
+    });
+  }
 
   btn.addEventListener('click', (e) => {
     e.stopPropagation();

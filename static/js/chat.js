@@ -1,14 +1,32 @@
 /**
- * VIKA Chat Streaming & Markdown Renderer
+ * VIKA Chat Streaming, Session Room Management & Markdown Renderer
  * Implements smooth typewriter cadence streaming, markdown table formatting,
- * inner sub-cards, real local session history, and action recommendation chips.
+ * inner sub-cards, room-based persistent chat history, and action recommendation chips.
  * Author: Abu Ziyad Al Katani (zydalz)
  */
+
+let currentSessionId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   initChatEngine();
   renderRealSessionHistory();
 });
+
+function getSessions() {
+  try {
+    return JSON.parse(localStorage.getItem('vika_chat_sessions') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveSessions(sessions) {
+  try {
+    localStorage.setItem('vika_chat_sessions', JSON.stringify(sessions));
+  } catch (e) {
+    console.error('Failed to save sessions:', e);
+  }
+}
 
 function initChatEngine() {
   const chatInput = document.getElementById('chat-input-field');
@@ -66,18 +84,22 @@ function initChatEngine() {
     });
   });
 
-  // "+ Chat Baru" Button
+  // "+ Chat Baru" Button -> Starts a fresh, clean conversation room
   if (newChatBtn) {
     newChatBtn.addEventListener('click', () => {
+      window.switchView('chat');
       resetToDefaultWelcome();
     });
   }
 
-  // Clear History Button
+  // Clear All History Button
   if (clearHistoryBtn) {
     clearHistoryBtn.addEventListener('click', () => {
-      localStorage.removeItem('vika_chat_sessions');
-      renderRealSessionHistory();
+      if (confirm('Hapus seluruh riwayat percakapan?')) {
+        localStorage.removeItem('vika_chat_sessions');
+        resetToDefaultWelcome();
+        renderRealSessionHistory();
+      }
     });
   }
 }
@@ -85,6 +107,18 @@ function initChatEngine() {
 function getCurrentTime() {
   const now = new Date();
   return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+function formatRelativeTime(timestamp) {
+  if (!timestamp) return 'Baru saja';
+  const diffSec = Math.floor((Date.now() - timestamp) / 1000);
+  if (diffSec < 60) return 'Baru saja';
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin} mnt lalu`;
+  const diffHour = Math.floor(diffMin / 60);
+  if (diffHour < 24) return `${diffHour} jam lalu`;
+  const d = new Date(timestamp);
+  return d.toLocaleDateString([], { day: 'numeric', month: 'short' });
 }
 
 // -------------------------------------------------------------
@@ -96,13 +130,50 @@ async function submitUserPrompt(promptText) {
 
   const timeStr = getCurrentTime();
 
-  // Update Chat Header Topic Label
-  const topicLabel = document.getElementById('chat-topic-label');
-  if (topicLabel) {
-    topicLabel.textContent = promptText.length > 35 ? promptText.slice(0, 32) + '...' : promptText;
+  // 1. Session Room Resolution
+  let sessions = getSessions();
+  let activeSession = null;
+
+  if (!currentSessionId) {
+    // Starting a NEW chat room session
+    currentSessionId = 'sess_' + Date.now();
+    const shortTitle = promptText.length > 30 ? promptText.slice(0, 28) + '...' : promptText;
+    activeSession = {
+      id: currentSessionId,
+      title: shortTitle,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      messages: [],
+    };
+    sessions.unshift(activeSession);
+    saveSessions(sessions);
+
+    // Clear initial greeting placeholder when starting the actual conversation
+    chatMessages.innerHTML = '';
+  } else {
+    // Continuing existing session room
+    activeSession = sessions.find(s => s.id === currentSessionId);
+    if (!activeSession) {
+      activeSession = {
+        id: currentSessionId,
+        title: promptText.length > 30 ? promptText.slice(0, 28) + '...' : promptText,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        messages: [],
+      };
+      sessions.unshift(activeSession);
+    } else {
+      activeSession.updatedAt = Date.now();
+    }
   }
 
-  // 1. Render User Message Bubble
+  // Update Chat Header Topic Label
+  const topicLabel = document.getElementById('chat-topic-label');
+  if (topicLabel && activeSession) {
+    topicLabel.textContent = activeSession.title;
+  }
+
+  // 2. Render User Message Bubble
   const userRow = document.createElement('div');
   userRow.className = 'message-row-user';
   userRow.innerHTML = `
@@ -114,7 +185,16 @@ async function submitUserPrompt(promptText) {
   chatMessages.appendChild(userRow);
   scrollToBottom();
 
-  // 2. Render Assistant Card Placeholder with Blinking Cursor
+  // Save user message to active session in localStorage
+  activeSession.messages.push({
+    role: 'user',
+    content: promptText,
+    time: timeStr,
+  });
+  saveSessions(sessions);
+  renderRealSessionHistory();
+
+  // 3. Render Assistant Card Placeholder with Blinking Cursor
   const assistantRow = document.createElement('div');
   assistantRow.className = 'message-row-assistant';
   
@@ -140,10 +220,7 @@ async function submitUserPrompt(promptText) {
   const cursorSpan = assistantRow.querySelector('.cursor-blinker');
   const cardFooterDiv = assistantRow.querySelector('.card-footer-meta');
 
-  // Save to Real Session History
-  saveSessionToHistory(promptText);
-
-  // 3. Connect to SSE Stream with Smooth Typewriter Queue
+  // 4. Connect to SSE Stream with Smooth Typewriter Queue
   try {
     const payload = {
       query: promptText,
@@ -224,14 +301,32 @@ async function submitUserPrompt(promptText) {
       }
     }
 
-    // Wait until queue is completely drained
+    // Wait until typewriter queue is completely drained
     const checkDrain = setInterval(() => {
       if (tokenQueue.length === 0) {
         clearInterval(checkDrain);
         if (cursorSpan) cursorSpan.remove();
+        
         // Final render with tables and subcards
         streamTextSpan.innerHTML = formatMarkdownText(rawAccumulated, true);
         finalizeResponseCard(assistantRow, cardFooterDiv, citations, externalSource, recommendations, timeStr);
+
+        // Save assistant message to active room session
+        const currentSessions = getSessions();
+        const curSess = currentSessions.find(s => s.id === currentSessionId);
+        if (curSess) {
+          curSess.updatedAt = Date.now();
+          curSess.messages.push({
+            role: 'assistant',
+            content: rawAccumulated,
+            time: timeStr,
+            citations: citations,
+            recommendations: recommendations,
+            externalSource: externalSource,
+          });
+          saveSessions(currentSessions);
+          renderRealSessionHistory();
+        }
       }
     }, 50);
 
@@ -344,12 +439,19 @@ function scrollToBottom() {
   }
 }
 
+// -------------------------------------------------------------
+// SESSION ROOM NAVIGATION & RESTORE
+// -------------------------------------------------------------
 function resetToDefaultWelcome() {
+  currentSessionId = null;
   const chatMessages = document.getElementById('chat-messages');
   if (!chatMessages) return;
 
   const topicLabel = document.getElementById('chat-topic-label');
   if (topicLabel) topicLabel.textContent = 'Konsultasi Akademik';
+
+  // Deselect active items in sidebar
+  document.querySelectorAll('.history-item').forEach(item => item.classList.remove('active'));
 
   const logoSrc = AppState.theme === 'dark' 
     ? '/static/images/VIKA Logo Dark Mode.png' 
@@ -363,7 +465,7 @@ function resetToDefaultWelcome() {
       <div class="assistant-response-card">
         <div class="assistant-text-content">
           <strong>Halo! Saya VIKA, Asisten Akademik Resmi Universitas Pamulang.</strong><br><br>
-          Silakan tanyakan apa saja seputar jadwal perkuliahan, SK kalender akademik 2026/2027, aturan presensi UAS ≥ 75%, prosedur cuti, atau panduan Tugas Akhir/Skripsi Teknik Informatika.
+          Silakan tanyakan apa saja seputar jadwal perkuliahan, SK kalender akademik 2026/2027, aturan presensi UAS ≥ 75%, prosedur remedial, atau panduan Tugas Akhir/Skripsi Teknik Informatika.
         </div>
         <div class="card-footer-meta" style="display: block;">
           <span class="message-time">${getCurrentTime()}</span>
@@ -373,80 +475,149 @@ function resetToDefaultWelcome() {
     <div class="recommendation-chips-wrap">
       <button class="rec-chip-btn" onclick="submitUserPrompt('Kapan saja linimasa SK Kalender Akademik 2026/2027 UNPAM?')">Linimasa Kalender 2026/2027</button>
       <button class="rec-chip-btn" onclick="submitUserPrompt('Berapa batas minimal presensi kehadiran UAS?')">Syarat Kehadiran UAS (≥ 75%)</button>
-      <button class="rec-chip-btn" onclick="submitUserPrompt('Apa saja syarat ujian sidang skripsi Teknik Informatika?')">Syarat Sidang Skripsi TI</button>
+      <button class="rec-chip-btn" onclick="submitUserPrompt('Bagaimana prosedur remedial perkuliahan di UNPAM?')">Prosedur Remedial</button>
     </div>
   `;
+}
+
+function loadSession(sessionId) {
+  const sessions = getSessions();
+  const session = sessions.find(s => s.id === sessionId);
+  if (!session) return;
+
+  currentSessionId = sessionId;
+  window.switchView('chat');
+
+  // Update Topic Label in Chat Header
+  const topicLabel = document.getElementById('chat-topic-label');
+  if (topicLabel) topicLabel.textContent = session.title;
+
+  // Update active state in sidebar
+  document.querySelectorAll('.history-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.sessionId === sessionId);
+  });
+
+  const chatMessages = document.getElementById('chat-messages');
+  if (!chatMessages) return;
+
+  chatMessages.innerHTML = '';
+
+  const logoSrc = AppState.theme === 'dark' 
+    ? '/static/images/VIKA Logo Dark Mode.png' 
+    : '/static/images/Logo VIKA Light mode.png';
+
+  // Render all messages in this room
+  session.messages.forEach(msg => {
+    if (msg.role === 'user') {
+      const userRow = document.createElement('div');
+      userRow.className = 'message-row-user';
+      userRow.innerHTML = `
+        <div class="user-bubble">
+          ${escapeHtml(msg.content)}
+          <span class="message-time">${escapeHtml(msg.time || '')}</span>
+        </div>
+      `;
+      chatMessages.appendChild(userRow);
+    } else if (msg.role === 'assistant') {
+      const assistantRow = document.createElement('div');
+      assistantRow.className = 'message-row-assistant';
+      assistantRow.innerHTML = `
+        <div class="bot-avatar-circle">
+          <img src="${logoSrc}" alt="VIKA" class="bot-avatar-img">
+        </div>
+        <div class="assistant-response-card">
+          <div class="assistant-text-content">
+            ${formatMarkdownText(msg.content, true)}
+          </div>
+          <div class="card-footer-meta" style="display: block;"></div>
+        </div>
+      `;
+      chatMessages.appendChild(assistantRow);
+
+      const cardFooterDiv = assistantRow.querySelector('.card-footer-meta');
+      finalizeResponseCard(
+        assistantRow,
+        cardFooterDiv,
+        msg.citations || [],
+        msg.externalSource || null,
+        msg.recommendations || [],
+        msg.time || ''
+      );
+    }
+  });
+
+  scrollToBottom();
+}
+
+function deleteSession(sessionId, event) {
+  if (event) event.stopPropagation();
+
+  let sessions = getSessions();
+  sessions = sessions.filter(s => s.id !== sessionId);
+  saveSessions(sessions);
+
+  if (currentSessionId === sessionId) {
+    resetToDefaultWelcome();
+  }
+
+  renderRealSessionHistory();
 }
 
 // -------------------------------------------------------------
 // REAL SESSION HISTORY STORAGE
 // -------------------------------------------------------------
-function saveSessionToHistory(promptText) {
-  let sessions = [];
-  try {
-    sessions = JSON.parse(localStorage.getItem('vika_chat_sessions') || '[]');
-  } catch (e) {
-    sessions = [];
-  }
-
-  const shortTitle = promptText.length > 28 ? promptText.slice(0, 26) + '...' : promptText;
-  
-  // Avoid duplicate consecutively
-  if (sessions.length > 0 && sessions[0].query === promptText) return;
-
-  sessions.unshift({
-    id: Date.now(),
-    title: shortTitle,
-    query: promptText,
-    timestamp: 'Baru saja',
-  });
-
-  // Limit to 10 sessions
-  if (sessions.length > 10) sessions = sessions.slice(0, 10);
-  localStorage.setItem('vika_chat_sessions', JSON.stringify(sessions));
-
-  renderRealSessionHistory();
-}
-
 function renderRealSessionHistory() {
   const container = document.getElementById('sidebar-history-list');
   if (!container) return;
 
-  let sessions = [];
-  try {
-    sessions = JSON.parse(localStorage.getItem('vika_chat_sessions') || '[]');
-  } catch (e) {
-    sessions = [];
-  }
+  const sessions = getSessions();
 
   if (sessions.length === 0) {
-    container.innerHTML = `<div class="history-empty-note">Belum ada riwayat percakapan.</div>`;
+    container.innerHTML = `<div class="history-empty-note">Belum ada percakapan baru.</div>`;
     return;
   }
 
   container.innerHTML = '';
   sessions.forEach(sess => {
     const item = document.createElement('div');
-    item.className = 'history-item';
-    item.dataset.query = sess.query;
+    item.className = 'history-item' + (sess.id === currentSessionId ? ' active' : '');
+    item.dataset.sessionId = sess.id;
+    
     item.innerHTML = `
       <div class="history-item-content">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span>${escapeHtml(sess.title)}</span>
+        <span class="history-title" title="${escapeHtml(sess.title)}">${escapeHtml(sess.title)}</span>
       </div>
-      <span class="history-time">${sess.timestamp}</span>
+      <div class="history-actions">
+        <span class="history-time">${formatRelativeTime(sess.updatedAt || sess.createdAt)}</span>
+        <button class="btn-delete-session" title="Hapus ruang chat ini" data-delete-id="${sess.id}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          </svg>
+        </button>
+      </div>
     `;
 
+    // Clicking item loads that room
     item.addEventListener('click', () => {
-      window.switchView('chat');
-      submitUserPrompt(sess.query);
+      loadSession(sess.id);
     });
+
+    // Clicking delete button deletes that room
+    const delBtn = item.querySelector('.btn-delete-session');
+    if (delBtn) {
+      delBtn.addEventListener('click', (e) => {
+        deleteSession(sess.id, e);
+      });
+    }
 
     container.appendChild(item);
   });
 }
 
 function escapeHtml(text) {
+  if (!text) return '';
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
