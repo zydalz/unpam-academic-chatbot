@@ -459,20 +459,20 @@ body {
   overflow: hidden;
 }
 
-/* Top Action Floating Header (No Solid Bar Area, Floating Top Right Controls) */
+/* Top Action Floating Header with Smooth Horizontal Gradient Fade */
 .workspace-top-header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 64px;
-  background: transparent !important;
+  height: 84px;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-primary) 50%, var(--bg-primary-fade) 100%) !important;
   border-bottom: none !important;
   box-shadow: none !important;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
-  padding: 0 32px;
+  padding: 16px 32px 0 32px;
   z-index: 50;
   pointer-events: none;
 }
@@ -988,7 +988,7 @@ body {
 .chat-messages-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 28px 40px;
+  padding: 92px 40px 28px 40px;
   display: flex;
   flex-direction: column;
   gap: 22px;

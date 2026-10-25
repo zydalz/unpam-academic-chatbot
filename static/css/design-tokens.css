@@ -13,6 +13,7 @@
   --bg-pill-active: #E0F2FE;
   --bg-user-bubble: #E0F2FE;
   --text-user-bubble: #0369A1;
+  --bg-primary-fade: rgba(248, 250, 252, 0);
 
   /* Typography Colors */
   --text-primary: #0F172A;
@@ -63,6 +64,7 @@
   --bg-pill-active: #1A3668;
   --bg-user-bubble: #16304C;
   --text-user-bubble: #E0F2FE;
+  --bg-primary-fade: rgba(6, 11, 20, 0);
 
   /* Typography Colors */
   --text-primary: #F8FAFC;
