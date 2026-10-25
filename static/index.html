@@ -12,180 +12,52 @@
 </head>
 <body>
 
-  <!-- ============================================================ -->
-  <!-- TOP NAVBAR                                                   -->
-  <!-- ============================================================ -->
-  <header class="navbar">
-    <a href="#" class="nav-brand" id="nav-brand">
-      <img src="/static/images/Logo VIKA Light mode.png" alt="Logo VIKA" class="nav-logo">
-      <div class="nav-brand-text">
-        <h1>UNPAM AI</h1>
-        <p>Asisten Akademik</p>
-      </div>
-    </a>
+  <!-- Floating Button to Open Sidebar when Collapsed -->
+  <button class="sidebar-open-btn" id="sidebar-open-btn" title="Buka Sidebar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
 
-    <nav class="nav-links">
-      <a href="#" class="nav-link active" data-target-view="landing">Beranda</a>
-      <a href="#" class="nav-link" data-target-view="chat">Fitur</a>
-      <a href="#" class="nav-link" data-target-view="landing">Panduan</a>
-      <a href="#" class="nav-link" data-target-view="settings">Tentang</a>
-    </nav>
-
-    <div class="nav-actions">
-      <button class="theme-toggle-btn" id="theme-toggle-btn" title="Ganti Mode Tema">
-        <span id="theme-toggle-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        </span>
-      </button>
-
-      <button class="btn-primary-pill" id="btn-start-chat">
-        Mulai Sekarang
-      </button>
-    </div>
-  </header>
-
-  <!-- ============================================================ -->
-  <!-- 1. LANDING PAGE VIEW (#landing-view)                         -->
-  <!-- ============================================================ -->
-  <main id="landing-view">
-    <div class="landing-container">
-      
-      <!-- Hero Banner Card -->
-      <section class="hero-card">
-        <div class="hero-content">
-          <div class="badge-ai">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/>
-            </svg>
-            <span>AI ✦ Berbasis Google Gemini 3.8 Flash / Llama 3.3</span>
-          </div>
-          <h1 class="hero-headline">Asisten Akademik UNPAM</h1>
-          <p class="hero-subtitle">
-            Tanya apa saja tentang perkuliahan, dapatkan jawaban akurat dari sumber resmi kampus — cepat, mudah, dan terpercaya.
-          </p>
-        </div>
-        <div class="hero-image-overlay"></div>
-      </section>
-
-      <!-- 4 Shortcut Topic Cards Grid -->
-      <section class="topic-cards-grid">
-        <!-- Card 1 -->
-        <div class="topic-card" data-prompt="Kapan saja linimasa SK Kalender Akademik 2026/2027 UNPAM?">
-          <div class="topic-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-          </div>
-          <div class="topic-text">
-            <h4>Kalender Akademik</h4>
-            <p>2026/2027</p>
-          </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="topic-card" data-prompt="Berapa batas minimal presensi kehadiran agar mahasiswa boleh mengikuti UAS UNPAM?">
-          <div class="topic-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-              <polyline points="22 4 12 14.01 9 11.01"/>
-            </svg>
-          </div>
-          <div class="topic-text">
-            <h4>Kehadiran & UAS</h4>
-            <p>(≥ 75%)</p>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="topic-card" data-prompt="Bagaimana prosedur pengajuan cuti kuliah dan ketentuan pelaksanaan remedial di UNPAM?">
-          <div class="topic-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
-            </svg>
-          </div>
-          <div class="topic-text">
-            <h4>Cuti & Remedial</h4>
-            <p>(SOP LAK)</p>
-          </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="topic-card" data-prompt="Apa saja syarat skripsi Teknik Informatika dan bagaimana prinsip kurikulum OBE?">
-          <div class="topic-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-            </svg>
-          </div>
-          <div class="topic-text">
-            <h4>Kurikulum OBE &</h4>
-            <p>Magang MBKM</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Floating Input Bar (Landing) -->
-      <section class="landing-floating-input-wrap">
-        <div class="floating-input-pill">
-          <button class="input-icon-btn" title="Lampirkan Dokumen">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-            </svg>
-          </button>
-          <input type="text" id="landing-input-field" placeholder="Mulai tanya tentang akademik UNPAM..." autocomplete="off">
-          <button class="send-circle-btn" id="btn-landing-send" title="Kirim Pertanyaan">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </button>
-        </div>
-      </section>
-
-      <div class="landing-footer-note">
-        Gratis • Menggunakan Google Gemini 3.8 Flash • Dengan sitasi sumber resmi
-      </div>
-
-    </div>
-  </main>
-
-  <!-- ============================================================ -->
-  <!-- 2. CHAT WORKSPACE VIEW (#chat-view)                          -->
-  <!-- ============================================================ -->
-  <main id="chat-view" class="chat-workspace" style="display: none;">
+  <div class="app-layout">
     
-    <!-- Sidebar -->
-    <aside class="chat-sidebar" id="chat-sidebar">
+    <!-- ============================================================ -->
+    <!-- UNIFIED PERSISTENT SIDEBAR                                   -->
+    <!-- ============================================================ -->
+    <aside class="app-sidebar" id="app-sidebar">
+      
+      <!-- Brand Logo & Title -->
+      <a href="#" class="sidebar-brand" id="sidebar-brand">
+        <img src="/static/images/VIKA Logo Dark Mode.png" alt="VIKA" class="sidebar-brand-img">
+        <div class="sidebar-brand-text">
+          <h1>UNPAM AI</h1>
+          <p>Asisten Akademik</p>
+        </div>
+      </a>
+
+      <!-- + Chat Baru Button -->
       <button class="btn-new-chat-pill" id="btn-new-chat">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="12" y1="5" x2="12" y2="19"/>
           <line x1="5" y1="12" x2="19" y2="12"/>
         </svg>
         <span>+ Chat Baru</span>
       </button>
 
-      <div class="sidebar-nav-menu">
-        <div class="sidebar-nav-item" data-target-view="landing">
+      <!-- Primary Sidebar Navigation -->
+      <nav class="sidebar-nav-menu">
+        <div class="sidebar-nav-item active" data-target-view="landing">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
             <polyline points="9 22 9 12 15 12 15 22"/>
           </svg>
           <span>Beranda</span>
         </div>
-        <div class="sidebar-nav-item active" data-target-view="chat">
+        <div class="sidebar-nav-item" data-target-view="chat">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
-          <span>Riwayat Chat</span>
+          <span>Ruang Chat</span>
         </div>
         <div class="sidebar-nav-item" data-target-view="settings">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -194,282 +66,405 @@
           </svg>
           <span>Pengaturan</span>
         </div>
+      </nav>
+
+      <!-- Real Session History Section -->
+      <div class="sidebar-section-header">
+        <span class="sidebar-section-title">Riwayat Chat</span>
+        <button class="clear-history-link" id="btn-clear-history" title="Hapus Semua Riwayat">Hapus</button>
+      </div>
+      <div class="sidebar-history-container" id="sidebar-history-list">
+        <!-- Rendered dynamically from localStorage by chat.js -->
+        <div class="history-empty-note">Belum ada percakapan baru.</div>
       </div>
 
-      <div class="sidebar-section-title">Riwayat Chat</div>
-      <div class="sidebar-history-section">
-        <div class="history-item" data-query="Kapan saja linimasa SK Kalender Akademik 2026/2027 UNPAM?">
-          <div class="history-item-content">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>Linimasa SK Kalender 2026/2027</span>
-          </div>
-          <span class="history-time">2 jam lalu</span>
-        </div>
-        <div class="history-item" data-query="Berapa batas minimal presensi kehadiran UAS?">
-          <div class="history-item-content">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>Syarat Kehadiran UAS</span>
-          </div>
-          <span class="history-time">5 jam lalu</span>
-        </div>
-        <div class="history-item" data-query="Bagaimana prosedur pengajuan cuti kuliah?">
-          <div class="history-item-content">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>Prosedur Cuti Kuliah</span>
-          </div>
-          <span class="history-time">1 hari lalu</span>
-        </div>
-        <div class="history-item" data-query="Bagaimana kurikulum OBE FILKOM Teknik Informatika?">
-          <div class="history-item-content">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>Kurikulum OBE FILKOM</span>
-          </div>
-          <span class="history-time">1 hari lalu</span>
-        </div>
-        <div class="history-item" data-query="Apa syarat skripsi dan magang MBKM di Teknik Informatika?">
-          <div class="history-item-content">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>Panduan Magang MBKM</span>
-          </div>
-          <span class="history-time">2 hari lalu</span>
-        </div>
-      </div>
-
+      <!-- Sidebar Collapse Trigger -->
       <div class="sidebar-footer">
-        <button class="btn-sidebar-toggle" id="btn-toggle-sidebar">
+        <button class="btn-sidebar-toggle" id="btn-sidebar-collapse">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 18l-6-6 6-6"/>
+            <polyline points="15 18 9 12 15 6"/>
           </svg>
           <span>Sembunyikan sidebar</span>
         </button>
       </div>
+
     </aside>
 
-    <!-- Main Chat Workspace -->
-    <section class="chat-main">
+    <!-- ============================================================ -->
+    <!-- WORKSPACE MAIN CONTENT                                       -->
+    <!-- ============================================================ -->
+    <div class="workspace-main">
       
-      <!-- Top Chat Header -->
-      <div class="chat-top-header">
-        <div class="chat-header-title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <span id="chat-topic-title">Linimasa SK Kalender 2026/2027</span>
+      <!-- Top Action Header (Unified, Clean) -->
+      <header class="workspace-top-header">
+        <div class="header-left">
+          <div class="header-title-text" id="header-active-title">
+            <span>Asisten Akademik UNPAM</span>
+          </div>
         </div>
 
-        <div class="chat-header-controls">
-          <!-- Scope Dropdown -->
-          <div class="dropdown-pill">
-            <span>Cakupan:</span>
-            <select id="chat-scope-select">
-              <option value="universitas">Universitas</option>
-              <option value="filkom">FILKOM (Informatika)</option>
-              <option value="all">Semua</option>
-            </select>
+        <div class="header-right-controls">
+          <!-- Custom Dropdown: Cakupan -->
+          <div class="custom-dropdown" id="dropdown-scope">
+            <div class="custom-dropdown-btn">
+              <span>Cakupan:</span>
+              <span class="dropdown-label-text" style="color: var(--accent-blue);">Universitas</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="custom-dropdown-menu">
+              <div class="dropdown-item active" data-value="universitas"><span>Universitas</span> ✓</div>
+              <div class="dropdown-item" data-value="filkom"><span>FILKOM (Informatika)</span></div>
+              <div class="dropdown-item" data-value="all"><span>Semua</span></div>
+            </div>
           </div>
 
-          <!-- Style Dropdown -->
-          <div class="dropdown-pill">
-            <span>Gaya:</span>
-            <select id="chat-style-select">
-              <option value="Kasual">Kasual</option>
-              <option value="Formal">Formal</option>
-              <option value="Ringkas">Ringkas</option>
-            </select>
+          <!-- Custom Dropdown: Gaya -->
+          <div class="custom-dropdown" id="dropdown-style">
+            <div class="custom-dropdown-btn">
+              <span>Gaya:</span>
+              <span class="dropdown-label-text" style="color: var(--accent-blue);">Kasual</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="custom-dropdown-menu">
+              <div class="dropdown-item active" data-value="Kasual"><span>Kasual</span> ✓</div>
+              <div class="dropdown-item" data-value="Formal"><span>Formal</span></div>
+              <div class="dropdown-item" data-value="Ringkas"><span>Ringkas</span></div>
+            </div>
           </div>
 
-          <!-- Profile Badge -->
-          <div class="profile-circle-badge" title="Profil Mahasiswa">Z</div>
+          <!-- Sliding Theme Toggle Switch -->
+          <div class="theme-switch-wrap" title="Ganti Mode Terang / Gelap">
+            <label class="theme-switch">
+              <input type="checkbox" id="theme-switch-checkbox">
+              <span class="theme-slider">
+                <span class="theme-slider-icon">☀️</span>
+                <span class="theme-slider-icon">🌙</span>
+                <span class="slider-thumb"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- Profile Avatar Badge -->
+          <div class="profile-avatar-circle" title="Abu Ziyad Al Katani">Z</div>
         </div>
-      </div>
+      </header>
 
-      <!-- Messages Scroll Area -->
-      <div class="chat-messages-container" id="chat-messages">
-        
-        <!-- Default Welcome Assistant Message -->
-        <div class="message-row-assistant">
-          <div class="bot-avatar-circle">
-            <img src="/static/images/Logo VIKA Light mode.png" alt="VIKA" class="bot-avatar-img">
+      <!-- ========================================================== -->
+      <!-- VIEW 1: LANDING PAGE (SEAMLESS BACKGROUND FADE)            -->
+      <!-- ========================================================== -->
+      <section class="landing-view-wrapper" id="landing-view">
+        <!-- Background with Gedung Viktor & Gradient Fade -->
+        <div class="landing-hero-bg"></div>
+
+        <div class="landing-hero-content">
+          <div class="badge-ai">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/>
+            </svg>
+            <span>AI ✦ Berbasis Google Gemini 3.8 Flash / Llama 3.3</span>
           </div>
-          <div class="assistant-response-card">
-            <div class="assistant-text-content">
-              <strong>Berikut adalah ringkasan linimasa SK Kalender Akademik 2026/2027 Universitas Pamulang (UNPAM) berdasarkan informasi resmi dari kampus:</strong>
-              
-              <!-- Sub-card: Linimasa Penting (Mockup 2 & 4) -->
-              <div class="inner-subcard">
-                <div class="subcard-header">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  <span>Linimasa Penting</span>
+          <h1 class="hero-main-title">Asisten Akademik UNPAM</h1>
+          <p class="hero-main-desc">
+            Tanya apa saja tentang perkuliahan, dapatkan jawaban akurat dari sumber resmi kampus — cepat, mudah, dan terpercaya.
+          </p>
+        </div>
+
+        <!-- 4 Shortcut Topic Cards (Direct on Page) -->
+        <div class="landing-shortcuts-row">
+          <div class="shortcut-box" data-prompt="Kapan saja linimasa SK Kalender Akademik 2026/2027 UNPAM?">
+            <div class="shortcut-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+            <div class="shortcut-text">
+              <h4>Kalender Akademik</h4>
+              <p>2026/2027</p>
+            </div>
+          </div>
+
+          <div class="shortcut-box" data-prompt="Berapa batas minimal presensi kehadiran agar mahasiswa boleh mengikuti UAS UNPAM?">
+            <div class="shortcut-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <div class="shortcut-text">
+              <h4>Kehadiran & UAS</h4>
+              <p>(≥ 75%)</p>
+            </div>
+          </div>
+
+          <div class="shortcut-box" data-prompt="Bagaimana prosedur pengajuan cuti kuliah dan ketentuan pelaksanaan remedial di UNPAM?">
+            <div class="shortcut-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <div class="shortcut-text">
+              <h4>Cuti & Remedial</h4>
+              <p>(SOP LAK)</p>
+            </div>
+          </div>
+
+          <div class="shortcut-box" data-prompt="Apa saja syarat skripsi Teknik Informatika dan bagaimana prinsip kurikulum OBE?">
+            <div class="shortcut-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </div>
+            <div class="shortcut-text">
+              <h4>Kurikulum OBE &</h4>
+              <p>Magang MBKM</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Input Bar (Landing) -->
+        <div class="floating-bottom-input-wrap">
+          <div class="pill-input-box">
+            <button class="input-clip-btn" title="Lampirkan Dokumen">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+              </svg>
+            </button>
+            <input type="text" id="landing-input-field" placeholder="Mulai tanya tentang akademik UNPAM..." autocomplete="off">
+            <button class="btn-send-round" id="btn-landing-send" title="Kirim">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </div>
+          <div class="landing-bottom-note">
+            Gratis • Menggunakan Google Gemini 3.8 Flash • Dengan sitasi sumber resmi
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================== -->
+      <!-- VIEW 2: CHAT WORKSPACE                                     -->
+      <!-- ========================================================== -->
+      <section class="workspace-main" id="chat-view" style="display: none; height: 100%;">
+        <div class="chat-messages-scroll" id="chat-messages">
+          
+          <!-- Default Assistant Greeting Card -->
+          <div class="message-row-assistant">
+            <div class="bot-avatar-circle">
+              <img src="/static/images/VIKA Logo Dark Mode.png" alt="VIKA" class="bot-avatar-img">
+            </div>
+            <div class="assistant-response-card">
+              <div class="assistant-text-content">
+                <strong>Berikut adalah ringkasan linimasa SK Kalender Akademik 2026/2027 Universitas Pamulang (UNPAM) berdasarkan informasi resmi dari kampus:</strong>
+                
+                <div class="inner-subcard">
+                  <div class="subcard-header">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <span>Linimasa Penting</span>
+                  </div>
+                  <table class="subcard-table">
+                    <tr>
+                      <td class="col-event">• Registrasi Administrasi & Akademik</td>
+                      <td class="col-date">1 – 15 Agustus 2026</td>
+                    </tr>
+                    <tr>
+                      <td class="col-event">• Perkuliahan Semester Ganjil</td>
+                      <td class="col-date">24 Agustus – 18 Desember 2026</td>
+                    </tr>
+                    <tr>
+                      <td class="col-event">• Ujian Tengah Semester (UTS)</td>
+                      <td class="col-date">12 – 23 Oktober 2026</td>
+                    </tr>
+                    <tr>
+                      <td class="col-event">• Ujian Akhir Semester (UAS)</td>
+                      <td class="col-date">4 – 16 Januari 2027</td>
+                    </tr>
+                    <tr>
+                      <td class="col-event">• Perkuliahan Semester Genap</td>
+                      <td class="col-date">1 Februari – 28 Mei 2027</td>
+                    </tr>
+                  </table>
                 </div>
-                <table class="subcard-table">
-                  <tr>
-                    <td class="col-event">• Registrasi Administrasi & Akademik</td>
-                    <td class="col-date">1 – 15 Agustus 2026</td>
-                  </tr>
-                  <tr>
-                    <td class="col-event">• Perkuliahan Semester Ganjil</td>
-                    <td class="col-date">24 Agustus – 18 Desember 2026</td>
-                  </tr>
-                  <tr>
-                    <td class="col-event">• Ujian Tengah Semester (UTS)</td>
-                    <td class="col-date">12 – 23 Oktober 2026</td>
-                  </tr>
-                  <tr>
-                    <td class="col-event">• Ujian Akhir Semester (UAS)</td>
-                    <td class="col-date">4 – 16 Januari 2027</td>
-                  </tr>
-                  <tr>
-                    <td class="col-event">• Perkuliahan Semester Genap</td>
-                    <td class="col-date">1 Februari – 28 Mei 2027</td>
-                  </tr>
-                </table>
+
+                <p style="margin-top: 8px;">
+                  Untuk detail lengkap, kamu bisa melihat dokumen resmi SK Kalender Akademik 2026/2027 di situs UNPAM atau melalui bagian akademik fakultas.
+                </p>
               </div>
 
-              <p style="margin-top: 10px;">
-                Untuk detail lengkap, kamu bisa melihat dokumen resmi SK Kalender Akademik 2026/2027 di situs UNPAM atau melalui bagian akademik fakultas.
-              </p>
-            </div>
-
-            <div class="card-footer-meta" style="display: block;">
-              <div class="sources-block">
-                <span class="sources-label">Sumber:</span>
-                <a href="https://unpam.ac.id" target="_blank" class="source-citation-badge">
-                  📌 SK Kalender Akademik 2026/2027 (UNPAM) ↗
-                </a>
+              <div class="card-footer-meta" style="display: block;">
+                <div class="sources-block">
+                  <span class="sources-label">Sumber:</span>
+                  <a href="https://unpam.ac.id" target="_blank" class="source-citation-badge">
+                    📌 SK Kalender Akademik 2026/2027 (UNPAM) ↗
+                  </a>
+                </div>
+                <span class="message-time">10:24</span>
               </div>
-              <span class="message-time">10:24</span>
             </div>
           </div>
+
+          <!-- Recommendation Action Chips -->
+          <div class="recommendation-chips-wrap">
+            <button class="rec-chip-btn" onclick="submitUserPrompt('Berapa syarat kehadiran UAS?')">Syarat kehadiran UAS</button>
+            <button class="rec-chip-btn" onclick="submitUserPrompt('Bagaimana prosedur cuti kuliah?')">Prosedur cuti kuliah</button>
+            <button class="rec-chip-btn" onclick="submitUserPrompt('Apa saja syarat skripsi dan magang MBKM FILKOM?')">Panduan MBKM FILKOM</button>
+          </div>
+
         </div>
 
-        <!-- Action Recommendation Chips -->
-        <div class="recommendation-chips-wrap">
-          <button class="rec-chip-btn" onclick="submitUserPrompt('Berapa syarat minimal kehadiran UAS?')">Syarat kehadiran UAS</button>
-          <button class="rec-chip-btn" onclick="submitUserPrompt('Bagaimana prosedur cuti kuliah?')">Prosedur cuti kuliah</button>
-          <button class="rec-chip-btn" onclick="submitUserPrompt('Apa saja syarat skripsi dan magang MBKM FILKOM?')">Panduan MBKM FILKOM</button>
+        <!-- Floating Chat Input Bar -->
+        <div class="chat-bottom-bar-wrap">
+          <div class="pill-input-box">
+            <button class="input-clip-btn" title="Lampirkan Dokumen">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+              </svg>
+            </button>
+            <input type="text" id="chat-input-field" placeholder="Tanyakan sesuatu..." autocomplete="off">
+            <button class="btn-send-round" id="btn-chat-send" title="Kirim">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </div>
+          <div class="chat-footnote">
+            UNPAM AI dapat membuat kesalahan. Selalu periksa informasi dari sumber resmi.
+          </div>
         </div>
+      </section>
 
-      </div>
+      <!-- ========================================================== -->
+      <!-- VIEW 3: SETTINGS (MOCKUP 5 + API KEY INPUTS)               -->
+      <!-- ========================================================== -->
+      <section class="settings-scroll-area" id="settings-view" style="display: none;">
+        <div class="settings-card-stack">
+          <h2 class="settings-page-title">Pengaturan</h2>
 
-      <!-- Bottom Chat Input Bar -->
-      <div class="chat-bottom-bar-wrap">
-        <div class="floating-input-pill">
-          <button class="input-icon-btn" title="Lampirkan Dokumen">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+          <!-- Card 1: Preferensi Jawaban -->
+          <div class="settings-panel">
+            <h3 class="settings-panel-title">Preferensi Jawaban</h3>
+
+            <div class="settings-row">
+              <label class="settings-label">Gaya Bahasa</label>
+              <div class="segmented-pill-group">
+                <button class="segmented-pill-btn" data-style-choice="Formal">Formal</button>
+                <button class="segmented-pill-btn active" data-style-choice="Kasual">Kasual</button>
+                <button class="segmented-pill-btn" data-style-choice="Ringkas">Ringkas</button>
+              </div>
+            </div>
+
+            <div class="settings-row">
+              <label class="settings-label">Cakupan Informasi</label>
+              <div class="segmented-pill-group">
+                <button class="segmented-pill-btn active" data-scope-choice="universitas">🌐 Universitas</button>
+                <button class="segmented-pill-btn" data-scope-choice="filkom">Fakultas (FILKOM)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Konfigurasi Kunci API Model (BYOK) -->
+          <div class="settings-panel">
+            <h3 class="settings-panel-title">Kunci API Model (Bring Your Own Key)</h3>
+            
+            <div class="settings-row">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label class="settings-label">Google Gemini API Key (Model Default)</label>
+                <span class="api-status-badge inactive" id="gemini-status-badge">Belum Aktif</span>
+              </div>
+              <div class="api-key-input-row">
+                <input type="password" id="input-gemini-key" class="api-key-input-box" placeholder="Masukkan Gemini API Key (AIzaSy...)">
+                <button class="btn-save-key" id="btn-save-gemini-key">Simpan</button>
+              </div>
+              <small style="font-size: 0.78rem; color: var(--text-muted);">
+                Dapatkan gratis tanpa kartu kredit di <a href="https://aistudio.google.com/" target="_blank" style="color: var(--accent-blue);">Google AI Studio ↗</a>.
+              </small>
+            </div>
+
+            <div class="settings-row" style="margin-top: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label class="settings-label">Groq API Key (Llama 3.3 Engine)</label>
+                <span class="api-status-badge inactive" id="groq-status-badge">Belum Aktif</span>
+              </div>
+              <div class="api-key-input-row">
+                <input type="password" id="input-groq-key" class="api-key-input-box" placeholder="Masukkan Groq API Key (gsk_...)">
+                <button class="btn-save-key" id="btn-save-groq-key">Simpan</button>
+              </div>
+              <small style="font-size: 0.78rem; color: var(--text-muted);">
+                Dapatkan gratis untuk menjalankan Llama 3.3 super cepat di <a href="https://console.groq.com/" target="_blank" style="color: var(--accent-blue);">console.groq.com ↗</a>.
+              </small>
+            </div>
+          </div>
+
+          <!-- Card 3: Model AI Switcher -->
+          <div class="settings-panel">
+            <h3 class="settings-panel-title">Model AI Aktif</h3>
+            
+            <div class="model-row-card" id="model-toggle-card" title="Klik untuk beralih antara Gemini & Llama">
+              <div class="model-info-wrap">
+                <div class="model-icon">⚡</div>
+                <div>
+                  <div class="model-title-line">
+                    <h4 id="active-model-name">Google Gemini 3.8 Flash</h4>
+                    <span class="badge-recommended" id="active-model-badge">Rekomendasi</span>
+                  </div>
+                  <p class="model-desc" id="active-model-desc">Cepat, akurat, dan penalaran regulasi teruji.</p>
+                </div>
+              </div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Card 4: Tampilan -->
+          <div class="settings-panel">
+            <h3 class="settings-panel-title">Tampilan</h3>
+
+            <div class="settings-row">
+              <label class="settings-label">Mode Tema</label>
+              <div class="segmented-pill-group">
+                <button class="segmented-pill-btn active" data-theme-choice="light">☀️ Terang</button>
+                <button class="segmented-pill-btn" data-theme-choice="dark">🌙 Gelap</button>
+                <button class="segmented-pill-btn" data-theme-choice="system">💻 Ikuti Sistem</button>
+              </div>
+            </div>
+
+            <div class="settings-row">
+              <label class="settings-label">Bahasa Antarmuka</label>
+              <div class="custom-dropdown-btn" style="width: fit-content;">
+                <span>🌐 Bahasa Indonesia</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info Callout Banner -->
+          <div class="info-callout-banner">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
             </svg>
-          </button>
-          <input type="text" id="chat-input-field" placeholder="Tanyakan sesuatu..." autocomplete="off">
-          <button class="send-circle-btn" id="btn-chat-send" title="Kirim">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </button>
-        </div>
-        <div class="chat-footnote">
-          UNPAM AI dapat membuat kesalahan. Selalu periksa informasi dari sumber resmi.
-        </div>
-      </div>
-
-    </section>
-  </main>
-
-  <!-- ============================================================ -->
-  <!-- 3. SETTINGS VIEW (#settings-view - Mockup 5)                 -->
-  <!-- ============================================================ -->
-  <main id="settings-view" style="display: none;">
-    <div class="settings-container">
-      <h2 class="settings-header-title">Pengaturan</h2>
-
-      <!-- Card 1: Preferensi Jawaban -->
-      <section class="settings-card">
-        <h3 class="settings-card-title">Preferensi Jawaban</h3>
-
-        <div class="settings-field">
-          <label class="settings-field-label">Gaya Bahasa</label>
-          <div class="segmented-control">
-            <button class="segmented-btn" data-style-choice="Formal">Formal</button>
-            <button class="segmented-btn active" data-style-choice="Kasual">Kasual</button>
-            <button class="segmented-btn" data-style-choice="Ringkas">Ringkas</button>
+            <span>
+              UNPAM AI menggunakan sumber resmi Universitas Pamulang untuk memastikan informasi yang diberikan akurat dan terpercaya.
+            </span>
           </div>
-        </div>
 
-        <div class="settings-field">
-          <label class="settings-field-label">Cakupan Informasi</label>
-          <div class="segmented-control">
-            <button class="segmented-btn active" data-scope-choice="universitas">🌐 Universitas</button>
-            <button class="segmented-btn" data-scope-choice="filkom">Fakultas (FILKOM)</button>
-          </div>
         </div>
       </section>
-
-      <!-- Card 2: Model AI -->
-      <section class="settings-card">
-        <h3 class="settings-card-title">Model AI</h3>
-        
-        <div class="model-row-card" id="model-toggle-card">
-          <div class="model-info-wrap">
-            <div class="model-icon">⚡</div>
-            <div>
-              <div class="model-title-line">
-                <h4 id="active-model-name">Google Gemini 3.8 Flash</h4>
-                <span class="badge-recommended" id="active-model-badge">Rekomendasi</span>
-              </div>
-              <p class="model-desc" id="active-model-desc">Cepat, akurat, dan hemat biaya.</p>
-            </div>
-          </div>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </div>
-      </section>
-
-      <!-- Card 3: Tampilan -->
-      <section class="settings-card">
-        <h3 class="settings-card-title">Tampilan</h3>
-
-        <div class="settings-field">
-          <label class="settings-field-label">Mode Tema</label>
-          <div class="segmented-control">
-            <button class="segmented-btn active" data-theme-choice="light">☀️ Terang</button>
-            <button class="segmented-btn" data-theme-choice="dark">🌙 Gelap</button>
-            <button class="segmented-btn" data-theme-choice="system">💻 Ikuti Sistem</button>
-          </div>
-        </div>
-
-        <div class="settings-field">
-          <label class="settings-field-label">Bahasa</label>
-          <div class="dropdown-pill" style="width: fit-content;">
-            <span>🌐</span>
-            <select>
-              <option selected>Bahasa Indonesia</option>
-              <option>English</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      <!-- Card 4: Info Callout Banner -->
-      <div class="info-callout-banner">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="16" x2="12" y2="12"/>
-          <line x1="12" y1="8" x2="12.01" y2="8"/>
-        </svg>
-        <span>
-          UNPAM AI menggunakan sumber resmi Universitas Pamulang untuk memastikan informasi yang diberikan akurat dan terpercaya.
-        </span>
-      </div>
 
     </div>
-  </main>
+  </div>
 
-  <!-- Scripts -->
+  <!-- JavaScript Scripts -->
   <script src="/static/js/app.js"></script>
   <script src="/static/js/chat.js"></script>
 </body>

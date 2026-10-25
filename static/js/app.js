@@ -1,35 +1,38 @@
 /**
- * VIKA App Core Manager
- * Handles SPA navigation, theme switching (Light/Dark), and user preferences.
+ * VIKA App Core Manager (Unified Architecture)
+ * Handles SPA views, sliding theme switcher, custom dropdowns, sidebar collapse/open,
+ * and API Key settings persistence.
  * Author: Abu Ziyad Al Katani (zydalz)
  */
 
 const AppState = {
   currentView: 'landing', // 'landing' | 'chat' | 'settings'
-  theme: localStorage.getItem('vika_theme') || 'light',
+  theme: localStorage.getItem('vika_theme') || 'dark',
   style: localStorage.getItem('vika_style') || 'Kasual',
   scope: localStorage.getItem('vika_scope') || 'universitas',
   modelProvider: localStorage.getItem('vika_model') || 'gemini',
 };
 
-// Initialize App on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
+  initThemeSwitch();
   initNavigation();
-  initSettingsControls();
+  initCustomDropdowns();
   initSidebarControls();
+  initApiKeyManagement();
+  initSettingsPreferences();
 });
 
 // -------------------------------------------------------------
-// THEME MANAGEMENT (Light / Dark)
+// 1. SLIDING THEME TOGGLE SWITCH
 // -------------------------------------------------------------
-function initTheme() {
+function initThemeSwitch() {
   applyTheme(AppState.theme);
 
-  const themeToggleBtn = document.getElementById('theme-toggle-btn');
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      const nextTheme = AppState.theme === 'dark' ? 'light' : 'dark';
+  const switchCheckbox = document.getElementById('theme-switch-checkbox');
+  if (switchCheckbox) {
+    switchCheckbox.checked = AppState.theme === 'dark';
+    switchCheckbox.addEventListener('change', (e) => {
+      const nextTheme = e.target.checked ? 'dark' : 'light';
       applyTheme(nextTheme);
     });
   }
@@ -45,85 +48,270 @@ function applyTheme(theme) {
     document.documentElement.removeAttribute('data-theme');
   }
 
-  // Update logo images based on theme
-  const brandLogos = document.querySelectorAll('.nav-logo, .bot-avatar-img');
+  // Update brand logos
+  const brandLogos = document.querySelectorAll('.nav-logo, .sidebar-brand-img, .bot-avatar-img');
   brandLogos.forEach(logo => {
-    logo.src = theme === 'dark' ? '/static/images/VIKA Logo Dark Mode.png' : '/static/images/Logo VIKA Light mode.png';
+    logo.src = theme === 'dark' 
+      ? '/static/images/VIKA Logo Dark Mode.png' 
+      : '/static/images/Logo VIKA Light mode.png';
   });
 
-  // Update toggle button icon
-  const toggleIcon = document.getElementById('theme-toggle-icon');
-  if (toggleIcon) {
-    toggleIcon.innerHTML = theme === 'dark' 
-      ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
-      : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-  }
+  // Sync checkbox if called externally
+  const switchCheckbox = document.getElementById('theme-switch-checkbox');
+  if (switchCheckbox) switchCheckbox.checked = theme === 'dark';
 
-  // Update settings segmented theme buttons if present
+  // Sync settings segmented buttons
   document.querySelectorAll('[data-theme-choice]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.themeChoice === theme);
   });
 }
 
 // -------------------------------------------------------------
-// SPA NAVIGATION (Landing, Chat, Settings)
+// 2. UNIFIED SPA NAVIGATION (Landing, Chat, Settings)
 // -------------------------------------------------------------
 function initNavigation() {
   const landingView = document.getElementById('landing-view');
   const chatView = document.getElementById('chat-view');
   const settingsView = document.getElementById('settings-view');
+  const headerTitle = document.getElementById('header-active-title');
 
   window.switchView = function(viewName) {
     AppState.currentView = viewName;
 
     // View visibility
-    if (landingView) landingView.style.display = viewName === 'landing' ? 'block' : 'none';
+    if (landingView) landingView.style.display = viewName === 'landing' ? 'flex' : 'none';
     if (chatView) chatView.style.display = viewName === 'chat' ? 'flex' : 'none';
     if (settingsView) settingsView.style.display = viewName === 'settings' ? 'block' : 'none';
 
-    // Navbar active class
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.classList.toggle('active', link.dataset.targetView === viewName);
-    });
-
-    // Sidebar active class
+    // Sidebar active item highlight
     document.querySelectorAll('.sidebar-nav-item').forEach(item => {
       item.classList.toggle('active', item.dataset.targetView === viewName);
     });
 
-    // Auto-focus chat input when switching to chat
+    // Update Header Title Text
+    if (headerTitle) {
+      if (viewName === 'landing') {
+        headerTitle.innerHTML = '<span>Asisten Akademik UNPAM</span>';
+      } else if (viewName === 'chat') {
+        headerTitle.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <span id="chat-topic-label">Linimasa SK Kalender 2026/2027</span>';
+      } else if (viewName === 'settings') {
+        headerTitle.innerHTML = '<span>Pengaturan Sistem</span>';
+      }
+    }
+
     if (viewName === 'chat') {
       const chatInput = document.getElementById('chat-input-field');
       if (chatInput) chatInput.focus();
     }
   };
 
-  // Nav brand click -> go to landing
-  document.getElementById('nav-brand')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    switchView('landing');
-  });
-
-  // "Mulai Sekarang" button -> go to chat
-  document.getElementById('btn-start-chat')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    switchView('chat');
-  });
-
-  // Nav links
+  // Sidebar Nav Items
   document.querySelectorAll('[data-target-view]').forEach(elem => {
     elem.addEventListener('click', (e) => {
       e.preventDefault();
       switchView(elem.dataset.targetView);
     });
   });
+
+  // Sidebar Brand Click -> Landing
+  document.getElementById('sidebar-brand')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchView('landing');
+  });
 }
 
 // -------------------------------------------------------------
-// SETTINGS PREFERENCES
+// 3. CUSTOM DROPDOWNS (Cakupan & Gaya)
 // -------------------------------------------------------------
-function initSettingsControls() {
-  // 1. Style Segmented Buttons
+function initCustomDropdowns() {
+  // Setup Dropdown Scope
+  setupDropdown('dropdown-scope', (value) => {
+    AppState.scope = value;
+    localStorage.setItem('vika_scope', value);
+    // Sync Settings Scope
+    document.querySelectorAll('[data-scope-choice]').forEach(b => {
+      b.classList.toggle('active', b.dataset.scopeChoice === value);
+    });
+  });
+
+  // Setup Dropdown Style
+  setupDropdown('dropdown-style', (value) => {
+    AppState.style = value;
+    localStorage.setItem('vika_style', value);
+    // Sync Settings Style
+    document.querySelectorAll('[data-style-choice]').forEach(b => {
+      b.classList.toggle('active', b.dataset.styleChoice.toLowerCase() === value.toLowerCase());
+    });
+  });
+
+  // Close dropdowns on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.custom-dropdown')) {
+      document.querySelectorAll('.custom-dropdown').forEach(d => d.classList.remove('open'));
+    }
+  });
+}
+
+function setupDropdown(dropdownId, onSelectCallback) {
+  const container = document.getElementById(dropdownId);
+  if (!container) return;
+
+  const btn = container.querySelector('.custom-dropdown-btn');
+  const labelSpan = container.querySelector('.dropdown-label-text');
+  const items = container.querySelectorAll('.dropdown-item');
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    // Close other dropdowns
+    document.querySelectorAll('.custom-dropdown').forEach(d => {
+      if (d !== container) d.classList.remove('open');
+    });
+    container.classList.toggle('open');
+  });
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      items.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+
+      const val = item.dataset.value;
+      const text = item.querySelector('span')?.textContent || item.textContent;
+      if (labelSpan) labelSpan.textContent = text.trim();
+
+      container.classList.remove('open');
+      if (onSelectCallback) onSelectCallback(val);
+    });
+  });
+}
+
+// -------------------------------------------------------------
+// 4. SIDEBAR TOGGLE & RESTORE
+// -------------------------------------------------------------
+function initSidebarControls() {
+  const sidebar = document.getElementById('app-sidebar');
+  const collapseBtn = document.getElementById('btn-sidebar-collapse');
+  const openBtn = document.getElementById('sidebar-open-btn');
+
+  if (collapseBtn && sidebar) {
+    collapseBtn.addEventListener('click', () => {
+      sidebar.classList.add('collapsed');
+      if (openBtn) openBtn.style.display = 'flex';
+    });
+  }
+
+  if (openBtn && sidebar) {
+    openBtn.addEventListener('click', () => {
+      sidebar.classList.remove('collapsed');
+      openBtn.style.display = 'none';
+    });
+  }
+}
+
+// -------------------------------------------------------------
+// 5. API KEY MANAGEMENT (Settings Form & Status)
+// -------------------------------------------------------------
+async function initApiKeyManagement() {
+  const geminiInput = document.getElementById('input-gemini-key');
+  const groqInput = document.getElementById('input-groq-key');
+  const saveGeminiBtn = document.getElementById('btn-save-gemini-key');
+  const saveGroqBtn = document.getElementById('btn-save-groq-key');
+  const geminiBadge = document.getElementById('gemini-status-badge');
+  const groqBadge = document.getElementById('groq-status-badge');
+
+  // Fetch current status from backend
+  try {
+    const res = await fetch('/api/settings/keys');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.gemini_configured) {
+        if (geminiBadge) {
+          geminiBadge.className = 'api-status-badge active';
+          geminiBadge.textContent = '✓ Aktif';
+        }
+        if (geminiInput && data.gemini_masked) {
+          geminiInput.placeholder = data.gemini_masked;
+        }
+      }
+      if (data.groq_configured) {
+        if (groqBadge) {
+          groqBadge.className = 'api-status-badge active';
+          groqBadge.textContent = '✓ Aktif';
+        }
+        if (groqInput && data.groq_masked) {
+          groqInput.placeholder = data.groq_masked;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Could not check keys status:', e);
+  }
+
+  // Save Gemini Key
+  if (saveGeminiBtn && geminiInput) {
+    saveGeminiBtn.addEventListener('click', async () => {
+      const keyVal = geminiInput.value.trim();
+      if (!keyVal) return;
+
+      saveGeminiBtn.textContent = 'Menyimpan...';
+      try {
+        const res = await fetch('/api/settings/keys', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ gemini_key: keyVal }),
+        });
+        if (res.ok) {
+          saveGeminiBtn.textContent = '✓ Tersimpan';
+          geminiInput.value = '';
+          geminiInput.placeholder = keyVal.slice(0, 4) + '••••••••' + keyVal.slice(-4);
+          if (geminiBadge) {
+            geminiBadge.className = 'api-status-badge active';
+            geminiBadge.textContent = '✓ Aktif';
+          }
+          setTimeout(() => { saveGeminiBtn.textContent = 'Simpan'; }, 2000);
+        }
+      } catch (err) {
+        saveGeminiBtn.textContent = 'Gagal';
+        setTimeout(() => { saveGeminiBtn.textContent = 'Simpan'; }, 2000);
+      }
+    });
+  }
+
+  // Save Groq Key
+  if (saveGroqBtn && groqInput) {
+    saveGroqBtn.addEventListener('click', async () => {
+      const keyVal = groqInput.value.trim();
+      if (!keyVal) return;
+
+      saveGroqBtn.textContent = 'Menyimpan...';
+      try {
+        const res = await fetch('/api/settings/keys', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ groq_key: keyVal }),
+        });
+        if (res.ok) {
+          saveGroqBtn.textContent = '✓ Tersimpan';
+          groqInput.value = '';
+          groqInput.placeholder = keyVal.slice(0, 4) + '••••••••' + keyVal.slice(-4);
+          if (groqBadge) {
+            groqBadge.className = 'api-status-badge active';
+            groqBadge.textContent = '✓ Aktif';
+          }
+          setTimeout(() => { saveGroqBtn.textContent = 'Simpan'; }, 2000);
+        }
+      } catch (err) {
+        saveGroqBtn.textContent = 'Gagal';
+        setTimeout(() => { saveGroqBtn.textContent = 'Simpan'; }, 2000);
+      }
+    });
+  }
+}
+
+// -------------------------------------------------------------
+// 6. SETTINGS PAGE SEGMENTED BUTTONS
+// -------------------------------------------------------------
+function initSettingsPreferences() {
+  // Style Segmented Buttons
   document.querySelectorAll('[data-style-choice]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.styleChoice.toLowerCase() === AppState.style.toLowerCase());
     btn.addEventListener('click', () => {
@@ -132,13 +320,16 @@ function initSettingsControls() {
       AppState.style = btn.dataset.styleChoice;
       localStorage.setItem('vika_style', AppState.style);
 
-      // Sync with Chat Header Dropdown
-      const chatStyleSelect = document.getElementById('chat-style-select');
-      if (chatStyleSelect) chatStyleSelect.value = AppState.style;
+      // Sync header dropdown label
+      const styleDropdown = document.getElementById('dropdown-style');
+      if (styleDropdown) {
+        const label = styleDropdown.querySelector('.dropdown-label-text');
+        if (label) label.textContent = AppState.style;
+      }
     });
   });
 
-  // 2. Scope Segmented Buttons
+  // Scope Segmented Buttons
   document.querySelectorAll('[data-scope-choice]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.scopeChoice === AppState.scope);
     btn.addEventListener('click', () => {
@@ -147,13 +338,16 @@ function initSettingsControls() {
       AppState.scope = btn.dataset.scopeChoice;
       localStorage.setItem('vika_scope', AppState.scope);
 
-      // Sync with Chat Header Dropdown
-      const chatScopeSelect = document.getElementById('chat-scope-select');
-      if (chatScopeSelect) chatScopeSelect.value = AppState.scope;
+      // Sync header dropdown label
+      const scopeDropdown = document.getElementById('dropdown-scope');
+      if (scopeDropdown) {
+        const label = scopeDropdown.querySelector('.dropdown-label-text');
+        if (label) label.textContent = btn.textContent.trim();
+      }
     });
   });
 
-  // 3. Theme Segmented Buttons on Settings Page
+  // Theme Segmented Buttons on Settings Page
   document.querySelectorAll('[data-theme-choice]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.themeChoice === AppState.theme);
     btn.addEventListener('click', () => {
@@ -161,7 +355,7 @@ function initSettingsControls() {
     });
   });
 
-  // 4. Model Selector Toggle
+  // Model Toggle Card
   const modelToggleCard = document.getElementById('model-toggle-card');
   if (modelToggleCard) {
     modelToggleCard.addEventListener('click', () => {
@@ -195,22 +389,5 @@ function updateModelCardDisplay() {
       modelBadgeElem.style.background = '';
       modelBadgeElem.style.color = '';
     }
-  }
-}
-
-// -------------------------------------------------------------
-// SIDEBAR TOGGLE
-// -------------------------------------------------------------
-function initSidebarControls() {
-  const sidebar = document.getElementById('chat-sidebar');
-  const toggleBtn = document.getElementById('btn-toggle-sidebar');
-  
-  if (toggleBtn && sidebar) {
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('collapsed');
-      toggleBtn.innerHTML = sidebar.classList.contains('collapsed')
-        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg> <span>Tampilkan</span>'
-        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg> <span>Sembunyikan sidebar</span>';
-    });
   }
 }

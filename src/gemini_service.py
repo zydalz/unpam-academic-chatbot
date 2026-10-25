@@ -40,19 +40,29 @@ class AIService:
         groq_api_key: Optional[str] = None,
         knowledge_base: Optional[KnowledgeBase] = None,
     ) -> None:
-        self.gemini_api_key = gemini_api_key or GEMINI_API_KEY
-        self.groq_api_key = groq_api_key or GROQ_API_KEY
+        self.gemini_api_key = (gemini_api_key or GEMINI_API_KEY).strip()
+        self.groq_api_key = (groq_api_key or GROQ_API_KEY).strip()
         self.gemini_model = GEMINI_MODEL
         self.groq_model = GROQ_MODEL
         self.kb = knowledge_base or KnowledgeBase()
         self.ext_search = ExternalSearchService(enabled=True)
         self._gemini_client = None
+        self._gemini_sdk_type = "none"
         self._init_gemini_client()
+
+    def set_api_keys(self, gemini_key: Optional[str] = None, groq_key: Optional[str] = None) -> None:
+        """Update API keys dynamically at runtime."""
+        if gemini_key is not None:
+            self.gemini_api_key = gemini_key.strip()
+            self._init_gemini_client()
+        if groq_key is not None:
+            self.groq_api_key = groq_key.strip()
 
     def _init_gemini_client(self) -> None:
         """Initialize Google GenAI client."""
-        if not self.gemini_api_key or self.gemini_api_key == "your_gemini_api_key_here":
+        if not self.gemini_api_key or self.gemini_api_key in ["your_gemini_api_key_here", ""]:
             self._gemini_client = None
+            self._gemini_sdk_type = "none"
             return
 
         try:
@@ -84,21 +94,21 @@ class AIService:
         style: str = "Kasual",
         scope: str = "all",
         provider: str = "gemini",
+        gemini_key: Optional[str] = None,
+        groq_key: Optional[str] = None,
         chat_history_summary: Optional[str] = None,
     ) -> Tuple[Generator[str, None, None], List[SearchResult], Dict[str, Any]]:
-        """Retrieve relevant context and stream the grounded answer.
+        """Retrieve relevant context and stream the grounded answer."""
+        if gemini_key:
+            self.set_api_keys(gemini_key=gemini_key)
+        if groq_key:
+            self.set_api_keys(groq_key=groq_key)
 
-        Returns:
-            Tuple of:
-            - text_chunk_generator (Generator yielding text strings)
-            - list_of_search_results (List[SearchResult])
-            - metadata_container (Dict holding citations, recommendations, provider used)
-        """
         # 1. Retrieve knowledge from KnowledgeBase
         search_results = self.kb.search(query=query, scope=scope, top_k=3)
         context_text = self.kb.format_context_for_prompt(search_results)
 
-        # 2. Check for external fallback if results are empty or query touches portal/bantuan
+        # 2. Check for external fallback if needed
         external_context = ""
         ext_info = None
         if not search_results or any(k in query.lower() for k in ["bantuan", "sispema", "rekomendasi", "viktor", "portal"]):
@@ -138,7 +148,7 @@ class AIService:
         # Dynamic default recommendations based on query keywords
         default_recs = ["Syarat Kehadiran UAS", "Prosedur Cuti Kuliah", "Panduan Tugas Akhir"]
         q_low = query.lower()
-        if "skripsi" in q_low or "tugas akhir" in q_low:
+        if "skripsi" in q_low or "tugas akhir" in q_low or "sidang" in q_low:
             default_recs = ["Syarat Sidang UAPS", "Jalur Publikasi Jurnal", "Batas SKS Skripsi"]
         elif "uts" in q_low or "uas" in q_low or "jadwal" in q_low or "kalender" in q_low:
             default_recs = ["Batas Presensi 75%", "Jadwal Revisi KRS", "Prosedur Remedial"]
@@ -149,24 +159,20 @@ class AIService:
 
         # Provider routing
         if provider.lower() in ["llama", "groq"]:
-            return self._stream_groq(full_prompt, system_instruction, metadata_container), search_results, metadata_container
+            return self._stream_groq(full_prompt, system_instruction, metadata_container, search_results), search_results, metadata_container
         else:
-            return self._stream_gemini(full_prompt, system_instruction, context_text, metadata_container), search_results, metadata_container
+            return self._stream_gemini(full_prompt, system_instruction, metadata_container, search_results), search_results, metadata_container
 
     def _stream_gemini(
         self,
         full_prompt: str,
         system_instruction: str,
-        context_text: str,
         metadata_container: Dict[str, Any],
+        search_results: List[SearchResult],
     ) -> Generator[str, None, None]:
-        """Stream output from Google Gemini."""
+        """Stream output from Google Gemini or render structured document fallback."""
         if not self.is_gemini_configured():
-            yield (
-                "Berikut adalah ringkasan kebijakan resmi yang berhasil ditemukan dari dokumen kampus:\n\n"
-                + context_text + "\n\n"
-                "*(Catatan: Masukkan GEMINI_API_KEY Anda di menu Pengaturan atau file `.env` untuk mengaktifkan pemrosesan narasi penuh model Gemini 3.8 Flash).*"
-            )
+            yield from self._render_structured_fallback(search_results)
             return
 
         model_attempts = [self.gemini_model] + [m for m in MODEL_CANDIDATES if m != self.gemini_model]
@@ -177,7 +183,7 @@ class AIService:
             try:
                 if self._gemini_sdk_type == "new":
                     from google.genai import types
-                    response = self._gemini_client.models.generate_content_stream(
+                    response = self._client.models.generate_content_stream(
                         model=m_name,
                         contents=full_prompt,
                         config=types.GenerateContentConfig(
@@ -188,7 +194,6 @@ class AIService:
                     for chunk in response:
                         if chunk.text:
                             full_accumulated += chunk.text
-                            # Clean RECS tags on the fly so user doesn't see raw HTML tags
                             clean_chunk = re.sub(r"<!--\s*RECS:.*?-->", "", chunk.text)
                             if clean_chunk:
                                 yield clean_chunk
@@ -197,7 +202,7 @@ class AIService:
                     return
 
                 elif self._gemini_sdk_type == "legacy":
-                    model = self._gemini_client.GenerativeModel(
+                    model = self._client.GenerativeModel(
                         model_name=m_name,
                         system_instruction=system_instruction,
                     )
@@ -221,22 +226,21 @@ class AIService:
                 last_error = exc
                 continue
 
-        yield f"❌ Terjadi kendala pada layanan Gemini: `{last_error}`. Silakan periksa kembali kuota API Key Anda."
+        # If call failed (e.g. quota limit), provide graceful structured answer from docs
+        yield from self._render_structured_fallback(search_results, error_note=str(last_error))
 
     def _stream_groq(
         self,
         full_prompt: str,
         system_instruction: str,
         metadata_container: Dict[str, Any],
+        search_results: List[SearchResult],
     ) -> Generator[str, None, None]:
         """Stream output from Groq API (Llama 3.3 70B)."""
         if not self.is_groq_configured():
-            yield (
-                "⚠️ **Kunci API Groq (Llama 3.3) Belum Dikonfigurasi**\n\n"
-                "Untuk menggunakan model Llama 3.3 70B via Groq, masukkan **Groq API Key** Anda "
-                "di halaman **Pengaturan** atau simpan di file `.env` (`GROQ_API_KEY=gsk_...`).\n\n"
-                "*(Dapatkan API key secara gratis di [console.groq.com](https://console.groq.com)).*\n\n"
-                "Kamu juga bisa beralih kembali ke **Google Gemini 3.8 Flash** di menu Pengaturan."
+            yield from self._render_structured_fallback(
+                search_results,
+                error_note="Kunci API Groq (Llama 3.3) belum diisi. Masukkan di halaman Pengaturan untuk mengaktifkan penalaran penuh Llama 3.3."
             )
             return
 
@@ -287,6 +291,39 @@ class AIService:
         except Exception as exc:
             logger.error("Groq streaming error: %s", exc)
             yield f"❌ Terjadi kesalahan saat menghubungi API Groq (Llama 3.3): `{str(exc)}`"
+
+    def _render_structured_fallback(
+        self,
+        search_results: List[SearchResult],
+        error_note: Optional[str] = None,
+    ) -> Generator[str, None, None]:
+        """Render a clean, human-readable structured response directly from documents."""
+        if not search_results:
+            yield "Mohon maaf, informasi mengenai hal tersebut belum tercantum dalam basis data resmi yang tersedia saat ini. Kamu bisa melakukan konfirmasi langsung ke loket atau sekretariat terkait di kampus."
+            return
+
+        top_doc = search_results[0]
+        yield f"Berikut adalah ringkasan kebijakan resmi dari **{top_doc.doc_title}** ({top_doc.decree_number}):\n\n"
+
+        # Format content cleanly (clean headings, strip raw markdown table pipes into lists)
+        content = top_doc.content
+        lines = [line.strip() for line in content.split("\n") if line.strip()]
+        for line in lines:
+            if line.startswith("## ") or line.startswith("### "):
+                clean_title = re.sub(r"^#+\s*", "", line)
+                yield f"\n### {clean_title}\n"
+            elif "|" in line and not line.startswith("||"):
+                # Table row -> clean bullet point
+                parts = [p.strip() for p in line.split("|") if p.strip()]
+                if len(parts) >= 2 and not all(c in "-:" for c in "".join(parts)):
+                    yield f"- **{parts[0]}**: {parts[1]}\n"
+            elif not line.startswith("||"):
+                yield f"{line}\n"
+
+        if error_note:
+            yield f"\n*(Catatan Konfigurasi: {error_note})*\n"
+        else:
+            yield "\n*(💡 Tips: Kamu bisa memasukkan Kunci API Gemini atau Groq di menu Pengaturan agar VIKA dapat berinteraksi dengan penalaran AI penuh).*\n"
 
     def _extract_recs(self, text: str, metadata_container: Dict[str, Any]) -> None:
         """Extract recommendation chips from raw model output."""

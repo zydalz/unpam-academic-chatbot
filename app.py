@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -26,6 +27,7 @@ from src.config import (
     APP_FULL_NAME,
     APP_NAME,
     APP_TAGLINE,
+    ROOT_DIR,
     SERVER_HOST,
     SERVER_PORT,
     STATIC_DIR,
@@ -69,7 +71,14 @@ class ChatRequest(BaseModel):
     style: str = Field(default="Kasual", description="Gaya bahasa (Kasual, Formal, Ringkas)")
     scope: str = Field(default="universitas", description="Cakupan rujukan (universitas, filkom, all)")
     provider: str = Field(default="gemini", description="Penyedia model (gemini atau llama/groq)")
+    gemini_key: Optional[str] = Field(default=None, description="Kunci API Gemini opsional dari peramban")
+    groq_key: Optional[str] = Field(default=None, description="Kunci API Groq opsional dari peramban")
     history_summary: Optional[str] = Field(default=None, description="Ringkasan riwayat percakapan")
+
+
+class KeysUpdateRequest(BaseModel):
+    gemini_key: Optional[str] = Field(default=None, description="Kunci API Gemini baru")
+    groq_key: Optional[str] = Field(default=None, description="Kunci API Groq baru")
 
 
 # -------------------------------------------------------------
@@ -98,6 +107,66 @@ async def health_check() -> Dict[str, Any]:
     }
 
 
+@app.get("/api/settings/keys")
+async def get_keys_status() -> Dict[str, Any]:
+    """Return status and masked keys for display in settings UI."""
+    def mask_key(k: str) -> str:
+        if not k or len(k) < 8:
+            return ""
+        return k[:4] + "••••••••" + k[-4:]
+
+    return {
+        "gemini_configured": ai_service.is_gemini_configured(),
+        "groq_configured": ai_service.is_groq_configured(),
+        "gemini_masked": mask_key(ai_service.gemini_api_key),
+        "groq_masked": mask_key(ai_service.groq_api_key),
+    }
+
+
+@app.post("/api/settings/keys")
+async def update_api_keys(payload: KeysUpdateRequest) -> Dict[str, Any]:
+    """Save new API keys into memory and persist to .env file."""
+    env_path = ROOT_DIR / ".env"
+    env_lines = []
+    if env_path.exists():
+        env_lines = env_path.read_text(encoding="utf-8").splitlines()
+
+    def update_or_append(lines: List[str], key: str, val: str) -> List[str]:
+        found = False
+        new_lines = []
+        for line in lines:
+            if line.startswith(f"{key}=") or line.startswith(f"{key} ="):
+                new_lines.append(f"{key}={val}")
+                found = True
+            else:
+                new_lines.append(line)
+        if not found:
+            new_lines.append(f"{key}={val}")
+        return new_lines
+
+    if payload.gemini_key is not None:
+        val = payload.gemini_key.strip()
+        ai_service.set_api_keys(gemini_key=val)
+        env_lines = update_or_append(env_lines, "GEMINI_API_KEY", val)
+
+    if payload.groq_key is not None:
+        val = payload.groq_key.strip()
+        ai_service.set_api_keys(groq_key=val)
+        env_lines = update_or_append(env_lines, "GROQ_API_KEY", val)
+
+    try:
+        env_path.write_text("\n".join(env_lines) + "\n", encoding="utf-8")
+    except Exception as e:
+        logger.warning("Could not write to .env file: %s", e)
+
+    return {
+        "success": True,
+        "message": "Kunci API berhasil disimpan dan diaktifkan.",
+        "gemini_configured": ai_service.is_gemini_configured(),
+        "groq_configured": ai_service.is_groq_configured(),
+    }
+
+
 @app.get("/api/documents")
 async def list_documents() -> List[Dict[str, Any]]:
     """Return the official registered catalog of 5 UNPAM reference documents."""
@@ -118,6 +187,8 @@ async def chat_stream_endpoint(request: ChatRequest) -> StreamingResponse:
         style=request.style,
         scope=request.scope,
         provider=request.provider,
+        gemini_key=request.gemini_key,
+        groq_key=request.groq_key,
         chat_history_summary=request.history_summary,
     )
 
