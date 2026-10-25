@@ -8,8 +8,6 @@ Author: Abu Ziyad Al Katani (zydalz)
 License: MIT License
 """
 
-from __future__ import annotations
-
 import json
 import logging
 import os
@@ -22,6 +20,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
 from src.config import (
     ADMIN_PIN,
@@ -39,12 +40,17 @@ from src.knowledge_base import KnowledgeBase
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
+# Initialize Rate Limiter
+limiter = Limiter(key_func=get_remote_address, default_limits=["120/minute"])
+
 # Initialize FastAPI application
 app = FastAPI(
     title=f"{APP_NAME} - {APP_FULL_NAME}",
     description="Asisten Virtual Akademik Universitas Pamulang berbasis Gemini & Llama RAG",
     version="2.0.0",
 )
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # CORS Middleware
 app.add_middleware(
@@ -130,7 +136,8 @@ async def get_keys_status() -> Dict[str, Any]:
 
 
 @app.post("/api/settings/verify-pin")
-async def verify_admin_pin(payload: VerifyPinRequest) -> Dict[str, Any]:
+@limiter.limit("10/minute")
+async def verify_admin_pin(request: Request, payload: VerifyPinRequest) -> Dict[str, Any]:
     """Verify developer admin PIN before granting access to API key management."""
     if payload.pin.strip() == str(ADMIN_PIN).strip():
         return {
@@ -198,22 +205,23 @@ async def list_documents() -> List[Dict[str, Any]]:
 
 
 @app.post("/api/chat")
-async def chat_stream_endpoint(request: ChatRequest) -> StreamingResponse:
+@limiter.limit("20/minute")
+async def chat_stream_endpoint(request: Request, chat_req: ChatRequest) -> StreamingResponse:
     """Server-Sent Events (SSE) streaming endpoint for grounded academic chat."""
-    query = request.query.strip()
+    query = chat_req.query.strip()
     if not query:
         raise HTTPException(status_code=400, detail="Query cannot be empty")
 
-    logger.info("Received query: '%s' | style=%s, scope=%s, provider=%s", query, request.style, request.scope, request.provider)
+    logger.info("Received query: '%s' | style=%s, scope=%s, provider=%s", query, chat_req.style, chat_req.scope, chat_req.provider)
 
     generator, search_results, meta_container = ai_service.answer_query_stream(
         query=query,
-        style=request.style,
-        scope=request.scope,
-        provider=request.provider,
-        gemini_key=request.gemini_key,
-        groq_key=request.groq_key,
-        chat_history_summary=request.history_summary,
+        style=chat_req.style,
+        scope=chat_req.scope,
+        provider=chat_req.provider,
+        gemini_key=chat_req.gemini_key,
+        groq_key=chat_req.groq_key,
+        chat_history_summary=chat_req.history_summary,
     )
 
     async def event_publisher():

@@ -121,6 +121,22 @@ function formatRelativeTime(timestamp) {
   return d.toLocaleDateString([], { day: 'numeric', month: 'short' });
 }
 
+function getCurrentSessionHistorySummary() {
+  if (!currentSessionId) return null;
+  const sessions = getSessions();
+  const session = sessions.find(s => s.id === currentSessionId);
+  if (!session || !session.messages || session.messages.length === 0) return null;
+
+  // Retrieve last 4 messages (2 conversation turns) to provide context
+  const recent = session.messages.slice(-4);
+  const lines = recent.map(m => {
+    const speaker = m.role === 'user' ? 'Mahasiswa' : 'VIKA';
+    const text = m.content.length > 200 ? m.content.slice(0, 200) + '...' : m.content;
+    return `${speaker}: ${text.replace(/\n+/g, ' ')}`;
+  });
+  return lines.join('\n');
+}
+
 // -------------------------------------------------------------
 // CHAT SUBMISSION & SMOOTH TYPEWRITER STREAMING
 // -------------------------------------------------------------
@@ -220,11 +236,13 @@ async function submitUserPrompt(promptText) {
 
   // 4. Connect to SSE Stream with Smooth Typewriter Queue
   try {
+    const historySummary = getCurrentSessionHistorySummary();
     const payload = {
       query: promptText,
       style: AppState.style,
       scope: AppState.scope,
       provider: AppState.modelProvider,
+      history_summary: historySummary,
     };
 
     const response = await fetch('/api/chat', {

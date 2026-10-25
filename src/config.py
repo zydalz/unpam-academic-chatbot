@@ -49,6 +49,12 @@ GROQ_MODEL_CANDIDATES = [
     "openai/gpt-oss-20b",
 ]
 
+# AI Generation Hyperparameters (Data Science Sampling & Anti-Hallucination)
+LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.2"))
+LLM_TOP_P = float(os.getenv("LLM_TOP_P", "0.90"))
+LLM_TOP_K = int(os.getenv("LLM_TOP_K", "40"))
+LLM_MAX_OUTPUT_TOKENS = int(os.getenv("LLM_MAX_OUTPUT_TOKENS", "2048"))
+
 # Application Branding Constants
 APP_NAME = "VIKA"
 APP_FULL_NAME = "Virtual Interactive Knowledge Assistant"

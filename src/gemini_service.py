@@ -22,6 +22,10 @@ from src.config import (
     GROQ_API_KEY,
     GROQ_MODEL,
     GROQ_MODEL_CANDIDATES,
+    LLM_MAX_OUTPUT_TOKENS,
+    LLM_TEMPERATURE,
+    LLM_TOP_K,
+    LLM_TOP_P,
     MODEL_CANDIDATES,
 )
 from src.external_search import ExternalSearchService
@@ -44,6 +48,10 @@ class AIService:
         self.groq_api_key = (groq_api_key or GROQ_API_KEY).strip()
         self.gemini_model = GEMINI_MODEL
         self.groq_model = GROQ_MODEL
+        self.temperature = LLM_TEMPERATURE
+        self.top_p = LLM_TOP_P
+        self.top_k = LLM_TOP_K
+        self.max_output_tokens = LLM_MAX_OUTPUT_TOKENS
         self.kb = knowledge_base or KnowledgeBase()
         self.ext_search = ExternalSearchService(enabled=True)
         self._gemini_client = None
@@ -188,7 +196,9 @@ class AIService:
                         contents=full_prompt,
                         config=types.GenerateContentConfig(
                             system_instruction=system_instruction,
-                            temperature=0.3,
+                            temperature=self.temperature,
+                            top_p=self.top_p,
+                            max_output_tokens=self.max_output_tokens,
                         ),
                     )
                     for chunk in response:
@@ -209,7 +219,11 @@ class AIService:
                     response = model.generate_content(
                         full_prompt,
                         stream=True,
-                        generation_config={"temperature": 0.3},
+                        generation_config={
+                            "temperature": self.temperature,
+                            "top_p": self.top_p,
+                            "max_output_tokens": self.max_output_tokens,
+                        },
                     )
                     for chunk in response:
                         if chunk.text:
@@ -260,7 +274,9 @@ class AIService:
                     {"role": "system", "content": system_instruction},
                     {"role": "user", "content": full_prompt},
                 ],
-                "temperature": 0.3,
+                "temperature": self.temperature,
+                "top_p": self.top_p,
+                "max_tokens": self.max_output_tokens,
                 "stream": True,
             }
 
