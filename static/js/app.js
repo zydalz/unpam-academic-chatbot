@@ -203,19 +203,14 @@ function initSidebarControls() {
   const sidebar = document.getElementById('app-sidebar');
   const collapseBtn = document.getElementById('btn-sidebar-collapse');
   const headerToggleBtn = document.getElementById('btn-header-sidebar-toggle');
-  const openBtn = document.getElementById('sidebar-open-btn');
 
   function toggleSidebar() {
     if (!sidebar) return;
-    const isCollapsed = sidebar.classList.toggle('collapsed');
-    if (openBtn) {
-      openBtn.style.display = isCollapsed ? 'flex' : 'none';
-    }
+    sidebar.classList.toggle('collapsed');
   }
 
   if (collapseBtn) collapseBtn.addEventListener('click', toggleSidebar);
   if (headerToggleBtn) headerToggleBtn.addEventListener('click', toggleSidebar);
-  if (openBtn) openBtn.addEventListener('click', toggleSidebar);
 }
 
 // -------------------------------------------------------------

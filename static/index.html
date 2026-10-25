@@ -12,14 +12,6 @@
 </head>
 <body>
 
-  <!-- Floating Button to Open Sidebar when Collapsed (SVG Icon) -->
-  <button class="sidebar-open-btn" id="sidebar-open-btn" title="Buka Sidebar">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-      <line x1="9" y1="3" x2="9" y2="21"/>
-    </svg>
-  </button>
-
   <div class="app-layout">
     
     <!-- ============================================================ -->
@@ -31,8 +23,8 @@
       <a href="#" class="sidebar-brand" id="sidebar-brand">
         <img src="/static/images/VIKA Logo Dark Mode.png" alt="VIKA" class="sidebar-brand-img">
         <div class="sidebar-brand-text">
-          <h1>UNPAM AI</h1>
-          <p>Asisten Akademik</p>
+          <h1>VIKA AI</h1>
+          <p>Virtual Interactive Knowledge Assistant</p>
         </div>
       </a>
 
@@ -198,25 +190,24 @@
         <!-- Background with Gedung Viktor & Gradient Fade -->
         <div class="landing-hero-bg"></div>
 
-        <!-- Hero Content with Mascot & Clean Whitespace -->
-        <div class="landing-hero-content">
-          <div class="landing-mascot-wrapper">
-            <img src="/static/images/maskot landing page.png" alt="Maskot VIKA" class="landing-mascot-float">
+        <div class="landing-main-col">
+          <!-- Hero Content with Mascot & Clean Whitespace -->
+          <div class="landing-hero-content">
+            <div class="landing-mascot-wrapper">
+              <img src="/static/images/maskot landing page.png" alt="Maskot VIKA" class="landing-mascot-float">
+            </div>
+            <div class="badge-ai">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <span>Asisten AI Akademik Resmi UNPAM</span>
+            </div>
+            <h1 class="hero-main-title">Asisten Akademik UNPAM</h1>
+            <p class="hero-main-desc">
+              Tanya apa saja seputar perkuliahan dan dapatkan jawaban akurat langsung dari rujukan resmi kampus.
+            </p>
           </div>
-          <div class="badge-ai">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-            </svg>
-            <span>Asisten AI Akademik Resmi UNPAM</span>
-          </div>
-          <h1 class="hero-main-title">Asisten Akademik UNPAM</h1>
-          <p class="hero-main-desc">
-            Tanya apa saja seputar perkuliahan dan dapatkan jawaban akurat langsung dari rujukan resmi kampus.
-          </p>
-        </div>
 
-        <!-- Centered Glassmorphic Interactive Group (Shortcuts + Input Capsule) -->
-        <div class="landing-interactive-container">
           <!-- 4 Shortcut Topic Cards (Glassmorphism & Whitespace) -->
           <div class="landing-shortcuts-row">
             <div class="shortcut-box" data-prompt="Kapan saja linimasa SK Kalender Akademik 2026/2027 UNPAM?">
@@ -262,7 +253,7 @@
               </div>
             </div>
 
-            <div class="shortcut-box" data-prompt="Apa saja syarat skripsi Teknik Informatika dan bagaimana prinsip kurikulum OBE?">
+            <div class="shortcut-box" data-prompt="Apa saja syarat skripsi Teknik Informatika dan bagaimana alur ujian akhir project work?">
               <div class="shortcut-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
@@ -271,7 +262,7 @@
               </div>
               <div class="shortcut-text">
                 <h4>Kurikulum OBE</h4>
-                <p>Magang &amp; Skripsi</p>
+                <p>Skripsi &amp; Project Work</p>
               </div>
             </div>
           </div>

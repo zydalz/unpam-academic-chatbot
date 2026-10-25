@@ -127,6 +127,26 @@ class KnowledgeBase:
                 file_path="pedoman_tugas_akhir_skripsi.md",
                 official_source_url="https://informatika.unpam.ac.id/archive",
             ),
+            "info_proposal_skripsi_ti_unpam": DocumentMetadata(
+                doc_id="info_proposal_skripsi_ti_unpam",
+                title="Info Pendaftaran Proposal Skripsi & Pra-UAPS TA 2026-1",
+                decree_number="Pengumuman Resmi Prodi TI No. 2026-1/TI/UNPAM",
+                publisher="Prodi S1 Teknik Informatika UNPAM",
+                focus="Jadwal pengajuan judul 1-12 September 2026 di ftiunpam.com, syarat smt 7-14, rincian biaya bimbingan skripsi dan denda semester, berkas kolektif 14-19 September, sidang proposal 24-25 September",
+                scope="filkom",
+                file_path="info_proposal_skripsi_ti_unpam.md",
+                official_source_url="https://informatika.unpam.ac.id/info-pendaftaran-dan-jadwal-proposal-tugas-akhir",
+            ),
+            "prosedur_project_work_ti_unpam": DocumentMetadata(
+                doc_id="prosedur_project_work_ti_unpam",
+                title="SOP Ujian Akhir Jalur Project Work TI UNPAM",
+                decree_number="Keputusan Kaprodi S1 Teknik Informatika UNPAM (Achmad Udin Zailani, M.Kom)",
+                publisher="Prodi S1 Teknik Informatika / FILKOM UNPAM",
+                focus="Syarat jalur project work alternatif skripsi, minimal smt 7, kelompok max 3 orang, syarat mitra berbadan hukum (PT/Dinas/Organisasi), 16 langkah alur KAK, MoA, IA, manual book, BA serah terima, LoA jurnal/HKI",
+                scope="filkom",
+                file_path="prosedur_project_work_ti_unpam.md",
+                official_source_url="https://informatika.unpam.ac.id/",
+            ),
         }
 
     def _load_and_index(self) -> None:
