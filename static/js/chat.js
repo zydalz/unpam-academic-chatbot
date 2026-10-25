@@ -387,7 +387,7 @@ function finalizeResponseCard(row, footerDiv, citations, externalSource, recs, t
     const primary = citations[0];
     citationsHtml = `
       <div class="sources-block">
-        <span class="sources-label">Sumber Resmi:</span>
+        <span class="sources-label">Dokumen Rujukan:</span>
         <a href="${primary.url || 'https://unpam.ac.id'}" target="_blank" class="source-citation-badge">
           📌 ${escapeHtml(primary.title)} (${escapeHtml(primary.decree)}) ↗
         </a>
@@ -396,7 +396,7 @@ function finalizeResponseCard(row, footerDiv, citations, externalSource, recs, t
   } else if (externalSource) {
     citationsHtml = `
       <div class="sources-block">
-        <span class="sources-label">Sumber Eksternal Resmi:</span>
+        <span class="sources-label">Rujukan Portal Kampus:</span>
         <a href="${externalSource.source_url}" target="_blank" class="source-citation-badge">
           🌐 ${escapeHtml(externalSource.source_title)} ↗
         </a>
@@ -460,7 +460,7 @@ function resetToDefaultWelcome() {
       </div>
       <div class="assistant-response-card">
         <div class="assistant-text-content">
-          <strong>Halo! Saya VIKA, Asisten Akademik Resmi Universitas Pamulang.</strong><br><br>
+          <strong>Halo! Saya VIKA, Asisten Virtual Akademik Universitas Pamulang.</strong><br><br>
           Silakan tanyakan apa saja seputar jadwal perkuliahan, SK kalender akademik 2026/2027, aturan presensi UAS ≥ 75%, prosedur remedial, atau panduan Tugas Akhir/Skripsi Teknik Informatika.
         </div>
         <div class="card-footer-meta" style="display: block;">

@@ -53,7 +53,7 @@ GROQ_MODEL_CANDIDATES = [
 APP_NAME = "VIKA"
 APP_FULL_NAME = "Virtual Interactive Knowledge Assistant"
 APP_TAGLINE = "Asisten Akademik UNPAM"
-APP_SUBTITLE = "Tanya apa saja tentang perkuliahan, dapatkan jawaban akurat dari sumber resmi kampus — cepat, mudah, dan terpercaya."
+APP_SUBTITLE = "Tanya apa saja tentang perkuliahan, dapatkan panduan informasi akademik kampus yang akurat dan terstruktur."
 APP_INSTITUTION = "Universitas Pamulang"
 
 # Default Preferences
