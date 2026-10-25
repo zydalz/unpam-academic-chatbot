@@ -315,7 +315,7 @@ async function initApiKeyManagement() {
       } else {
         const errData = await res.json();
         if (pinError) {
-          pinError.textContent = errData.detail || 'PIN Admin tidak valid. Coba default: 2026';
+          pinError.textContent = errData.detail || 'PIN Admin tidak valid. Akses ditolak.';
           pinError.style.display = 'block';
         }
         if (unlockBtn) unlockBtn.textContent = 'Buka Kunci';
