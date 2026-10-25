@@ -55,7 +55,7 @@ LLM_TOP_P = float(os.getenv("LLM_TOP_P", "0.90"))
 LLM_TOP_K = int(os.getenv("LLM_TOP_K", "40"))
 LLM_MAX_OUTPUT_TOKENS = int(os.getenv("LLM_MAX_OUTPUT_TOKENS", "2048"))
 
-# Hybrid Vector Embedding & Cosine Similarity Hyperparameters (Hacktiv8 Session 2)
+# Hybrid Vector Embedding & Cosine Similarity Hyperparameters
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-004")
 HYBRID_ALPHA = float(os.getenv("HYBRID_ALPHA", "0.55"))  # 0.55 = 55% Dense Cosine Similarity + 45% Lexical BM25
 VECTOR_CACHE_PATH = DATA_PROCESSED_DIR / "vector_embeddings.json"

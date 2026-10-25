@@ -5,7 +5,7 @@
 
 | Dokumen | Versi | Status | Tanggal Pembuatan | Author / Role |
 | :--- | :---: | :---: | :---: | :--- |
-| **PRD - Final Project Hacktiv8** | `1.1.0` | **Approved** | 24 Oktober 2026 | Mentee & AI Mentor |
+| **PRD - VIKA Academic Assistant** | `2.0.0` | **Approved** | 24 Oktober 2026 | Abu Ziyad Al Katani (zydalz) |
 
 ---
 
@@ -45,7 +45,7 @@ Membangun portal web mandiri berbasis asisten percakapan AI yang membantu memeta
    - Penjelasan bobot 1 SKS sesuai pedoman akademik yang berlaku.
    - Pengenalan prinsip Kurikulum Berbasis Capaian (OBE - *Outcome-Based Education*).
    - Ketentuan umum prasyarat akademik untuk Kerja Praktik (KP), Skripsi, dan magang MBKM.
-5. **Parameter Kreatif (Sesuai Syarat Hacktiv8):**
+5. **Parameter Kreatif & Kontrol Respons (Persona & Scope):**
    - **Gaya Bahasa (Tone):** 
      - *Kating Ramah:* Bahasa santai, komunikatif, suportif layaknya obrolan mahasiswa.
      - *Formal Birokrat:* Bahasa baku, lugas, mengedepankan kutipan ketentuan resmi.

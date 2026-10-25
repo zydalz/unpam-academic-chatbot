@@ -1,6 +1,6 @@
 """Hybrid Vector Embedding and Cosine Similarity Engine for VIKA.
 
-Designed according to Hacktiv8 Session 2 curriculum:
+Architecture:
 1. Dense Vector Embeddings (Google text-embedding-004 with local semantic vectorizer fallback).
 2. Pure NumPy 2.x Vector Math & Cosine Similarity:
        CosineSimilarity(u, v) = (u . v) / (||u|| * ||v||)
