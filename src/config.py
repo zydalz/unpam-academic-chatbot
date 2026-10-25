@@ -24,6 +24,9 @@ load_dotenv(ROOT_DIR / ".env")
 SERVER_HOST = os.getenv("SERVER_HOST", "0.0.0.0")
 SERVER_PORT = int(os.getenv("SERVER_PORT", "8000"))
 
+# Security & Developer Administration
+ADMIN_PIN = os.getenv("ADMIN_PIN", "2026")
+
 # Google Gemini API Configuration (Default / Recommended)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")

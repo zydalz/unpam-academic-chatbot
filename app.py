@@ -24,6 +24,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from src.config import (
+    ADMIN_PIN,
     APP_FULL_NAME,
     APP_NAME,
     APP_TAGLINE,
@@ -76,9 +77,14 @@ class ChatRequest(BaseModel):
     history_summary: Optional[str] = Field(default=None, description="Ringkasan riwayat percakapan")
 
 
+class VerifyPinRequest(BaseModel):
+    pin: str = Field(..., description="PIN Admin Developer")
+
+
 class KeysUpdateRequest(BaseModel):
     gemini_key: Optional[str] = Field(default=None, description="Kunci API Gemini baru")
     groq_key: Optional[str] = Field(default=None, description="Kunci API Groq baru")
+    admin_pin: Optional[str] = Field(default=None, description="PIN Admin Developer untuk verifikasi otentikasi")
 
 
 # -------------------------------------------------------------
@@ -123,9 +129,27 @@ async def get_keys_status() -> Dict[str, Any]:
     }
 
 
+@app.post("/api/settings/verify-pin")
+async def verify_admin_pin(payload: VerifyPinRequest) -> Dict[str, Any]:
+    """Verify developer admin PIN before granting access to API key management."""
+    if payload.pin.strip() == str(ADMIN_PIN).strip():
+        return {
+            "success": True,
+            "message": "Autentikasi Admin Developer berhasil.",
+        }
+    raise HTTPException(status_code=403, detail="PIN Admin tidak valid. Akses ditolak.")
+
+
 @app.post("/api/settings/keys")
 async def update_api_keys(payload: KeysUpdateRequest) -> Dict[str, Any]:
     """Save new API keys into memory and persist to .env file."""
+    # Verify Admin PIN authorization
+    if not payload.admin_pin or payload.admin_pin.strip() != str(ADMIN_PIN).strip():
+        raise HTTPException(
+            status_code=403,
+            detail="Autentikasi gagal: PIN Admin Developer diperlukan untuk memperbarui kunci API.",
+        )
+
     env_path = ROOT_DIR / ".env"
     env_lines = []
     if env_path.exists():

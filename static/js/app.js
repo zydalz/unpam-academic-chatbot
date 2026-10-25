@@ -233,7 +233,7 @@ function initSidebarControls() {
 }
 
 // -------------------------------------------------------------
-// 5. API KEY MANAGEMENT (Settings Form & Status)
+// 5. API KEY MANAGEMENT (Settings Form & Admin PIN Gate)
 // -------------------------------------------------------------
 async function initApiKeyManagement() {
   const geminiInput = document.getElementById('input-gemini-key');
@@ -243,46 +243,156 @@ async function initApiKeyManagement() {
   const geminiBadge = document.getElementById('gemini-status-badge');
   const groqBadge = document.getElementById('groq-status-badge');
 
-  // Fetch current status from backend
-  try {
-    const res = await fetch('/api/settings/keys');
-    if (res.ok) {
-      const data = await res.json();
-      if (data.gemini_configured) {
-        if (geminiBadge) {
-          geminiBadge.className = 'api-status-badge active';
-          geminiBadge.textContent = '✓ Aktif';
-        }
-        if (geminiInput && data.gemini_masked) {
-          geminiInput.placeholder = data.gemini_masked;
-        }
-      }
-      if (data.groq_configured) {
-        if (groqBadge) {
-          groqBadge.className = 'api-status-badge active';
-          groqBadge.textContent = '✓ Aktif';
-        }
-        if (groqInput && data.groq_masked) {
-          groqInput.placeholder = data.groq_masked;
-        }
-      }
+  // Admin PIN Gate elements
+  const lockedView = document.getElementById('admin-gate-locked-view');
+  const unlockedView = document.getElementById('admin-gate-unlocked-view');
+  const adminBadge = document.getElementById('admin-gate-status-badge');
+  const pinInput = document.getElementById('input-admin-pin');
+  const unlockBtn = document.getElementById('btn-unlock-admin');
+  const lockBtn = document.getElementById('btn-lock-admin');
+  const pinError = document.getElementById('admin-pin-error');
+
+  // Helper to get active admin PIN
+  const getAdminPin = () => sessionStorage.getItem('vika_admin_pin') || '';
+
+  // Function to set unlocked state
+  function setGateUnlocked(pin) {
+    sessionStorage.setItem('vika_admin_pin', pin);
+    if (lockedView) lockedView.style.display = 'none';
+    if (unlockedView) unlockedView.style.display = 'block';
+    if (adminBadge) {
+      adminBadge.className = 'api-status-badge active';
+      adminBadge.textContent = '🔓 Akses Developer Aktif';
     }
-  } catch (e) {
-    console.warn('Could not check keys status:', e);
+    if (pinError) pinError.style.display = 'none';
+    refreshKeysStatus();
+  }
+
+  // Function to set locked state
+  function setGateLocked() {
+    sessionStorage.removeItem('vika_admin_pin');
+    if (lockedView) lockedView.style.display = 'block';
+    if (unlockedView) unlockedView.style.display = 'none';
+    if (adminBadge) {
+      adminBadge.className = 'api-status-badge inactive';
+      adminBadge.textContent = '🔒 Developer Gate';
+    }
+    if (pinInput) pinInput.value = '';
+    if (pinError) pinError.style.display = 'none';
+  }
+
+  // Check existing session unlock
+  const cachedPin = getAdminPin();
+  if (cachedPin) {
+    setGateUnlocked(cachedPin);
+  } else {
+    setGateLocked();
+  }
+
+  // Handle Unlock Button & Enter Key
+  async function handleUnlock() {
+    if (!pinInput) return;
+    const pinVal = pinInput.value.trim();
+    if (!pinVal) {
+      if (pinError) {
+        pinError.textContent = 'Masukkan PIN Admin Developer.';
+        pinError.style.display = 'block';
+      }
+      return;
+    }
+
+    if (unlockBtn) unlockBtn.textContent = 'Memverifikasi...';
+    try {
+      const res = await fetch('/api/settings/verify-pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin: pinVal }),
+      });
+
+      if (res.ok) {
+        setGateUnlocked(pinVal);
+        if (unlockBtn) unlockBtn.textContent = 'Buka Kunci';
+      } else {
+        const errData = await res.json();
+        if (pinError) {
+          pinError.textContent = errData.detail || 'PIN Admin tidak valid. Coba default: 2026';
+          pinError.style.display = 'block';
+        }
+        if (unlockBtn) unlockBtn.textContent = 'Buka Kunci';
+      }
+    } catch (e) {
+      if (pinError) {
+        pinError.textContent = 'Gagal menghubungi server verifikasi PIN.';
+        pinError.style.display = 'block';
+      }
+      if (unlockBtn) unlockBtn.textContent = 'Buka Kunci';
+    }
+  }
+
+  if (unlockBtn) {
+    unlockBtn.addEventListener('click', handleUnlock);
+  }
+  if (pinInput) {
+    pinInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleUnlock();
+    });
+  }
+
+  // Handle Lock Again Button
+  if (lockBtn) {
+    lockBtn.addEventListener('click', () => {
+      setGateLocked();
+    });
+  }
+
+  // Fetch current keys status from backend
+  async function refreshKeysStatus() {
+    try {
+      const res = await fetch('/api/settings/keys');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.gemini_configured) {
+          if (geminiBadge) {
+            geminiBadge.className = 'api-status-badge active';
+            geminiBadge.textContent = '✓ Aktif';
+          }
+          if (geminiInput && data.gemini_masked) {
+            geminiInput.placeholder = data.gemini_masked;
+          }
+        }
+        if (data.groq_configured) {
+          if (groqBadge) {
+            groqBadge.className = 'api-status-badge active';
+            groqBadge.textContent = '✓ Aktif';
+          }
+          if (groqInput && data.groq_masked) {
+            groqInput.placeholder = data.groq_masked;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Could not check keys status:', e);
+    }
   }
 
   // Save Gemini Key
   if (saveGeminiBtn && geminiInput) {
     saveGeminiBtn.addEventListener('click', async () => {
       const keyVal = geminiInput.value.trim();
+      const currentPin = getAdminPin();
       if (!keyVal) return;
+      if (!currentPin) {
+        alert('Sesi Developer telah terkunci. Masukkan PIN Admin kembali.');
+        setGateLocked();
+        return;
+      }
 
       saveGeminiBtn.textContent = 'Menyimpan...';
       try {
         const res = await fetch('/api/settings/keys', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ gemini_key: keyVal }),
+          body: JSON.stringify({ gemini_key: keyVal, admin_pin: currentPin }),
         });
         if (res.ok) {
           saveGeminiBtn.textContent = '✓ Tersimpan';
@@ -292,6 +402,11 @@ async function initApiKeyManagement() {
             geminiBadge.className = 'api-status-badge active';
             geminiBadge.textContent = '✓ Aktif';
           }
+          setTimeout(() => { saveGeminiBtn.textContent = 'Simpan'; }, 2000);
+        } else {
+          const err = await res.json();
+          alert(err.detail || 'Gagal menyimpan kunci API.');
+          saveGeminiBtn.textContent = 'Gagal';
           setTimeout(() => { saveGeminiBtn.textContent = 'Simpan'; }, 2000);
         }
       } catch (err) {
@@ -305,14 +420,20 @@ async function initApiKeyManagement() {
   if (saveGroqBtn && groqInput) {
     saveGroqBtn.addEventListener('click', async () => {
       const keyVal = groqInput.value.trim();
+      const currentPin = getAdminPin();
       if (!keyVal) return;
+      if (!currentPin) {
+        alert('Sesi Developer telah terkunci. Masukkan PIN Admin kembali.');
+        setGateLocked();
+        return;
+      }
 
       saveGroqBtn.textContent = 'Menyimpan...';
       try {
         const res = await fetch('/api/settings/keys', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ groq_key: keyVal }),
+          body: JSON.stringify({ groq_key: keyVal, admin_pin: currentPin }),
         });
         if (res.ok) {
           saveGroqBtn.textContent = '✓ Tersimpan';
@@ -322,6 +443,11 @@ async function initApiKeyManagement() {
             groqBadge.className = 'api-status-badge active';
             groqBadge.textContent = '✓ Aktif';
           }
+          setTimeout(() => { saveGroqBtn.textContent = 'Simpan'; }, 2000);
+        } else {
+          const err = await res.json();
+          alert(err.detail || 'Gagal menyimpan kunci API.');
+          saveGroqBtn.textContent = 'Gagal';
           setTimeout(() => { saveGroqBtn.textContent = 'Simpan'; }, 2000);
         }
       } catch (err) {
