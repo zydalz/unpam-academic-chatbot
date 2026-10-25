@@ -141,35 +141,55 @@ Sistem chatbot dirancang untuk merujuk 4 dokumen panduan resmi kampus berikut:
 
 ## 5. Technical Requirements & Architecture
 
-### 5.1 Tech Stack (Free-Tier & Community Resources)
-* **Frontend & Web Framework:** Streamlit (Python) dengan Custom CSS Injection.
-* **LLM Engine:** Google Gemini API (`gemini-3.8-flash` via Google GenAI SDK).
-* **Knowledge Retrieval:** Chunk-based Structured Knowledge Base (ekstraksi teks dari dokumen panduan resmi).
-* **State Management:** `st.session_state` untuk manajemen memori percakapan, preferensi tone, dan caching status.
-* **Hosting / Cloud Deployment:** Streamlit Community Cloud (terhubung langsung dengan repositori GitHub).
+### 5.1 Tech Stack (Production-Grade Full-Stack Engine)
+* **Backend Engine:** FastAPI (Python 3.10+) dengan Uvicorn ASGI Server & Server-Sent Events (SSE).
+* **Frontend Interface:** Modern Single Page Application (HTML5, Vanilla CSS3 dengan CSS Design Tokens & Glassmorphism, Vanilla ES6 JavaScript).
+* **AI & LLM Providers:** Dual-LLM Orchestration:
+  - Google Gemini 3.8 Flash (via `google-genai` SDK) sebagai model primer.
+  - Llama 3.3 (via Groq API) sebagai model alternatif berkecepatan tinggi.
+* **Knowledge Retrieval Engine:** Hybrid Vector Retrieval (`src/vector_engine.py`) menggabungkan:
+  - Dense Vector Semantic Search (`text-embedding-004` & Local Subword Vectorizer fallback).
+  - Pure NumPy 2.x In-Memory Cosine Similarity.
+  - Lexical Keyword BM25 Domain-Boosted Matching.
+  - Formula Hybrid Weighted: $\text{Score}_{\text{hybrid}} = \alpha \cdot \text{Score}_{\text{dense}} + (1 - \alpha) \cdot \text{Score}_{\text{lexical}}$ ($\alpha = 0.55$).
+  - Precomputed Persistent Cache: `data/processed/vector_embeddings.json`.
+* **Security & Traffic Control:**
+  - Developer Admin PIN Gate (`ADMIN_PIN=2026`) untuk memproteksi konfigurasi kunci API.
+  - Middleware pembatas laju permintaan `slowapi` (20 req/menit untuk chat, 10 req/menit untuk PIN).
+  - Isolasi prompt anti-jailbreak pada blok `[PERTANYAAN MAHASISWA]`.
+* **State & Memory Management:** Client-side Session Rooms (`localStorage`) + Server-side Multi-turn Context Summary.
 
 ### 5.2 Alur Arsitektur Sistem
 ```
-[User Input via Streamlit UI]
+[User Input via Modern SPA (HTML/CSS/JS)]
               │
-              ├── Mengambil Pengaturan (Tone, Domain Filter, Model)
-              ├── Mengambil Riwayat Percakapan (Multi-turn Memory)
+              ├── Mengambil Pengaturan (Persona Tone, Domain Scope, Provider)
+              ├── Mengambil Ringkasan Percakapan (Multi-turn Memory)
               ▼
-[Knowledge Grounding Engine]
-              │ (Mencocokkan kata kunci/topik dengan Dokumen Panduan UNPAM)
-              ▼
-[Prompt Assembler]
-  ├── System Instruction (Guardrail, Batasan Objektif, Persona VIKA)
-  ├── Relevant Context Chunks (Kutipan jadwal/pasal terkait)
-  └── Chat History + Pesan Terakhir
+[FastAPI Backend Server (app.py)] ──[slowapi Rate Limiter]
               │
               ▼
-[Google Gemini 3.8 Flash API]
-              │ (Streaming Response Token)
+[Hybrid Vector Retrieval Engine (src/vector_engine.py)]
+              ├── Dense Embeddings & Cosine Similarity Math
+              └── BM25 Lexical Keyword Domain Booster
+              │ (Mencocokkan ke 7 Dokumen Resmi / 38 Chunk)
               ▼
-[Streamlit Output Container]
-  ├── Streamed Markdown Response
-  └── Official Citation Badge (Sumber Rujukan)
+[Prompt Assembler (src/prompts.py)]
+  ├── System Instruction (Guardrail, Pasal 6 Anti-Leak, Persona VIKA)
+  ├── Context Chunks Terverifikasi
+  └── Ringkasan Riwayat Percakapan
+              │
+              ▼
+[Dual LLM Engine: Gemini 3.8 / Llama 3.3]
+              │ (Real-Time SSE Token Streaming)
+              ▼
+[FastAPI StreamingResponse (text/event-stream)]
+              │
+              ▼
+[SPA Interface Rendering]
+  ├── Typewriter Token Queue Animation
+  ├── Inner Table Subcards & Markdown Formatter
+  └── Official Citation Badge (📌 SK Dokumen Resmi ↗)
 ```
 
 ---
