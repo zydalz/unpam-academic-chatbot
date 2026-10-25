@@ -117,6 +117,16 @@ class KnowledgeBase:
                 file_path="pedoman_filkom_informatika.md",
                 official_source_url="https://filkom.unpam.ac.id",
             ),
+            "pedoman_tugas_akhir_skripsi": DocumentMetadata(
+                doc_id="pedoman_tugas_akhir_skripsi",
+                title="Pedoman Tugas Akhir, Skripsi & Jalur Kelulusan TI",
+                decree_number="SK Dekan & Arsip Resmi Prodi S1 Teknik Informatika UNPAM",
+                publisher="Prodi Teknik Informatika / Dekanat FTIK UNPAM",
+                focus="Jalur skripsi reguler 6 SKS, syarat SKS minimal 122-130, seminar proposal, sidang UAPS, dan rekognisi publikasi jurnal ilmiah SINTA",
+                scope="filkom",
+                file_path="pedoman_tugas_akhir_skripsi.md",
+                official_source_url="https://informatika.unpam.ac.id/archive",
+            ),
         }
 
     def _load_and_index(self) -> None:
@@ -189,12 +199,18 @@ class KnowledgeBase:
             "drop out": ["drop out", "d.o.", "ips", "14 semester"],
             "do": ["drop out", "d.o.", "ips", "14 semester"],
             "sks": ["sks", "170 menit", "50 menit", "beban studi"],
-            "skripsi": ["skripsi", "tugas akhir", "uaps", "130 sks", "6 sks"],
+            "skripsi": ["skripsi", "tugas akhir", "uaps", "130 sks", "122 sks", "6 sks", "sempro", "proposal", "bimbingan", "jurnal", "sinta"],
+            "tugas akhir": ["tugas akhir", "skripsi", "uaps", "6 sks", "sempro", "jurnal", "sinta", "capstone"],
+            "sidang": ["sidang", "uaps", "ujian akhir program", "lsp", "toefl", "ipk", "2.40"],
+            "sempro": ["seminar proposal", "sempro", "proposal skripsi", "judul"],
+            "jurnal": ["jurnal", "sinta", "scopus", "non-skripsi", "rekognisi", "publikasi"],
             "kp": ["kerja praktik", "kp", "100 sks", "magang"],
             "obe": ["obe", "outcome-based education", "cpl", "0269"],
-            "mbkm": ["mbkm", "magang bersertifikat", "studi independen", "20 sks"],
+            "mbkm": ["mbkm", "magang bersertifikat", "studi independen", "20 sks", "capstone"],
             "bayar": ["biaya", "pelunasan", "angsuran", "pembayaran"],
             "biaya": ["biaya", "pelunasan", "angsuran", "pembayaran"],
+            "sispema": ["sispema", "surat rekomendasi", "kemahasiswaan"],
+            "viktor": ["viktor", "kampus 2", "helpdesk", "fti"],
         }
 
         scored_results: List[SearchResult] = []
