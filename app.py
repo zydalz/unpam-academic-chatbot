@@ -115,7 +115,8 @@ async def serve_index() -> FileResponse:
 
 @app.get("/api/health")
 async def health_check() -> Dict[str, Any]:
-    """Health check endpoint indicating AI engine readiness."""
+    """Health check endpoint indicating AI engine readiness and vector status."""
+    ve = knowledge_base.vector_engine
     return {
         "status": "online",
         "app_name": APP_NAME,
@@ -124,6 +125,28 @@ async def health_check() -> Dict[str, Any]:
         "groq_configured": ai_service.is_groq_configured(),
         "total_documents": len(knowledge_base.documents),
         "total_chunks": len(knowledge_base.chunks),
+        "vector_engine": {
+            "is_indexed": ve.is_indexed,
+            "vector_source": ve.vector_source,
+            "vector_dimension": ve.vector_dim,
+            "total_chunks_indexed": len(ve.chunk_ids),
+            "hybrid_alpha": ve.hybrid_alpha,
+        },
+    }
+
+
+@app.get("/api/vector/status")
+async def get_vector_status() -> Dict[str, Any]:
+    """Return status and diagnostic metrics of the Hybrid Vector Retrieval Engine."""
+    ve = knowledge_base.vector_engine
+    return {
+        "is_indexed": ve.is_indexed,
+        "vector_source": ve.vector_source,
+        "embedding_model": ve.embedding_model,
+        "vector_dimension": ve.vector_dim,
+        "total_chunks_indexed": len(ve.chunk_ids),
+        "hybrid_alpha": ve.hybrid_alpha,
+        "cache_exists": (ROOT_DIR / "data" / "processed" / "vector_embeddings.json").exists(),
     }
 
 

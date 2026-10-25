@@ -403,11 +403,12 @@ function finalizeResponseCard(row, footerDiv, citations, externalSource, recs, t
   let citationsHtml = '';
   if (citations && citations.length > 0) {
     const primary = citations[0];
+    const simBadge = primary.similarity ? `<span class="sim-pill" style="margin-left: 6px; padding: 2px 7px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 9999px; font-size: 0.72rem; font-weight: 700; color: #60a5fa;">⚡ ${escapeHtml(primary.similarity)} Relevan</span>` : '';
     citationsHtml = `
       <div class="sources-block">
         <span class="sources-label">Dokumen Rujukan:</span>
         <a href="${primary.url || 'https://unpam.ac.id'}" target="_blank" class="source-citation-badge">
-          📌 ${escapeHtml(primary.title)} (${escapeHtml(primary.decree)}) ↗
+          📌 ${escapeHtml(primary.title)} (${escapeHtml(primary.decree)}) ${simBadge} ↗
         </a>
       </div>
     `;

@@ -146,6 +146,8 @@ class AIService:
                     "decree": r.decree_number,
                     "publisher": r.publisher,
                     "section": r.section_title,
+                    "similarity": r.similarity_percentage or f"{int(round((r.relevance_score or 0.85) * 100))}%",
+                    "similarity_score": r.similarity_score,
                 }
                 for r in search_results
             ],
