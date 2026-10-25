@@ -1,21 +1,54 @@
-MIT License
+ACADEMIC & NON-COMMERCIAL RESTRICTIVE LICENSE
+Copyright (c) 2026 Abu Ziyad Al Katani (zydalz). All Rights Reserved.
 
-Copyright (c) 2026 Abu Ziyad Al Katani (zydalz)
+Project: VIKA (Virtual Interactive Knowledge Assistant) - Universitas Pamulang Academic Chatbot
+Author: Abu Ziyad Al Katani (GitHub: @zydalz)
+Program: Final Project - Hacktiv8 Maju Bersama AI
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+================================================================================
+1. GRANT OF EVALUATION AND EDUCATIONAL PERMISSION
+================================================================================
+Permission is hereby granted, free of charge, to instructors, mentors, and examiners
+of the Hacktiv8 Maju Bersama AI program, and to any individual accessing this
+repository, to view, clone, execute locally, and evaluate the Software solely for
+academic assessment, scientific research, and non-commercial educational review.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+================================================================================
+2. STRICT PROHIBITIONS & RESTRICTIONS (ANTI-PLAGIARISM & ANTI-REBRANDING)
+================================================================================
+Under NO circumstances shall any third party, student, individual, or corporate/academic
+entity be permitted to:
+a. Rebrand, rename, or redistribute this Software, its source code, prompt engineering
+   framework, knowledge base architecture, or user interface under any other author,
+   organization, or product name.
+b. Pitch, offer, submit, or propose this Software, its codebase, derivative works, or
+   its conceptual architecture to Universitas Pamulang, Yayasan Sasmita Jaya, or any
+   other institutional body as an original, acquired, or third-party work without the
+   express prior written consent and authorization of the Author (Abu Ziyad Al Katani).
+c. Sublicense, sell, rent, lease, monetize, or exploit the Software, in whole or in
+   part, for any commercial, enterprise, or paid service purposes.
+d. Remove, obscure, or modify any copyright notices, digital signatures, metadata
+   attribution tags, or disclaimers present in the codebase and user interfaces.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+================================================================================
+3. TRADEMARK & INSTITUTIONAL FAIR USE NOTICE
+================================================================================
+The designations "Universitas Pamulang", "UNPAM", "Fakultas Ilmu Komputer", "FILKOM",
+along with institutional emblems, logos, and citations of official university decrees
+(Surat Keputusan Rektor, Panduan Skripsi, Kalender Akademik, SOP Layanan Administrasi)
+remain the exclusive property and trademarks of Universitas Pamulang / Yayasan Sasmita Jaya.
+Their citation and inclusion in this Software are solely for non-commercial educational
+demonstration and nominative academic context under fair-use provisions (UU Hak Cipta No. 28
+Tahun 2014 Pasal 44). This Software is an independent academic innovation project and is
+NOT an official service operated, endorsed, or affiliated with the university administration.
+
+================================================================================
+4. DISCLAIMER OF WARRANTY & LIMITATION OF LIABILITY
+================================================================================
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, ACCURACY OF CAMPUS POLICIES, AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHOR OR COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, ADMINISTRATIVE
+DISCREPANCIES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR
+OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
