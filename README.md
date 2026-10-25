@@ -3,101 +3,152 @@
 > *Tagline: "Selalu Ada untuk Jawaban Akademikmu"*  
 > *Final Project: LLM-Based Tools and Gemini API Integration for Data Scientists — Hacktiv8*
 
+<p align="center">
+  <img src="assets/images/VIKA Logo Brand.png" alt="VIKA Brand Logo" width="160" style="border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Python Version" />
+  <img src="https://img.shields.io/badge/Framework-Streamlit-FF4B4B?logo=streamlit" alt="Streamlit" />
+  <img src="https://img.shields.io/badge/LLM-Gemini%203.8%20Flash-4285F4?logo=google" alt="Gemini 3.8 Flash" />
+  <img src="https://img.shields.io/badge/Knowledge%20Base-4%20Official%20Decrees-10B981" alt="Knowledge Base" />
+  <img src="https://img.shields.io/badge/Git%20Flow-Strict-orange?logo=git" alt="Git Flow" />
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License" />
+</p>
+
 ---
 
 ## 📌 Tentang Proyek
 
-**VIKA (Virtual Interactive Knowledge Assistant)** adalah aplikasi asisten percakapan interaktif berbasis web yang dikembangkan untuk membantu mahasiswa Universitas Pamulang (UNPAM) mengeksplorasi dan memahami rujukan informasi perkuliahan.
+**VIKA (Virtual Interactive Knowledge Assistant)** adalah portal web asisten akademik cerdas yang dirancang khusus untuk sivitas akademika Universitas Pamulang (UNPAM). 
 
-Aplikasi ini dirancang untuk merujuk dokumen resmi kampus (seperti Kalender Akademik, Buku Pedoman Akademik, SOP LAK, dan Pedoman FILKOM) dengan memanfaatkan model **Google Gemini 3.8 Flash** via Google AI Studio (*free tier*) dan antarmuka **Streamlit**.
+Berbeda dari chatbot tanya-jawab umum, VIKA menerapkan prinsip **Strict Grounding & Anti-Halusinasi** yang mengacu langsung pada dokumen hukum dan pedoman resmi universitas (SK Rektor) yang masih berlaku untuk Tahun Akademik 2026/2027.
 
-> **Catatan Validitas & Sumber:**  
-> Jawaban yang disajikan sistem merujuk pada materi dokumen panduan yang dihimpun ke dalam basis pengetahuan aplikasi. Untuk keperluan administrasi resmi, mahasiswa tetap disarankan mengonfirmasi langsung ke pihak akademik atau portal resmi kampus terkait.
+<p align="center">
+  <img src="assets/images/UNPAM AI Interface Showcase Board.png" alt="VIKA Interface Showcase Board" width="850" style="border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);" />
+</p>
+
+---
+
+## 📚 Basis Dokumen Rujukan Resmi (4 Pilar Pengetahuan)
+
+VIKA mengindeks 4 dokumen kebijakan resmi Universitas Pamulang secara komprehensif:
+
+| No | Dokumen Target | Nomor SK / Dasar Hukum | Unit Penerbit | Fokus Rujukan Utama | Status Integrasi |
+| :-: | :--- | :--- | :--- | :--- | :---: |
+| **1** | **SK Kalender Akademik TA 2026/2027** | `SK Rektor No. 1694/A/UNPAM/KP/VII/2026` | LP3 / Rektorat UNPAM | Linimasa KRS, awal perkuliahan Reguler A/B/C, rentang UTS/UAS, pendaftaran susulan, libur semester, dan wisuda. | **100% Terverifikasi** |
+| **2** | **Buku Pedoman Akademik Universitas Pamulang** | `SK Rektor No. 240/A/O/UNPAM/I/2020` | Rektorat / Unpam Press | Batas masa studi S1 (maksimal 14 semester), beban SKS (170 menit), hak & kewajiban mahasiswa, dan ketentuan Drop Out (DO). | **100% Terverifikasi** |
+| **3** | **SOP Layanan Administrasi Akademik (LAK)** | `SK Rektor No. 240/A/O/UNPAM/I/2020` (Bab Evaluasi & Administrasi) | Biro LAK / Rektorat UNPAM | Ketentuan batas presensi 75% UAS, bobot penilaian (10:20:30:40), kuota remedial teaching (min 15 mhs), cuti kuliah (maks 2x), dan pindah kelas. | **100% Terverifikasi** |
+| **4** | **Buku Pedoman Fakultas Ilmu Komputer (FILKOM)** | `SK Rektor No. 0269/A/UNPAM/KP/II/2026` | Dekanat FILKOM / S1 Informatika | Prinsip kurikulum OBE (Outcome-Based Education), profil lulusan S1 Teknik Informatika (144-146 SKS), syarat KP/Skripsi, dan konversi MBKM. | **100% Terverifikasi**<br>*(Dengan honest fallback)* |
+
+> **Catatan Keterbukaan & Integritas Data:**  
+> Untuk berkas teknis internal operasional yang berstatus privat (*restricted HTTP 401 pada cloud internal dekanat*), VIKA secara transparan menginfokan status dokumen dan mengarahkan mahasiswa ke Sekretariat S1 Teknik Informatika (Gedung Viktor Lantai 6, Tangerang Selatan).
 
 ---
 
 ## 🚀 Fitur Utama
 
-- 💬 **Streaming Percakapan Real-Time:** Respon asisten ditampilkan mengalir kata-per-kata untuk pengalaman membaca yang nyaman.
-- 🎭 **Preferensi Gaya Bahasa (Tone Selector):**
-  - **Kating Ramah:** Gaya bahasa santai dan komunikatif khas mahasiswa.
-  - **Formal Birokrat:** Gaya bahasa baku dan formal merujuk klausul aturan resmi.
-  - **Ringkas:** Penyajian poin-poin esensial secara to-the-point.
-- 🎯 **Filter Cakupan Domain:** Pilihan fokus informasi tingkat Universitas (Umum) vs Fakultas Ilmu Komputer (FILKOM / Teknik Informatika).
-- ⚡ **Starter Action Chips:** Rekomendasi topik umum di awal halaman untuk memudahkan pengguna memulai dialog.
-- 📚 **Kutipan Dokumen Rujukan:** Menampilkan rujukan nama dokumen sumber yang mendasari jawaban asisten.
-- 💾 **Memori Percakapan Multi-Turn & Ekspor:** Menjaga konteks dialog berkelanjutan dalam satu sesi dan opsi unduh riwayat percakapan.
+- 💬 **Streaming Percakapan Real-Time:** Respon asisten dialirkan secara langsung (*word-by-word streaming*) untuk kenyamanan membaca layaknya mengetik langsung.
+- 🎭 **3 Pilihan Gaya Bahasa (Persona):**
+  - **Kating Ramah (Default):** Komunikatif, hangat (*"Halo Sobat UNPAM!"*), suportif, dan mudah dipahami oleh mahasiswa baru.
+  - **Formal Birokrat:** Nada institusional, baku, merujuk langsung pada pasal dan nomor SK resmi kampus.
+  - **Ringkas:** Berpoin padat (*to-the-point*) dan cepat dipahami, cocok untuk mahasiswa kelas karyawan (Reguler C).
+- 🎯 **Filter Cakupan Domain:** Beralih antara fokus informasi umum Universitas vs Fakultas Ilmu Komputer (FILKOM).
+- ⚡ **Starter Action Chips:** 4 kartu topik populer mahasiswa di beranda untuk memulai tanya jawab instan hanya dengan 1 klik:
+  1. *Jadwal KRS & Perkuliahan*
+  2. *Syarat Presensi UAS*
+  3. *Ketentuan Cuti Kuliah*
+  4. *Syarat Skripsi Informatika*
+- 📌 **Kotak Sitasi Rujukan Resmi:** Setiap jawaban substantif menyertakan metadata dokumen rujukan (Nama SK, Nomor Keputusan, Unit Penerbit, dan Bagian Regulasi).
+- 💾 **Riwayat Percakapan Multi-Turn & Ekspor:** Mengelola sesi percakapan independen dan opsi unduh riwayat konsultasi dalam format Markdown (`.md`).
+- ⚙️ **Pengaturan Fleksibel & BYOK:** Mendukung konfigurasi model Gemini Flash (`gemini-3.8-flash` dengan fallback otomatis ke `gemini-2.5-flash` / `gemini-1.5-flash`) dan input API Key mandiri di menu Pengaturan.
 
 ---
 
-## 🛠️ Tech Stack
-
-- **Frontend & Web Framework:** [Streamlit](https://streamlit.io/) (dengan Custom CSS)
-- **LLM Engine:** [Google Gemini 3.8 Flash](https://aistudio.google.com/) via Google GenAI SDK
-- **Language:** Python 3.10+
-- **Version Control & Branching:** Git Flow (`main`, `develop`, `feature/*`)
-- **Hosting / Deployment:** Streamlit Community Cloud
-
----
-
-## 🗺️ Tahapan Sederhana Pembangunan Proyek (Roadmap)
-
-Proyek ini dibangun secara bertahap melalui 5 fase kerja yang terukur:
+## 🛠️ Arsitektur & Teknologi
 
 ```text
-[Fase 1: Perencanaan & Inisialisasi] (Selesai)
-       │
-       ▼
-[Fase 2: Akuisisi & Kurasi Knowledge Base Dokumen]
-       │
-       ▼
-[Fase 3: Integrasi Gemini Service & Rekayasa Prompt VIKA]
-       │
-       ▼
-[Fase 4: Perancangan UI & Styling CSS Streamlit]
-       │
-       ▼
-[Fase 5: Pengujian Terpadu & Rilis Final]
+┌─────────────────────────────────────────────────────────────┐
+│                    VIKA Web Application                     │
+│                (Streamlit + Custom Modern CSS)              │
+└──────────────┬──────────────────────────────┬───────────────┘
+               │                              │
+               ▼                              ▼
+┌─────────────────────────────┐┌──────────────────────────────┐
+│     KnowledgeBase Engine    ││      GeminiService SDK       │
+│  (Semantic Keyword Matcher  ││   (Google GenAI Streaming    │
+│  & Official Document Index) ││    + Multi-Model Fallback)   │
+└──────────────┬──────────────┘└──────────────┬───────────────┘
+               │                              │
+               ▼                              ▼
+┌─────────────────────────────┐┌──────────────────────────────┐
+│  data/processed/*.md        ││   gemini-3.8-flash           │
+│  - kalender_akademik_2026   ││   (Temperature: 0.3          │
+│  - pedoman_akademik_unpam   ││    Grounding System Prompt)  │
+│  - sop_administrasi_lak     │└──────────────────────────────┘
+│  - pedoman_filkom_obe       │
+└─────────────────────────────┘
 ```
 
-1. **Fase 1: Perencanaan & Inisialisasi (Selesai)**
-   - Perumusan PRD, Style Guide, Brand Identity VIKA, dan setup Git Flow di GitHub.
-2. **Fase 2: Akuisisi & Kurasi Knowledge Base Dokumen**
-   - Menghimpun dokumen PDF/teks resmi UNPAM ke `data/raw/`.
-   - Melakukan ekstraksi teks, normalisasi, dan pembuatan modul retriever di `src/knowledge_base.py`.
-3. **Fase 3: Integrasi Gemini Service & Rekayasa Prompt VIKA**
-   - Konfigurasi klien API Google GenAI menggunakan model `gemini-3.8-flash`.
-   - Perancangan system prompt persona VIKA (tone formal/ramah/ringkas, filter cakupan, dan guardrails).
-4. **Fase 4: Perancangan UI & Styling CSS Streamlit**
-   - Implementasi stylesheet modern di `assets/css/style.css` sesuai brand identity VIKA.
-   - Pembangunan tampilan multi-view: Landing Page, Chat Interface, dan Pengaturan.
-5. **Fase 5: Pengujian Terpadu & Rilis Final**
-   - Uji coba tanya-jawab berbagai skenario akademik, evaluasi konsistensi rujukan, final release merge ke branch `main`.
+- **Frontend:** Streamlit 1.66+ dengan Custom CSS tokens (Deep Navy `#0F2742`, Sky Blue `#38BDF8`, Light Blue `#E0F2FE`).
+- **LLM Engine:** Google Gemini Flash (`gemini-3.8-flash` / `gemini-2.5-flash`) via `google-genai` SDK.
+- **Data Ingestion:** `pypdf`, Markdown structured transcripts, Pydantic schemas.
+- **Version Control:** Git Flow (`main`, `develop`, `feature/*`).
 
 ---
 
-## 📂 Struktur Direktori
+## 🗺️ Roadmap Pembangunan Proyek (5 Fase)
+
+- [x] **Fase 1: Perencanaan & Inisialisasi Repositori**  
+  Perumusan PRD, UI/UX Style Guide, Brand Identity VIKA, inisialisasi Git Flow di GitHub.
+- [x] **Fase 2: Akuisisi & Kurasi Knowledge Base Dokumen**  
+  Ekstraksi teks 116 halaman Buku Pedoman Akademik dan 8 halaman SK Kalender Akademik 2026/2027 ke format Markdown terstruktur pada `data/processed/` dan modul `src/knowledge_base.py`.
+- [x] **Fase 3: Integrasi Gemini Service & Rekayasa Prompt VIKA**  
+  Implementasi `src/config.py`, `src/prompts.py` (3 gaya persona & strict anti-hallucination guardrails), dan `src/gemini_service.py` (streaming + model fallback).
+- [x] **Fase 4: Perancangan UI & Styling CSS Streamlit**  
+  Pembuatan `assets/css/style.css`, halaman Landing Hero, Chat Workspace dengan bubble avatar, dan Settings View.
+- [x] **Fase 5: Pengujian Terpadu & Rilis Final**  
+  Verifikasi integrasi end-to-end, dokumentasi komprehensif, dan penggabungan release ke branch `main`.
+
+---
+
+## 📂 Struktur Direktori Proyek
 
 ```text
 unpam-academic-chatbot/
-├── .env.example             # Template konfigurasi environment variables
-├── .gitignore               # Daftar pengecualian file sensitif
+├── .env.example             # Contoh format API Key
+├── .gitignore               # Pengecualian file sensitif / cache
+├── .streamlit/
+│   └── config.toml          # Konfigurasi server Streamlit
 ├── PRD.md                   # Product Requirements Document
 ├── README.md                # Dokumentasi utama proyek
-├── requirements.txt         # Daftar pustaka Python
-├── assets/                  # File CSS dan gambar UI
+├── requirements.txt         # Dependensi Python
+├── app.py                   # Aplikasi utama Streamlit
+├── assets/
 │   ├── css/
+│   │   └── style.css        # Custom CSS styling modern academic AI
 │   └── images/
-├── data/                    # Sumber pengetahuan resmi UNPAM
-│   └── raw/
-├── docs/                    # Panduan desain & dokumentasi pendukung
-│   └── style-guide.md       # Panduan UI/UX dan Style Guide
-└── src/                     # Source code modular
+│       ├── Logo UNPAM.png
+│       ├── VIKA Logo Brand.png
+│       ├── kampus viktor.jpg
+│       └── UNPAM AI Interface Showcase Board.png
+├── data/
+│   ├── raw/                 # PDF asli resmi UNPAM (SK Rektor)
+│   │   ├── buku_pedoman_akademik.pdf
+│   │   └── kalender_akademik.pdf
+│   └── processed/           # Transkrip markdown terstruktur & terverifikasi
+│       ├── kalender_akademik_2026_2027.md
+│       ├── pedoman_akademik_unpam.md
+│       ├── sop_administrasi_akademik.md
+│       └── pedoman_filkom_informatika.md
+├── docs/
+│   └── style-guide.md       # Panduan UI/UX dan token desain
+└── src/
     ├── __init__.py
-    ├── config.py            # Konfigurasi aplikasi & model
-    ├── prompts.py           # System instruction & persona
-    ├── gemini_service.py    # Integrasi API Gemini 3.8 Flash
-    └── knowledge_base.py    # Modul pembaca & penelusuran regulasi
+    ├── config.py            # Konfigurasi app, konstanta, starter chips
+    ├── prompts.py           # Persona VIKA & strict grounding prompts
+    ├── knowledge_base.py    # Modul retriever & metadata rujukan
+    └── gemini_service.py    # Klien Google GenAI & streaming generator
 ```
 
 ---
@@ -113,8 +164,10 @@ cd unpam-academic-chatbot
 ### 2. Buat & Aktifkan Virtual Environment
 ```bash
 python -m venv .venv
+
 # Di Windows (PowerShell):
 .venv\Scripts\Activate.ps1
+
 # Di macOS / Linux:
 source .venv/bin/activate
 ```
@@ -131,26 +184,32 @@ cp .env.example .env
 ```
 Isi file `.env`:
 ```env
-GEMINI_API_KEY=masukkan_api_key_disini
+GEMINI_API_KEY=AIzaSy...
 GEMINI_MODEL=gemini-3.8-flash
 ```
+*(Catatan: Anda juga dapat memasukkan API Key secara langsung melalui menu **Pengaturan** di dalam aplikasi web).*
 
 ### 5. Jalankan Aplikasi Streamlit
 ```bash
 streamlit run app.py
 ```
-Aplikasi akan terbuka pada peramban di alamat `http://localhost:8501`.
+Buka peramban pada alamat: `http://localhost:8501`.
 
 ---
 
-## 🌿 Alur Git Flow
+## 🌿 Standar Percabangan Git Flow
 
-Proyek ini menerapkan standar percabangan Git Flow yang rapi:
+Proyek ini menerapkan standar percabangan Git Flow:
 - **`main`**: Branch produksi bersih (hanya commit awal dan rilis versi final).
-- **`develop`**: Branch utama integrasi seluruh fitur.
-- **`feature/*`**: Branch pengerjaan fitur individual (misal: `feature/knowledge-base`, `feature/gemini-service`, `feature/ui-interface`).
+- **`develop`**: Branch utama integrasi seluruh tahapan fitur.
+- **`feature/*`**: Branch pengerjaan fitur terisolasi:
+  - `feature/knowledge-base`: Kurasi 4 dokumen & modul retriever.
+  - `feature/gemini-service`: Rekayasa prompt, persona, dan Google GenAI SDK.
+  - `feature/ui-interface`: Multi-view Streamlit UI & custom CSS.
+  - `feature/integration-testing`: Pengujian menyeluruh & dokumentasi final.
 
 ---
 
 ## 📄 Lisensi
 Dikembangkan untuk keperluan Final Project Hacktiv8 — *LLM-Based Tools and Gemini API Integration for Data Scientists*.
+Seluruh data kebijakan mengacu pada dokumen resmi Universitas Pamulang.
