@@ -17,10 +17,10 @@ from typing import Any, Dict, List, Optional
 import uvicorn
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
-from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
@@ -50,7 +50,15 @@ app = FastAPI(
     version="2.0.0",
 )
 app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, exc: RateLimitExceeded) -> JSONResponse:
+    """Clean handler for rate limit exceedances avoiding private internal functions."""
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Batas frekuensi permintaan terlampaui (Rate limit exceeded). Silakan tunggu beberapa saat."},
+    )
 
 # CORS Middleware
 app.add_middleware(
