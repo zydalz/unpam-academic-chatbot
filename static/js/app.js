@@ -197,20 +197,39 @@ function setupDropdown(dropdownId, initialValue, onSelectCallback) {
 }
 
 // -------------------------------------------------------------
-// 4. SIDEBAR TOGGLE & RESTORE
+// 4. SIDEBAR TOGGLE & RESTORE (Mini Rail & Morphing Logo)
 // -------------------------------------------------------------
 function initSidebarControls() {
   const sidebar = document.getElementById('app-sidebar');
   const collapseBtn = document.getElementById('btn-sidebar-collapse');
-  const headerToggleBtn = document.getElementById('btn-header-sidebar-toggle');
+  const brandToggleBtn = document.getElementById('btn-sidebar-brand-toggle');
 
-  function toggleSidebar() {
-    if (!sidebar) return;
-    sidebar.classList.toggle('collapsed');
+  if (collapseBtn) {
+    collapseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sidebar?.classList.add('collapsed');
+      localStorage.setItem('vika_sidebar_collapsed', 'true');
+    });
   }
 
-  if (collapseBtn) collapseBtn.addEventListener('click', toggleSidebar);
-  if (headerToggleBtn) headerToggleBtn.addEventListener('click', toggleSidebar);
+  if (brandToggleBtn) {
+    brandToggleBtn.addEventListener('click', (e) => {
+      if (sidebar?.classList.contains('collapsed')) {
+        e.stopPropagation();
+        sidebar.classList.remove('collapsed');
+        localStorage.setItem('vika_sidebar_collapsed', 'false');
+      } else {
+        // If already expanded, clicking brand logo navigates to Beranda
+        switchView('landing');
+      }
+    });
+  }
+
+  // Restore user's previous collapse preference if any
+  const savedCollapsed = localStorage.getItem('vika_sidebar_collapsed');
+  if (savedCollapsed === 'true' && sidebar) {
+    sidebar.classList.add('collapsed');
+  }
 }
 
 // -------------------------------------------------------------

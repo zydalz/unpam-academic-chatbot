@@ -28,46 +28,66 @@ body {
   overflow: hidden;
 }
 
-/* Left Sidebar */
+/* Left Sidebar (Full Width by Default, Slim Mini-Rail when Collapsed) */
 .app-sidebar {
-  width: 280px;
+  width: 270px;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border-light);
   display: flex;
   flex-direction: column;
-  padding: 24px 18px 18px 18px;
+  padding: 18px 14px 14px 14px;
   flex-shrink: 0;
   z-index: 100;
-  transition: width var(--transition-normal), padding var(--transition-normal), transform var(--transition-normal);
+  transition: width 0.24s cubic-bezier(0.4, 0, 0.2, 1), padding 0.24s ease;
+  position: relative;
 }
 
-.app-sidebar.collapsed {
-  width: 0;
-  padding: 0;
-  overflow: hidden;
-  border-right: none;
-  transform: translateX(-100%);
+/* Sidebar Top Bar (Brand + Collapse Button) */
+.sidebar-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  position: relative;
 }
 
-
-.sidebar-brand {
+.sidebar-brand-btn {
   display: flex;
   align-items: center;
   gap: 12px;
-  text-decoration: none;
-  margin-bottom: 24px;
+  background: transparent;
+  border: none;
   cursor: pointer;
+  text-align: left;
+  padding: 4px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  position: relative;
+  text-decoration: none;
 }
 
-.sidebar-brand img {
-  width: 36px;
-  height: 36px;
+.sidebar-brand-btn:hover {
+  background: var(--bg-surface-hover);
+}
+
+.sidebar-brand-img {
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius-full);
   object-fit: contain;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-toggle-hover-icon {
+  display: none;
+  color: var(--accent-blue);
+  flex-shrink: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .sidebar-brand-text h1 {
-  font-size: 1.12rem;
+  font-size: 1.08rem;
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.2;
@@ -78,6 +98,142 @@ body {
   color: var(--text-muted);
   font-weight: 500;
   line-height: 1.25;
+}
+
+.btn-sidebar-collapse {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.btn-sidebar-collapse:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-hover);
+}
+
+/* ============================================================ */
+/* COLLAPSED MINI RAIL SIDEBAR (ChatGPT / Claude Style)          */
+/* ============================================================ */
+.app-sidebar.collapsed {
+  width: 68px;
+  padding: 18px 8px 14px 8px;
+  align-items: center;
+}
+
+.app-sidebar.collapsed .sidebar-top-bar {
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.app-sidebar.collapsed .sidebar-brand-text {
+  display: none !important;
+}
+
+.app-sidebar.collapsed .btn-sidebar-collapse {
+  display: none !important;
+}
+
+.app-sidebar.collapsed .sidebar-brand-btn {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Normal state in collapsed mode: VIKA logo is visible */
+.app-sidebar.collapsed .sidebar-brand-btn .sidebar-brand-img {
+  opacity: 1;
+  transform: scale(1);
+  display: block;
+}
+
+.app-sidebar.collapsed .sidebar-brand-btn .sidebar-toggle-hover-icon {
+  display: block;
+  opacity: 0;
+  transform: scale(0.7);
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Hover state in collapsed mode: VIKA logo morphs into sidebar open icon! */
+.app-sidebar.collapsed .sidebar-brand-btn:hover .sidebar-brand-img {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+.app-sidebar.collapsed .sidebar-brand-btn:hover .sidebar-toggle-hover-icon {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Collapsed New Chat button */
+.app-sidebar.collapsed .btn-new-chat-pill {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.app-sidebar.collapsed .btn-new-chat-pill span {
+  display: none !important;
+}
+
+/* Collapsed nav items */
+.app-sidebar.collapsed .sidebar-nav-menu {
+  width: 100%;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-sidebar.collapsed .sidebar-nav-item {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  justify-content: center;
+  border-radius: var(--radius-md);
+}
+
+.app-sidebar.collapsed .sidebar-nav-item span {
+  display: none !important;
+}
+
+/* Hide history list in collapsed rail */
+.app-sidebar.collapsed .sidebar-section-header,
+.app-sidebar.collapsed .sidebar-history-container {
+  display: none !important;
+}
+
+/* Collapsed bottom profile footer */
+.app-sidebar.collapsed .sidebar-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.app-sidebar.collapsed .sidebar-profile-card {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  justify-content: center;
+}
+
+.app-sidebar.collapsed .sidebar-profile-info {
+  display: none !important;
 }
 
 .btn-new-chat-pill {
@@ -255,26 +411,40 @@ body {
 .sidebar-footer {
   border-top: 1px solid var(--border-light);
   padding-top: 12px;
+  margin-top: auto;
 }
 
-.btn-sidebar-toggle {
+.sidebar-profile-card {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.84rem;
-  font-weight: 600;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  width: 100%;
+  transition: all var(--transition-fast);
 }
 
-.btn-sidebar-toggle:hover {
-  color: var(--text-primary);
+.sidebar-profile-card:hover {
   background: var(--bg-surface-hover);
+}
+
+.sidebar-profile-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.profile-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.profile-role {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 /* ============================================================= */
@@ -289,38 +459,33 @@ body {
   overflow: hidden;
 }
 
-/* Top Action Header */
+/* Top Action Floating Header (No Solid Bar Area, Floating Top Right Controls) */
 .workspace-top-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 64px;
-  background: var(--bg-surface);
-  border-bottom: 1px solid var(--border-light);
+  background: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
+  justify-content: flex-end;
+  padding: 0 32px;
   z-index: 50;
-  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-title-text {
-  font-weight: 700;
-  font-size: 0.98rem;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: none !important;
 }
 
 .header-right-controls {
   display: flex;
   align-items: center;
   gap: 12px;
+  pointer-events: auto;
 }
 
 /* Custom Dropdown Styling (Replaces native <select>) */
@@ -342,6 +507,8 @@ body {
   gap: 8px;
   cursor: pointer;
   transition: all var(--transition-fast);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .custom-dropdown-btn:hover {
@@ -396,6 +563,18 @@ body {
 .dropdown-item.active {
   background: var(--bg-subcard);
   color: var(--accent-blue);
+}
+
+/* Crucial: Hide checkmark by default, show ONLY on active item! */
+.dropdown-check {
+  margin-left: auto;
+  color: var(--accent-blue);
+  display: none !important;
+  flex-shrink: 0;
+}
+
+.dropdown-item.active .dropdown-check {
+  display: block !important;
 }
 
 /* Sliding Toggle Switch (Smooth Left/Right Slide) */
