@@ -1,0 +1,91 @@
+/* Design Tokens for VIKA - Asisten Akademik UNPAM */
+:root {
+  /* Light Mode Palette (Default) */
+  --bg-primary: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #FFFFFF;
+  --bg-surface-hover: #F1F5F9;
+  --bg-subcard: #F0F7FF;
+  --bg-subcard-border: #BAE6FD;
+  --bg-sidebar: #FFFFFF;
+  --bg-sidebar-active: #E0F2FE;
+  --bg-pill: #F1F5F9;
+  --bg-pill-active: #E0F2FE;
+  --bg-user-bubble: #E0F2FE;
+  --text-user-bubble: #0369A1;
+  --bg-primary-fade: rgba(248, 250, 252, 0);
+
+  /* Typography Colors */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --text-inverse: #FFFFFF;
+  --text-brand: #0284C7;
+  --text-brand-dark: #0369A1;
+
+  /* Accent & Interactive */
+  --accent-blue: #0284C7;
+  --accent-blue-hover: #0369A1;
+  --accent-cyan: #38BDF8;
+  --accent-pill-border: #E2E8F0;
+  --border-light: #E2E8F0;
+  --border-subtle: #F1F5F9;
+  --card-border: #E2E8F0;
+
+  /* Shadow & Elevation */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+  --shadow-floating: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+
+  /* Radius Tokens */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+}
+
+/* Dark Mode Palette (Mockup 3 & 4) */
+[data-theme="dark"] {
+  --bg-primary: #060B14;
+  --bg-surface: #0B132B;
+  --bg-surface-elevated: #0F1A36;
+  --bg-surface-hover: #152244;
+  --bg-subcard: #091224;
+  --bg-subcard-border: #1E3A5F;
+  --bg-sidebar: #080F1E;
+  --bg-sidebar-active: #132448;
+  --bg-pill: #13203D;
+  --bg-pill-active: #1A3668;
+  --bg-user-bubble: #16304C;
+  --text-user-bubble: #E0F2FE;
+  --bg-primary-fade: rgba(6, 11, 20, 0);
+
+  /* Typography Colors */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #0B132B;
+  --text-brand: #38BDF8;
+  --text-brand-dark: #7DD3FC;
+
+  /* Accent & Interactive */
+  --accent-blue: #0284C7;
+  --accent-blue-hover: #38BDF8;
+  --accent-cyan: #38BDF8;
+  --accent-pill-border: #1E293B;
+  --border-light: #1E293B;
+  --border-subtle: #131E35;
+  --card-border: #1A294A;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+  --shadow-floating: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
+}

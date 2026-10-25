@@ -37,3 +37,14 @@ desktop.ini
 
 # Project Temporary Logs
 *.log
+
+# Testing & Cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+
+# Generated Documentation & Scratch Scripts
+scripts/generate_docx_ui.py
+*.docx
+
