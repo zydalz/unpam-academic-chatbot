@@ -16,36 +16,55 @@
   <img src="https://img.shields.io/badge/LLM-Gemini%203.8%20Flash%20%7C%20Llama%203.3-4285F4?logo=google" alt="Gemini & Llama" />
   <img src="https://img.shields.io/badge/RAG-Hybrid%20Vector%20Retrieval-8B5CF6" alt="Hybrid Vector RAG" />
   <img src="https://img.shields.io/badge/Knowledge%20Base-7%20Official%20Decrees-10B981" alt="Knowledge Base" />
-  <img src="https://img.shields.io/badge/Security-Admin%20PIN%20%2B%20Rate%20Limiter-EF4444" alt="Security Suite" />
-  <img src="https://img.shields.io/badge/License-Academic%20Restricted-red" alt="License" />
+  <img src="https://img.shields.io/badge/Security-Admin%20PIN%20%2B%20Rate%20Limiter-10B981" alt="Security Suite" />
+  <img src="https://img.shields.io/badge/License-Academic%20Use-0284C7" alt="License" />
 </p>
 
 ---
 
 ## 📌 Tentang Proyek
 
-**VIKA (Virtual Interactive Knowledge Assistant)** adalah asisten akademik virtual cerdas yang dirancang khusus untuk sivitas akademika Universitas Pamulang (UNPAM), khususnya mahasiswa Program Studi S1 Teknik Informatika (FILKOM/FTIK).
+**VIKA (Virtual Interactive Knowledge Assistant)** adalah asisten akademik virtual yang dirancang untuk membantu sivitas akademika Universitas Pamulang (UNPAM), khususnya mahasiswa Program Studi S1 Teknik Informatika (FILKOM/FTIK).
 
-VIKA dibangun untuk memenuhi tugas akhir program **Hacktiv8: LLM-Based Tools and Gemini API Integration for Data Scientists (Maju Bersama AI)** dengan mengadopsi arsitektur **Hybrid Vector RAG (Retrieval-Augmented Generation)**:
-1. **Pencarian Semantik Terstruktur & Vektor Hibrida:** Menggabungkan Dense Vector Embedding (`text-embedding-004`) dan Cosine Similarity dengan pencocokan kata kunci leksikal berbobot (BM25) untuk akurasi maksimal.
-2. **Grounding & Anti-Halusinasi:** Memberikan jawaban akurat berbasis tanggal kalender, rincian biaya proposal skripsi, SOP project work, dan persyaratan SKS dengan sitasi transparan.
+VIKA dibangun untuk memenuhi tugas akhir program **Hacktiv8: LLM-Based Tools and Gemini API Integration for Data Scientists (Maju Bersama AI)** dengan mengadopsi pendekatan arsitektur **Hybrid Vector RAG (Retrieval-Augmented Generation)**:
+1. **Pencarian Semantik Terstruktur & Vektor Hibrida:** Menggabungkan Dense Vector Embedding (`text-embedding-004`) dan Cosine Similarity dengan pencocokan kata kunci leksikal berbobot (BM25) untuk meningkatkan relevansi dokumen rujukan.
+2. **Grounding & Penjagaan Konteks:** Menyajikan jawaban terarah berbasis tanggal kalender, rincian biaya proposal skripsi, SOP project work, dan persyaratan SKS dengan menyertakan sitasi dokumen resmi kampus.
 3. **Antarmuka Modern (Single Page Application):** Frontend responsif dengan Server-Sent Events (SSE) streaming, animasi typewriter, horizontal top fade, floating controls, mini-rail sidebar, dan tombol geser tema Terang/Gelap.
-4. **Keamanan Berlapis:** Dilengkapi *Developer Admin PIN Gate* dan middleware pembatas laju permintaan (*Rate Limiting* `slowapi`).
+4. **Proteksi Sistem Berlapis:** Dilengkapi *Developer Admin PIN Gate* untuk konfigurasi kunci API dan middleware pembatas laju permintaan (*Rate Limiting* `slowapi`).
 
 ---
 
-## 📸 Tampilan Antarmuka Pengguna (UI Showcase)
+## 📸 Antarmuka Pengguna: Konsep Desain (*Mockup*) vs Implementasi Web Asli
 
-### 1. Papan Antarmuka Lengkap (*Showcase Board*)
+### 1. Konsep Desain Awal (*Design Mockup Board*)
+Papan konsep rancangan visual awal yang dibuat pada tahap perancangan antarmuka sebelum implementasi kode:
 <p align="center">
-  <img src="assets/images/UNPAM AI Interface Showcase Board.png" alt="VIKA Interface Showcase Board" width="850" style="border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1);" />
+  <img src="assets/images/UNPAM AI Interface Showcase Board.png" alt="Konsep Desain UI Mockup Board" width="850" style="border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1);" />
 </p>
 
-### 2. Mode Tampilan: Terang (*Light Mode*) & Gelap (*Dark Mode*)
+### 2. Hasil Implementasi Web Aplikasi Asli (*Actual SPA Web Interface*)
+Tangkapan layar langsung (*actual web screenshots*) dari aplikasi web VIKA yang berjalan penuh pada peramban lokal:
+
+#### A. Tampilan Penuh Halaman Utama (*Full Landing Page*)
 <p align="center">
-  <img src="assets/images/UI Light Mode.png" alt="VIKA UI Mode Terang" width="430" style="border-radius: 10px; margin-right: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); vertical-align: top;" />
-  <img src="assets/images/UI Dark Mode.png" alt="VIKA UI Mode Gelap" width="430" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); vertical-align: top;" />
+  <img src="assets/images/UI Light Mode.png" alt="Implementasi Web VIKA - Mode Terang" width="430" style="border-radius: 10px; margin-right: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); vertical-align: top;" />
+  <img src="assets/images/UI Dark Mode.png" alt="Implementasi Web VIKA - Mode Gelap" width="430" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); vertical-align: top;" />
 </p>
+<p align="center"><em>Kiri: Mode Terang (Light Mode) | Kanan: Mode Gelap (Dark Mode)</em></p>
+
+#### B. Ruang Percakapan & Interaksi Tanya Jawab (*Chat Conversation View*)
+<p align="center">
+  <img src="assets/images/Ruang Chat UI Light.png" alt="Ruang Percakapan Mode Terang" width="430" style="border-radius: 10px; margin-right: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); vertical-align: top;" />
+  <img src="assets/images/Ruang Chat UI Dark.png" alt="Ruang Percakapan Mode Gelap" width="430" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); vertical-align: top;" />
+</p>
+<p align="center"><em>Tampilan interaksi tanya jawab dan penelusuran sitasi dokumen resmi kampus</em></p>
+
+#### C. Menu Pengaturan & Admin PIN Gate (*Settings Modal*)
+<p align="center">
+  <img src="assets/images/Pengaturan UI Light.png" alt="Modal Pengaturan Mode Terang" width="430" style="border-radius: 10px; margin-right: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); vertical-align: top;" />
+  <img src="assets/images/Pengaturan UI Dark.png" alt="Modal Pengaturan Mode Gelap" width="430" style="border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); vertical-align: top;" />
+</p>
+<p align="center"><em>Modal preferensi pengguna dan gerbang verifikasi Admin PIN</em></p>
 
 ---
 
@@ -71,13 +90,24 @@ VIKA mengimplementasikan modul mesin penelusuran hibrida (`src/vector_engine.py`
 ```
 
 ### Formula Matematis
+
 1. **Cosine Similarity ($L_2$-Normalized):**
-   $$\text{CosineSimilarity}(\mathbf{u}, \mathbf{v}) = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\|_2 \|\mathbf{v}\|_2} = \mathbf{u} \cdot \mathbf{v} \quad (\in [0.0, 1.0])$$
+   ```text
+   sim(u, v) = (u · v) / (||u||₂ × ||v||₂) = u · v
+   Rentang nilai: [0.0, 1.0]
+   ```
+
 2. **Weighted Hybrid Score:**
-   $$\text{Score}_{\text{hybrid}} = \alpha \cdot \text{Score}_{\text{dense}} + (1 - \alpha) \cdot \text{Score}_{\text{lexical\_norm}}$$
-   *Default:* $\alpha = 0.55$ (55% bobot kemiripan semantik dense + 45% presisi kata kunci leksikal). Dapat diatur bebas melalui variabel lingkungan `HYBRID_ALPHA`.
+   ```text
+   Score_hybrid = (α × Score_dense) + ((1 - α) × Score_lexical_norm)
+   ```
+   * *Keterangan Parameter:*
+     * `α` (alpha): bobot penyeimbang dense vs leksikal (default: `0.55`, dapat disesuaikan melalui variabel lingkungan `HYBRID_ALPHA`).
+     * `Score_dense`: skor kemiripan semantik vektor cosine similarity.
+     * `Score_lexical_norm`: skor kecocokan kata kunci leksikal BM25 yang dinormalisasi ke rentang `[0, 1]`.
+
 3. **Persistent On-Disk Vector Cache:**
-   Seluruh 38 chunk dokumen telah di-embedding dan disimpan permanen di berkas `data/processed/vector_embeddings.json` (1.2 MB), menjamin waktu mulai server instan (< 1 milidetik) dan ketahanan saat offline.
+   Seluruh 38 chunk dokumen di-embedding dan disimpan permanen di berkas `data/processed/vector_embeddings.json` (1.2 MB), menjamin waktu inisialisasi server cepat (< 1 ms) dan tetap dapat berjalan saat mode luring (*offline*).
 
 ---
 
@@ -99,14 +129,14 @@ VIKA mengindeks 7 dokumen kebijakan resmi Universitas Pamulang (38 chunk terkura
 
 ## 🛡️ Analisis Risiko & Mitigasi Keamanan Teknis
 
-VIKA menerapkan mitigasi berlapis terhadap celah keamanan sistem berbasis AI:
+VIKA menerapkan pendekatan mitigasi berlapis terhadap potensi celah pada sistem berbasis AI:
 
 | Jenis Celah | Risiko Utama | Solusi yang Diterapkan di VIKA | Status |
 | :--- | :--- | :--- | :---: |
-| **1. API Route Terbuka** | Kunci API bocor ke publik atau di-*scrape* bot crawler. | **Server-side Orchestration & Admin PIN Gate:** Pemanggilan AI murni di server Python. Kunci disamarkan (`AQ.A••••••••38Fg`), file `.env` diabaikan git, dan menu pengaturan dilindungi verifikasi Admin PIN (`ADMIN_PIN=2026`). | ✅ Terproteksi Penuh |
-| **2. Spam / DoS Attack** | Kuota API habis (*rate limit*) dan server overload. | **Middleware `slowapi`:** Membatasi 20 request/menit untuk chat streaming dan 10 request/menit untuk verifikasi PIN admin. Mengembalikan respons HTTP 429 jika melebihi batas. | ✅ Termitigasi |
-| **3. Prompt Injection** | Pembajakan peran (*jailbreak*), instruksi bocor, atau SARA. | **Strict Grounding & Prompt Leak Resistance:** Aturan Pasal 6 melarang model membocorkan instruksi internal atau bertindak di luar peran asisten akademik kampus. Query diisolasi di dalam blok `[PERTANYAAN MAHASISWA]`. | ✅ Teruji 100% Lulus |
-| **4. Salah Informasi (*Hallucination*)** | Tanggal atau nominal biaya fiktif menyesatkan mahasiswa. | **Sampling Hyperparameters & Mandatory Citation:** Temperatur rendah (`0.2`), Top-P (`0.90`), wajib sitasi dokumen resmi, dan penolakan transparan jika informasi tidak tercantum di dokumen. | ✅ Teruji 100% Lulus |
+| **1. API Route Terbuka** | Kunci API bocor ke publik atau di-*scrape* bot crawler. | **Server-side Orchestration & Admin PIN Gate:** Pemanggilan AI murni di server Python. Kunci disamarkan (`AQ.A••••••••38Fg`), file `.env` diabaikan git, dan menu pengaturan dilindungi verifikasi Admin PIN (`ADMIN_PIN=2026`). | ✅ Terproteksi (Server-Side) |
+| **2. Spam / DoS Attack** | Kuota API habis (*rate limit*) dan server overload. | **Middleware `slowapi`:** Membatasi 20 request/menit untuk chat streaming dan 10 request/menit untuk verifikasi PIN admin. Mengembalikan respons HTTP 429 jika melebihi batas. | ✅ Termitigasi (Rate Limiter) |
+| **3. Prompt Injection** | Pembajakan peran (*jailbreak*), instruksi bocor, atau SARA. | **Strict Grounding & Prompt Leak Resistance:** Aturan Pasal 6 menginstruksikan model untuk tidak membocorkan sistem internal atau bertindak di luar peran asisten akademik kampus. Query diisolasi di dalam blok `[PERTANYAAN MAHASISWA]`. | ✅ Terverifikasi Lulus Uji |
+| **4. Salah Informasi (*Hallucination*)** | Tanggal atau nominal biaya keliru akibat halusinasi generatif. | **Sampling Hyperparameters & Mandatory Citation:** Temperatur rendah (`0.2`), Top-P (`0.90`), wajib sitasi dokumen resmi, dan penolakan terbuka jika informasi tidak tercantum di dokumen rujukan. | ✅ Terverifikasi Lulus Uji |
 
 ---
 
@@ -174,7 +204,7 @@ python scripts/test_security_audit.py
 # 3. Uji Tiga Fitur Tambahan (Hyperparameters, Memory, & Rate Limiter slowapi)
 python scripts/test_three_enhancements.py
 ```
-*(Seluruh pengujian dirancang untuk berjalan otomatis dengan status `100% PASS`).*
+*(Rangkaian pengujian dapat dijalankan secara mandiri untuk memverifikasi fungsionalitas modul sistem).*
 
 ---
 
@@ -192,19 +222,8 @@ python scripts/test_three_enhancements.py
 
 ---
 
-## ⚖️ Lisensi, Hak Cipta & Pernyataan Hukum (Disclaimer)
+## ⚖️ Lisensi & Disclaimer
 
-### 1. Hak Cipta Kode Sumber (*Source Code Copyright*)
-Aplikasi ini dilindungi di bawah **Custom Academic & Non-Commercial Restrictive License**.  
-Hak Cipta © 2026 **Abu Ziyad Al Katani (`zydalz`)**. Seluruh Hak Dilindungi Undang-Undang (*All Rights Reserved*).
-
-* **Izin Evaluasi:** Diberikan secara cuma-cuma kepada instruktur, mentor, dan penguji program **Hacktiv8 Maju Bersama AI** serta penilai akademik untuk mengunduh, menguji, dan mengevaluasi sistem ini secara lokal untuk kepentingan penilaian studi.
-* **Larangan Tegas (Anti-Plagiarisme & Anti-Rebranding):** DILARANG KERAS memodifikasi, me-*rebrand*, memperjualbelikan, atau menawarkan konsep/arsitektur sistem ini kepada pihak Universitas Pamulang, Yayasan Sasmita Jaya, atau institusi lain manapun tanpa izin tertulis dari pembuat asli (**Abu Ziyad Al Katani**).
-
-### 2. Pernyataan Merek & Non-Afiliasi (*Trademark & Fair Use Notice*)
-* Nama *"Universitas Pamulang"*, singkatan *"UNPAM"*, *"Fakultas Ilmu Komputer (FILKOM)"*, logo kampus, serta dokumen regulasi internal (SK Rektor, SK Dekan, SOP LAK) adalah hak kekayaan intelektual milik **Universitas Pamulang / Yayasan Sasmita Jaya**.
-* Penggunaan nama, logo, dan rujukan dokumen dalam aplikasi ini dilakukan semata-mata untuk tujuan penelitian ilmiah, demonstrasi studi, dan pemanfaatan wajar akademik (*fair use* sesuai UU Hak Cipta No. 28 Tahun 2014 Pasal 44).
-* **VIKA adalah proyek inovasi akademik independen** yang dikembangkan oleh mahasiswa dan **TIDAK berafiliasi secara komersial maupun mewakili pernyataan resmi pimpinan Universitas Pamulang**.
-
-### 3. Batasan Tanggung Jawab (*Disclaimer of Liability*)
-Jawaban yang dihasilkan AI bersumber dari dokumen yang tersedia saat sistem ini dikembangkan. Untuk urusan administrasi final perkuliahan, wisuda, atau yudisium, mahasiswa diwajibkan untuk selalu merujuk pada pengumuman resmi di portal MyUnpam atau loket sekretariat program studi terkait.
+* **Lisensi Akademik & Hak Cipta:** Proyek ini dikembangkan oleh **Abu Ziyad Al Katani (`zydalz`)** untuk keperluan edukasi, riset, dan demonstrasi studi (*academic non-commercial use*). Terbuka untuk dipelajari dan diuji secara lokal.
+* **Pernyataan Non-Afiliasi Resmi:** VIKA merupakan proyek inovasi akademik independen dan tidak terafiliasi secara resmi dengan institusi pimpinan Universitas Pamulang maupun Yayasan Sasmita Jaya. Seluruh aset nama kampus, logo, serta isi dokumen kebijakan tetap merupakan hak cipta pihak kampus terkait.
+* **Batasan Informasi (Disclaimer):** Jawaban yang disajikan asisten virtual bersumber dari dokumen rujukan yang terindeks pada sistem saat pengembangan. Untuk keperluan administratif resmi perkuliahan atau kelulusan, sivitas akademika disarankan tetap merujuk pada portal MyUnpam atau layanan administrasi program studi terkait.
